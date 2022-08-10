@@ -1,6 +1,3 @@
-import { Heading, Stack, Text } from '@chakra-ui/react';
-import BaseCard from '../../../components/layout/cards/BaseCard';
-
 import DetailCards from '../../../components/sig-dashboard/DetailCards';
 
 /*
@@ -23,20 +20,7 @@ const SIG_DETAILS = [
 */
 
 function AllDetails(props) {
-  {
-    /*props.details.map(detail => (
-        <PostCard
-          key={detail.sigid}
-          name={detail.signame}
-          description={detail.sigdescription}
-          frequencyinterval={detail.sigfrequencyinterval}
-          meetingday={detail.sigmeetingday}
-          starttime={detail.sigstarttime}
-          longeststreak={detail.longeststreak}
-          currentstreak={detail.currentstreak}
-        />
-  ))*/
-  }
+  
   return (
     <>
       {props.details.map(detail => (
