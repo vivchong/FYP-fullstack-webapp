@@ -56,3 +56,36 @@ const RESOURCES_DATA = [
         icon: `<p>Text</p>`,
     }
 ] */
+
+const COLUMNS = [
+  {
+    Header: 'Title',
+    accessor: 'title',
+  },
+  {
+    Header: 'Brief Description',
+    accessor: 'briefDescription',
+  },
+  {
+    Header: 'Link',
+    accessor: 'link',
+  },
+  {
+    Header: 'Tags',
+    accessor: 'tags',
+  },
+  {
+    Header: 'Date Added',
+    accessor: 'date',
+  },
+  {
+    Header: 'Added by',
+    accessor: 'user',
+  },
+  {
+    Header: 'i',
+    accessor: 'icon',
+  },
+];
+
+export default COLUMNS;

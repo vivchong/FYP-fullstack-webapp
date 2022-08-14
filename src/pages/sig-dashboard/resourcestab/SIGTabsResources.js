@@ -6,47 +6,31 @@ import {
   Text,
   Button,
   HStack,
-  Divider,
-  Link,
-  Flex,
-  Spacer,
-  Box,
   Select,
   InputGroup,
   InputLeftElement,
   Input,
-  Table,
-  TableCaption,
-  Thead,
-  Tr,
-  Th,
-  Tbody,
 } from '@chakra-ui/react';
 
-
 import classes from '../SIGHeroBanner.module.css';
-import BaseCard from '../../../components/layout/cards/BaseCard';
-import {
-  AddIcon,
-  SearchIcon,
-} from '@chakra-ui/icons';
+import { AddIcon, SearchIcon } from '@chakra-ui/icons';
 import TableOfResources from './TableOfResources';
-
+import BigBaseCard from '../../../components/layout/cards/BigBaseCard';
 
 const SIGTabsResources = () => {
   return (
     <Stack pt={4} className={classes.bannerfullwidth}>
       <Container /* 1-Column Flex Layout */
-        px={10}
+        px={0}
         maxW="1200px"
         width="100%"
         display="flex"
         flexDirection="column"
         gap={8}
       >
-        <BaseCard /* Add resource card */>
+        <BigBaseCard>
           <VStack my={6} alignItems="flex-start" spacing={6}>
-            <VStack my={0} alignItems="flex-start" spacing={4}>
+            <VStack my={0} alignItems="flex-start" spacing={2}>
               <Heading as="h3" size="md" fontWeight="medium">
                 Table of Resources
               </Heading>
@@ -60,9 +44,9 @@ const SIGTabsResources = () => {
               Add resource
             </Button>
           </VStack>
-        </BaseCard>
+        </BigBaseCard>
 
-        <BaseCard /* Table card */>
+        <BigBaseCard /* Table card */>
           <VStack my={6} alignItems="flex-start" spacing={6}>
             <VStack my={0} alignItems="flex-start" spacing={2}>
               <Heading as="h3" size="md" fontWeight="medium">
@@ -91,28 +75,10 @@ const SIGTabsResources = () => {
               </HStack>
             </HStack>
 
-            <Table variant="unstyled" /* Here lies the table */>
-              <TableCaption>This is a table caption</TableCaption>
-              <Thead>
-                <Tr>
-                  <Th>Title</Th>
-                  <Th>Brief Description</Th>
-                  <Th>Link</Th>
-                  <Th>Tags</Th>
-                  <Th>Date Added</Th>
-                  <Th>Added By</Th>
-                  <Th></Th>
-                </Tr>
-                <Tbody></Tbody>
-              </Thead>
-            </Table>
-
-
-<TableOfResources></TableOfResources>
-
+            <TableOfResources />
 
           </VStack>
-        </BaseCard>
+        </BigBaseCard>
       </Container>
     </Stack>
   );

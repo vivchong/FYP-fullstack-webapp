@@ -1,4 +1,9 @@
-import { useTable, usePagination } from 'react-table';
+import {
+  useTable,
+  usePagination,
+  useResizeColumns,
+  useFlexLayout,
+} from 'react-table';
 import {
   Table,
   Thead,
@@ -16,8 +21,6 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  EditablePreview,
-  Icon,
 } from '@chakra-ui/react';
 
 import {
@@ -51,12 +54,15 @@ function GenerateTableOfResources({ columns, data }) {
       data,
       initialState: { pageIndex: 0 },
     },
-    usePagination
+    usePagination,
+    useResizeColumns,
+    useFlexLayout
   );
 
   return (
     // Renders UI
     <>
+      {/* DEBUGGING, CAN DELETE
       <pre>
         <code>
           {JSON.stringify(
@@ -68,17 +74,25 @@ function GenerateTableOfResources({ columns, data }) {
               canPreviousPage,
             },
             null,
-            2 // What is this? Ah spacing for the text preview. Can delete
+            2 
           )}
         </code>
       </pre>
-      <Table {...getTableProps()}>
+      */}
+
+      <Table {...getTableProps()} overflowX="auto">
         <Thead>
           {headerGroups.map(headerGroup => (
             <Tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <Th {...column.getHeaderProps()}>{column.render('Header')}</Th>
-              ))}
+              {headerGroup.headers.map(
+                (
+                  column // Access each column
+                ) => (
+                  <Th {...column.getHeaderProps()}>
+                    {column.render('Header')}
+                  </Th>
+                )
+              )}
             </Tr>
           ))}
         </Thead>
@@ -87,7 +101,7 @@ function GenerateTableOfResources({ columns, data }) {
           {page.map((row, i) => {
             prepareRow(row); // Puts row inside...
             return (
-              <Tr {...row.getRowProps()} /* the row props are key and role */ > 
+              <Tr {...row.getRowProps()} /* the row props are key and role */>
                 {row.cells.map(cell => {
                   return (
                     <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
@@ -99,7 +113,12 @@ function GenerateTableOfResources({ columns, data }) {
         </Tbody>
       </Table>
 
-      <Flex justifyContent="space-between" m={4} alignItems="center">
+      <Flex
+        width="100%"
+        justifyContent="space-between"
+        m={4}
+        alignItems="center"
+      >
         <Flex>
           <Tooltip label="First page">
             <IconButton

@@ -112,7 +112,7 @@ const SIGTabsAbout = () => {
     <Stack pt={4} className={classes.bannerfullwidth}>
       <Container /* 1-Column Flex Layout */
         px={10}
-        maxW="704px"
+        maxW="856px"
         width="100%"
         display="flex"
         flexDirection="column"

@@ -1,5 +1,5 @@
 import { StarIcon } from '@chakra-ui/icons';
-import { HStack, Avatar, VStack, Heading, Text, Box } from '@chakra-ui/react';
+import { HStack, Avatar, VStack, Heading, Text, } from '@chakra-ui/react';
 
 const MemberItem = props => {
   return (

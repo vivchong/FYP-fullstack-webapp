@@ -34,7 +34,7 @@ const PostHasComments = props => {
 
       {hiddenComments > 1 ? ( // Show link button if there are hidden comments
               <Button variant="link" size="sm" fontWeight="medium" mt={0} mb={4}>
-          View {props.count} previous comment{props.count > 1 && 's'}
+          View {props.count - viewableCommentsLimit} previous comment{props.count > 1 && 's'}
         </Button>
       ) : (
         <></>
