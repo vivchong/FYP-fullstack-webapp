@@ -9,7 +9,7 @@ import {
 
 import SIGTabsAbout from './abouttab/SIGTabsAbout';
 import SIGTabsDiscussion from './discussiontab/SIGTabsDiscussion';
-import SIGTabsMeetingNotes from './meetingnotestab/SIGTabsMeetingNotes';
+import SIGTabsCheerBoard from './cheerboardtab/SIGTabsMeetingNotes';
 import SIGTabsResources from './resourcestab/SIGTabsResources';
 import classes from './SIGHeroBanner.module.css';
 
@@ -27,7 +27,7 @@ const SIGTabs = () => {
           <TabList pl={10} w={'full'} bg='white' >
             <Tab>About</Tab>
             <Tab>Discussion</Tab>
-            <Tab>Meeting Notes</Tab>
+            <Tab>Cheer Board</Tab>
             <Tab>Resources</Tab>
           </TabList>
 
@@ -40,7 +40,7 @@ const SIGTabs = () => {
             <SIGTabsDiscussion />
           </TabPanel>
           <TabPanel>
-            <SIGTabsMeetingNotes />
+            <SIGTabsCheerBoard />
           </TabPanel>
           <TabPanel>
             <SIGTabsResources />

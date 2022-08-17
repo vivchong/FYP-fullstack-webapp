@@ -1,6 +1,5 @@
 import {
   Container,
-  Stack,
   VStack,
   Heading,
   Text,
@@ -109,9 +108,10 @@ const SIG_DETAILS = [
 
 const SIGTabsAbout = () => {
   return (
-    <Stack pt={4} className={classes.bannerfullwidth}>
+
       <Container /* 1-Column Flex Layout */
         px={10}
+        pt={4}
         maxW="856px"
         width="100%"
         display="flex"
@@ -124,7 +124,7 @@ const SIGTabsAbout = () => {
               About
             </Heading>
 
-            <Text as="p">
+            <Text as="p" /* preserves line breaks */ >
               {SIG_DETAILS[0].sigdescription
                 .split('\n')
                 .map(function (item, key) {
@@ -211,7 +211,7 @@ const SIGTabsAbout = () => {
           </VStack>
         </BaseCard>
       </Container>
-    </Stack>
+
   );
 };
 
