@@ -74,7 +74,7 @@ const CheerBoardCard = () => {
             onMouseEnter={onOpenReactionMenu}
             onMouseLeave={onCloseReactionMenu}
             pos={'absolute'}
-            left="412px"
+            left="694px"
             bottom="24px"
           >
             <VStack py={0} spacing={0}>

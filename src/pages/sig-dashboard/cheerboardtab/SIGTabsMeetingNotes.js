@@ -1,7 +1,6 @@
 import { Container, VStack, Heading, Text, Button, HStack, Flex, Spacer, Box, Center } from '@chakra-ui/react';
 import CheerBoardCard from '../../../components/sig-dashboard/CheerBoardCard';
-import ReactionMenu from '../../../components/sig-dashboard/ReactionMenu';
-import BaseCard from '../../../components/layout/cards/BaseCard';
+import BigBaseCard from '../../../components/layout/cards/BigBaseCard';
 import { AddIcon } from '@chakra-ui/icons';
 
 const SIGTabsCheerBoard = () => {
@@ -15,7 +14,7 @@ const SIGTabsCheerBoard = () => {
       flexDirection="column"
       gap={8}
     >
-      <BaseCard>
+      <BigBaseCard>
         <VStack my={6} alignItems="flex-start" spacing={6}>
           <VStack align="left" spacing={0}>
             <Heading as="h3" size="md" fontWeight="medium" lineHeight="tight">
@@ -42,11 +41,11 @@ const SIGTabsCheerBoard = () => {
             Share your progress
           </Button>
         </VStack>
-      </BaseCard>
+      </BigBaseCard>
 
-      <BaseCard>
-        <Flex direction='column' alignItems="flex-start" my={6} gap={6}>
-          <Flex width='100%' alignContent='space-between'>
+      <BigBaseCard>
+        <Flex direction="column" alignItems="flex-start" my={6} gap={6}>
+          <Flex width="100%" alignContent="space-between">
             <Box>
               <Flex direction="column" gap={2} maxW={426}>
                 <Heading
@@ -91,11 +90,11 @@ const SIGTabsCheerBoard = () => {
             </HStack>
           </Flex>
 
-          <Flex >
+          <Flex>
             <CheerBoardCard />
-            </Flex>
+          </Flex>
         </Flex>
-      </BaseCard>
+      </BigBaseCard>
     </Container>
   );
 };

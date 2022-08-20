@@ -4,7 +4,8 @@ import {
   ButtonGroup,
   SlideFade,
   Circle,
-  IconButton, Box
+  IconButton,
+  Box
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import Emoji from 'a11y-react-emoji';
