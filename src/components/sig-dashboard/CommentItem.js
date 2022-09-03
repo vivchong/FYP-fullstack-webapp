@@ -17,7 +17,7 @@ const CommentItem = props => {
             {props.name}
           </Heading>
           <Text fontSize="sm" color="gray.500">
-            {props.time}
+            {props.date}{', '}{props.time}
           </Text>
               </HStack>
               <Text>{props.content}</Text>

@@ -48,24 +48,26 @@ const SIGTabsDiscussion = (props) => {
   const [posts, setPosts] = useState([]);
 
   async function getPosts() {
-    const res = await fetch(`http://localhost:5000/all_posts/${SIG_DETAILS[0].sigid}`); // gets the sig_id to pull posts with that sig_id
+    const res = await fetch(
+      `http://localhost:5000/all_posts/${SIG_DETAILS[0].sigid}`
+    ); // gets the sig_id to pull posts with that sig_id
 
     // we are getting JSON data, so we need to patse it
     const postArray = await res.json(); // parse data
 
-    
-
     /* postArray is an array of the following data
-    post_content: "Testing new day"
-    post_date: "2022-08-29T16:00:00.000Z"
-    post_id: 10
-    post_time: "17:54:54" // need to put time and date
-    sig_id: 1   // need to filter before passing to functions
-    user_id: 1  // need to map to name
+      post_content: "And now back to user 1"
+      post_date: "03 Sep 2022"
+      post_id: 3
+      post_time: "15:38"
+      sig_id: 1
+      user_display_name: "Tan Jiahui"
+      user_id: 1
+      user_pic: "https://cdn-icons-png.flaticon..."
+
+      // MISSING LIKES AND COMMENTS COUNT from PostEngagements
     */
     setPosts(postArray);
-    console.log('getPosts is running');
-    
   }
 
   useEffect(() => {

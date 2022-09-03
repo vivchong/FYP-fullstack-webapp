@@ -11,11 +11,12 @@ function PostViewableComments(props) {
     >
       {props.comments.map(comment => (
         <CommentItem
-          key={comment.postid}
-          name={comment.name}
-          time={comment.commenttime}
-          content={comment.commentcontent}
-          likes={comment.commentlikescount}
+          key={comment.comment_id}
+          name={comment.user_display_name}
+          time={comment.comment_time}
+          date={comment.comment_date}
+          content={comment.comment_content}
+          likes={comment.commentlikescount} // not in use
         />
       ))}
     </Stack>

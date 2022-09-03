@@ -42,32 +42,28 @@ function AllPosts(props) {
   //props from SIGTabsDiscussion.js
   return (
     <>
-       <Stack
-        spacing={8}
-        maxW="856px"
-        width="100%"
-        direction="column-reverse" /* COLUMN REVERSE Posts */
-      >
-
+      <Stack spacing={8} maxW="856px" width="100%">
         {props.posts.map(post => (
           <PostCard
             key={post.post_id}
+            post_id={post.post_id}
             name={post.user_display_name}
-            time={post.post_time} // need to format time properly
+            time={post.post_time}
             date={post.post_date}
             content={post.post_content}
-            likes={post.likes} // missing
+            likes={post.likes} // missing count
             comments={post.comments} // missing
           />
         ))}
       </Stack>
-      <Stack
+      
+      <Stack 
         spacing={8}
         maxW="856px"
         width="100%"
         direction="column-reverse" /* COLUMN REVERSE Posts */
       >
-        {props.dummy.map(
+        {/*props.dummy.map(
           (
             post //DUMMY DATA
           ) => (
@@ -80,7 +76,7 @@ function AllPosts(props) {
               comments={post.comments}
             />
           )
-        )}
+          )*/}
       </Stack>
     </>
   );

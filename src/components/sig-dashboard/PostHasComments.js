@@ -1,32 +1,54 @@
 import { Divider, Button,  } from '@chakra-ui/react';
 import PostViewableComments from './PostViewableComments';
+import { useState, useEffect } from 'react';
 
-const VIEWABLE_COMMENTS_ON_THIS_POST = [ // need to pull latest 2 posts
+const VIEWABLE_COMMENTS_ON_THIS_POST = [
+  // need to pull latest 2 posts FOR THIS POST_ID
   {
-    postid: 1, // Probs need to get this info per post, rather than have all the posts' comments
-    commentid: 1,
-    userid: 3, // need to get name...
-    name: 'Roy Chen',
-    commenttime: '7h', //might want to leave this out of UI
-    commentcontent: 'I would be interested to know too!',
-    commentlikescount: 0, //might want to leave this out
+    post_id: 1, // Probs need to get this info per post, rather than have all the posts' comments
+    comment_id: 1,
+    user_id: 3, // need to get name...
+    user_display_name: 'Roy Chen',
+    comment_time: '7h', //might want to leave this out of UI
+    comment_content: 'I would be interested to know too!',
   },
 
   {
-    postid: 1,
-    commentid: 2,
-    userid: 5, 
-    name: 'Gil Tan',
-    commenttime: '7h', 
-    commentcontent: 'Perhaps they...',
-    commentlikescount: 0,
-    },
-  
+    post_id: 1,
+    comment_id: 2,
+    user_id: 5,
+    user_display_name: 'Gil Tan',
+    comment_time: '7h',
+    comment_content: 'Perhaps they...',
+  },
 ];
 
 const PostHasComments = props => {
   const viewableCommentsLimit = 2;
   const hiddenComments = props.count - viewableCommentsLimit;
+
+  const post_id = props.post_id; // can shorten this by changing below
+
+  const [comments, setComments] = useState([]);
+
+  async function getComments() {
+    const res = await fetch(`http://localhost:5000/comments/${post_id}`); // gets the post_id to pull comments with that post_id
+
+    const commentArray = await res.json(); // parse JSON data
+
+    /* commentArray is an array of the following data
+      
+    */
+    setComments(commentArray);
+    console.log('getComments is running');
+  }
+
+  useEffect(() => {
+    getComments();
+  }, []);
+
+  console.log(comments);
+
 
   return (
     <>
@@ -40,7 +62,7 @@ const PostHasComments = props => {
         <></>
       )}
         
-          <PostViewableComments comments={ VIEWABLE_COMMENTS_ON_THIS_POST } />
+          <PostViewableComments comments={ comments } />
     </>
   );
 };
