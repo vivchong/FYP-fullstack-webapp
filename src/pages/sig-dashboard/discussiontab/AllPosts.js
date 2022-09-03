@@ -41,35 +41,48 @@ const DUMMY_DATA = [
 function AllPosts(props) {
   //props from SIGTabsDiscussion.js
   return (
-    <Stack
-      spacing={8}
-      maxW="856px"
-      width="100%"
-      direction="column-reverse" /* COLUMN REVERSE Posts */
-    >
-      {props.dummy.map(post => ( //DUMMY DATA
-        <PostCard
-          key={post.postid}
-          name={post.name}
-          time={post.time}
-          content={post.content}
-          likes={post.likes}
-          comments={post.comments}
-        />
-      ))}
+    <>
+       <Stack
+        spacing={8}
+        maxW="856px"
+        width="100%"
+        direction="column-reverse" /* COLUMN REVERSE Posts */
+      >
 
-      {props.posts.map(post => (
-        <PostCard
-          key={post.post_id}
-          name={post.user_display_name}
-          time={post.post_time} // need to format time properly
-          date={post.post_date}
-          content={post.post_content}
-          likes={post.likes} // missing
-          comments={post.comments} // missing
-        />
-      ))}
-    </Stack>
+        {props.posts.map(post => (
+          <PostCard
+            key={post.post_id}
+            name={post.user_display_name}
+            time={post.post_time} // need to format time properly
+            date={post.post_date}
+            content={post.post_content}
+            likes={post.likes} // missing
+            comments={post.comments} // missing
+          />
+        ))}
+      </Stack>
+      <Stack
+        spacing={8}
+        maxW="856px"
+        width="100%"
+        direction="column-reverse" /* COLUMN REVERSE Posts */
+      >
+        {props.dummy.map(
+          (
+            post //DUMMY DATA
+          ) => (
+            <PostCard
+              key={post.postid}
+              name={post.name}
+              time={post.time}
+              content={post.content}
+              likes={post.likes}
+              comments={post.comments}
+            />
+          )
+        )}
+      </Stack>
+    </>
   );
 }
 

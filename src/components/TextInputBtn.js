@@ -31,7 +31,7 @@ const TextInputBtn = (props) => {
   // });
 
   const [post_content, setpost_content] = useState("");
-  const sig_id = 2; //props.sig_id; // to reduce memory you can just cange the below one
+  const sig_id = props.sig_id; // to reduce memory you can just cange the below one
   const user_id = 1; // need to change
   
   const onSubmitForm = async e => {

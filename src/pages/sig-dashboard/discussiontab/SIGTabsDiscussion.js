@@ -64,7 +64,7 @@ const SIGTabsDiscussion = (props) => {
     user_id: 1  // need to map to name
     */
     setPosts(postArray);
-
+    console.log('getPosts is running');
     
   }
 
@@ -72,7 +72,7 @@ const SIGTabsDiscussion = (props) => {
     getPosts();
   }, []);
   
-
+  
   console.log(posts);
   console.log(DUMMY_DATA);
   return (
