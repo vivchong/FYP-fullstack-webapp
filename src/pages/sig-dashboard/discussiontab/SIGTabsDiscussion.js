@@ -3,6 +3,7 @@ import classes from '../SIGHeroBanner.module.css';
 import CreatePost from './CreatePost';
 import AllPosts from './AllPosts';
 import AllDetails from './AllDetails';
+import { useEffect, useState } from 'react';
 
 const DUMMY_DATA = [
   {
@@ -44,6 +45,36 @@ const SIG_DETAILS = [
 
 
 const SIGTabsDiscussion = (props) => {
+  const [posts, setPosts] = useState([]);
+
+  async function getPosts() {
+    const res = await fetch(`http://localhost:5000/all_posts/${SIG_DETAILS[0].sigid}`); // gets the sig_id to pull posts with that sig_id
+
+    // we are getting JSON data, so we need to patse it
+    const postArray = await res.json(); // parse data
+
+    
+
+    /* postArray is an array of the following data
+    post_content: "Testing new day"
+    post_date: "2022-08-29T16:00:00.000Z"
+    post_id: 10
+    post_time: "17:54:54" // need to put time and date
+    sig_id: 1   // need to filter before passing to functions
+    user_id: 1  // need to map to name
+    */
+    setPosts(postArray);
+
+    
+  }
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+  
+
+  console.log(posts);
+  console.log(DUMMY_DATA);
   return (
     <Stack pt={4} className={classes.bannerfullwidth}>
       <Container /* 2 Column Flex Layout */
@@ -54,8 +85,8 @@ const SIGTabsDiscussion = (props) => {
         maxW="1440px"
       >
         <VStack spacing={8} maxW="856px" width="100%" /* Column 1 (Posts) */>
-          <CreatePost />
-          <AllPosts posts={DUMMY_DATA} />
+          <CreatePost sig_id={SIG_DETAILS[0].sigid} />
+          <AllPosts dummy={DUMMY_DATA} posts={posts} />
         </VStack>
 
         <VStack spacing={8} maxW="480px" width="100%" /* Column 1 (Posts) */>

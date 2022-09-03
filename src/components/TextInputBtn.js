@@ -23,7 +23,7 @@ import * as Yup from 'yup';
 
 // This is a button that looks like an Input field and opens a "Create Post" modal
 
-const TextInputBtn = props => {
+const TextInputBtn = (props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const createPostSchema = Yup.object().shape({
@@ -31,8 +31,8 @@ const TextInputBtn = props => {
   // });
 
   const [post_content, setpost_content] = useState("");
-  const sig_id = 1;
-  const user_id = 1;
+  const sig_id = 2; //props.sig_id; // to reduce memory you can just cange the below one
+  const user_id = 1; // need to change
   
   const onSubmitForm = async e => {
     e.preventDefault();
