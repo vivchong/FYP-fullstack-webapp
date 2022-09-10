@@ -23,17 +23,17 @@ import * as Yup from 'yup';
 
 // This is a button that looks like an Input field and opens a "Create Post" modal
 
-const TextInputBtn = (props) => {
+const TextInputBtn = props => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // const createPostSchema = Yup.object().shape({
   //   createPost: Yup.string().required("You can't post a discussion without words!"),
   // });
 
-  const [post_content, setpost_content] = useState("");
+  const [post_content, setpost_content] = useState('');
   const sig_id = props.sig_id; // to reduce memory you can just cange the below one
   const user_id = 1; // need to change
-  
+
   const onSubmitForm = async e => {
     e.preventDefault();
     try {
@@ -41,14 +41,14 @@ const TextInputBtn = (props) => {
       const newPost = await fetch('http://localhost:5000/discussion_posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
       });
       console.log(JSON.stringify(body));
       window.location = '/';
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   return (
     <>
@@ -80,10 +80,10 @@ const TextInputBtn = (props) => {
             initialValues={{
               createPost: '',
             }}
-            onSubmit={onSubmitForm} 
-          //   {(values) => {
-          //   alert(JSON.stringify(values, null, 2));
-          // }}
+            onSubmit={onSubmitForm}
+            //   {(values) => {
+            //   alert(JSON.stringify(values, null, 2));
+            // }}
             //validationSchema={createPostSchema} // validation is handled by Yup
           >
             {({ handleSubmit, values, errors, touched }) => (
@@ -112,7 +112,8 @@ const TextInputBtn = (props) => {
                         // validation is handled by Yup
                         value={post_content}
                         onChange={e => setpost_content(e.target.value)}
-                        validate={(value) => {
+                        required
+                        validate={value => {
                           let error;
                           if (value.length < 0) {
                             error =
@@ -123,7 +124,6 @@ const TextInputBtn = (props) => {
                       />
                       <FormErrorMessage>{errors.createPost}</FormErrorMessage>
                     </FormControl>
-                   
                   </Container>
                 </ModalBody>
                 <ModalFooter>

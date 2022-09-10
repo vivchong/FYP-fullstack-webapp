@@ -105,7 +105,7 @@ const PostCard = props => {
         // If no comments, show nothing
         <></>
       )}
-      <CommentInput />
+      <CommentInput post_id={props.post_id} />
     </BaseCard>
   );
 };

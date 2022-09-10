@@ -1,11 +1,11 @@
 import classes from './Layout.module.css';
 import Header from './Header';
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 
 function Layout(props) {
   return (
     <div>
-      <Header />
+      <Header isLoggedIn={ props.isLoggedIn } />
       <main>
         <Box>{props.children}</Box>
       </main>

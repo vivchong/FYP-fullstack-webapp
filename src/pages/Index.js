@@ -3,6 +3,7 @@ import Details from '../sections/Details';
 import Cart from '../sections/Cart';
 import Header from '../components/layout/Header';
 
+// this is a Chakra example
 const IndexPage = () => {
   return (
     //Container is for the whole page to keep content centred (margins)

@@ -3,10 +3,34 @@ import React, { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import * as serviceWorker from './serviceWorker';
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyBkD5hiC2fKFK7pizttymEsjXKmMq3qUb8',
+  authDomain: 'lifelonglearning-viv.firebaseapp.com',
+  projectId: 'lifelonglearning-viv',
+  storageBucket: 'lifelonglearning-viv.appspot.com',
+  messagingSenderId: '833400989941',
+  appId: '1:833400989941:web:dd6d2ce6204044df8abdbc',
+  measurementId: 'G-RND3SVZDQN',
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+
+const auth = getAuth(firebaseApp);
+
+onAuthStateChanged(auth, user => {
+  if (user != null) {
+    console.log('Logged in!');
+  } else {
+    console.log('No user');
+  }
+});
+
 
 root.render(
   <StrictMode>
@@ -14,11 +38,6 @@ root.render(
     <App />
   </StrictMode>
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://cra.link/PWA
-serviceWorker.unregister();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
