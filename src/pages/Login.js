@@ -11,12 +11,22 @@ import {
   Image,
   Box,
   Text,
-  HStack,
+  useToast,
 } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
-const Login = ({ setAuth, test }) => {
+const Login = ({ setLoggedIn }) => {
+  const toast = useToast();
+  const resultToast = (status, description) => {
+    return toast({
+      position: 'bottom-right',
+      status: status,
+      description: description,
+      duration: 3000,
+    });
+  };
+
   const [inputs, setInputs] = useState({
     email: '',
     password: '',
@@ -29,6 +39,7 @@ const Login = ({ setAuth, test }) => {
 
   const onSubmitForm = async e => {
     e.preventDefault();
+
     try {
       const body = { email, password };
 
@@ -38,13 +49,18 @@ const Login = ({ setAuth, test }) => {
         body: JSON.stringify(body),
       });
 
-      const parseRes = await response.json()
+      const parseRes = await response.json();
 
-      localStorage.setItem("token", parseRes.token);
-
-      setAuth(true);
+      if (parseRes.token) {
+        localStorage.setItem('token', parseRes.token);
+        setLoggedIn(true);
+        resultToast('success', 'Signed in successfully!');
+      } else {
+        setLoggedIn(false);
+        resultToast('error', parseRes); // parseRes is the error message: "Email or password is incorrect!"
+      }
     } catch (err) {
-      console.log(err.message);
+      console.error(err.message);
     }
   };
   return (

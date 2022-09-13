@@ -44,9 +44,9 @@ const TextInputBtn = props => {
         body: JSON.stringify(body),
       });
       console.log(JSON.stringify(body));
-      window.location = '/';
+      window.location = window.location.href;
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   };
 
