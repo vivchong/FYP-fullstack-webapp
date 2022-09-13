@@ -26,7 +26,6 @@ const DUMMY_DATA = [
   },
 ];
 
-
 const SIG_DETAILS = [
   {
     sigid: 1,
@@ -43,8 +42,7 @@ const SIG_DETAILS = [
   },
 ];
 
-
-const SIGTabsDiscussion = (props) => {
+const SIGTabsDiscussion = props => {
   const [posts, setPosts] = useState([]);
 
   async function getPosts() {
@@ -73,10 +71,10 @@ const SIGTabsDiscussion = (props) => {
   useEffect(() => {
     getPosts();
   }, []);
-  
-  
+
   console.log(posts);
   console.log(DUMMY_DATA);
+
   return (
     <Stack pt={4} className={classes.bannerfullwidth}>
       <Container /* 2 Column Flex Layout */

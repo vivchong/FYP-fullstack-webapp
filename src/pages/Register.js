@@ -15,6 +15,7 @@ import {
   HStack,
   InputGroup,
   InputRightElement,
+  useToast
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link as ReactRouterLink } from 'react-router-dom';
@@ -22,7 +23,17 @@ import React, { Fragment, useState } from 'react';
 
 // THIS COMPONENT IS CALLED BY App.js
 
-const Register = ({setAuth}) => {
+const Register = ({ setLoggedIn }) => {
+  const toast = useToast();
+  const resultToast = (status, description) => {
+    return toast({
+      position: 'bottom-right',
+      status: status,
+      description: description,
+      duration: 3000,
+    });
+  };
+
   const [showPassword, setShowPassword] = useState(false);
 
   const [inputs, setInputs] = useState({
@@ -41,26 +52,27 @@ const Register = ({setAuth}) => {
     e.preventDefault();
     try {
       const body = { name, email, password };
-      const response = await fetch(
-        'http://localhost:5000/auth/register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      const response = await fetch('http://localhost:5000/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
 
       const parseRes = await response.json(); // parse so that we can utilise the data
-
-      localStorage.setItem("token", parseRes.token) //create item in localStorage called "token" and set value to parseRes.token (the name of token in parseRes)
-      setAuth(true); //the function was passed into this component as a prop from App.js
+      if (parseRes.token) {
+        localStorage.setItem('token', parseRes.token); //create item in localStorage called "token" and set value to parseRes.token (the name of token in parseRes)
+        setLoggedIn(true); //the function was passed into this component as a prop from App.js
+        resultToast('success', 'Registered successfully!');
+      } else {
+        setLoggedIn(false);
+        resultToast('error', parseRes); // parseRes is the error message: "User already exists"
+      }
     } catch (err) {
-      console.log(err.message);
+      console.error(err.message);
     }
   };
-
 
   return (
     <Fragment>
@@ -115,14 +127,6 @@ const Register = ({setAuth}) => {
                 </FormControl>
 
                 <Stack spacing={6} pt={2}>
-                  {/* <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                align={'start'}
-                justify={'space-between'}
-              >
-                <Checkbox colorScheme={'teal'}>Remember me</Checkbox>
-                <Link color={'teal.500'}>Forgot password?</Link>
-              </Stack> */}
                   <Button
                     loadingText="Registering"
                     colorScheme={'teal'}
