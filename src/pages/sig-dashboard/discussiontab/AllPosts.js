@@ -1,4 +1,5 @@
 import { Stack } from '@chakra-ui/react';
+import { Fragment } from 'react';
 
 import PostCard from '../../../components/sig-dashboard/PostCard';
 
@@ -40,8 +41,9 @@ const DUMMY_DATA = [
    
 function AllPosts(props) {
   //props from SIGTabsDiscussion.js
+  
   return (
-    <>
+    <Fragment>
       <Stack spacing={8} maxW="856px" width="100%">
         {props.posts.map(post => (
           <PostCard
@@ -57,13 +59,13 @@ function AllPosts(props) {
         ))}
       </Stack>
       
-      <Stack 
+      {/* <Stack 
         spacing={8}
         maxW="856px"
         width="100%"
-        direction="column-reverse" /* COLUMN REVERSE Posts */
+        direction="column-reverse" 
       >
-        {/*props.dummy.map(
+        props.dummy.map(
           (
             post //DUMMY DATA
           ) => (
@@ -76,9 +78,9 @@ function AllPosts(props) {
               comments={post.comments}
             />
           )
-          )*/}
-      </Stack>
-    </>
+          )
+      </Stack> */}
+    </Fragment>
   );
 }
 

@@ -37,6 +37,29 @@ const Login = ({ setLoggedIn }) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
+  async function getUserData() {
+    // also used in Register.js
+    try {
+      const response = await fetch('http://localhost:5000/get_user_data', {
+        // linked to the sig-dashboard route which gets user data
+        method: 'POST',
+        headers: { token: localStorage.token },
+      });
+
+      const parseRes = await response.json();
+
+      // console.log(parseRes); // ==> {user_display_name: 'Rohan Gautam'}
+      sessionStorage.setItem('current_user_id', parseRes.user_id);
+      sessionStorage.setItem(
+        'current_user_display_name',
+        parseRes.user_display_name
+      );
+      sessionStorage.setItem('current_user_pic', parseRes.user_pic);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
   const onSubmitForm = async e => {
     e.preventDefault();
 
@@ -54,6 +77,7 @@ const Login = ({ setLoggedIn }) => {
       if (parseRes.token) {
         localStorage.setItem('token', parseRes.token);
         setLoggedIn(true);
+        getUserData();
         resultToast('success', 'Signed in successfully!');
       } else {
         setLoggedIn(false);

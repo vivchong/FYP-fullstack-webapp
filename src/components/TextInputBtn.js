@@ -32,7 +32,7 @@ const TextInputBtn = props => {
 
   const [post_content, setpost_content] = useState('');
   const sig_id = props.sig_id; // to reduce memory you can just cange the below one
-  const user_id = 1; // need to change
+  const user_id = sessionStorage.current_user_id; 
 
   const onSubmitForm = async e => {
     e.preventDefault();
@@ -93,8 +93,8 @@ const TextInputBtn = props => {
                 <ModalBody pb={6}>
                   <Container display="flex" gap={4} px={0}>
                     <Avatar
-                      name="Dan Abrahmov"
-                      src="https://bit.ly/dan-abramov"
+                      name={sessionStorage.current_user_display_name}
+                      src={sessionStorage.current_user_pic}
                     />
 
                     <FormControl

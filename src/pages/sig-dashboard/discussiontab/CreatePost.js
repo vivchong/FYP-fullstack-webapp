@@ -7,8 +7,8 @@ const CreatePost = (props) => {
     <CreatePostCard>
       <Avatar
         size="md"
-        name="Dan Abrahmov"
-        src="https://bit.ly/dan-abramov" /* Current user_id */
+        name={sessionStorage.current_user_display_name}
+        src={sessionStorage.current_user_pic}
       />
       <TextInputBtn sig_id={props.sig_id}>Start a discussion</TextInputBtn>
     </CreatePostCard>

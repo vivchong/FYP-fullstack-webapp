@@ -7,7 +7,7 @@ const Dashboard = ({ setLoggedIn }) => {
 
   async function getName() {
     try {
-      const response = await fetch('http://localhost:5000/sig-dashboard', {
+      const response = await fetch('http://localhost:5000/sig-dashboard/get-name', {
         // linked to the sig-dashboard route which gets user data
         method: 'POST',
         headers: { token: localStorage.token },

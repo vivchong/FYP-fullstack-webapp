@@ -18,8 +18,11 @@ const SignOutMenuItem = ({ setLoggedIn }) => {
 
   const signout = e => {
     e.preventDefault();
-    localStorage.removeItem('token');
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('user_display_name');
     setLoggedIn(false);
+    localStorage.clear();
+    sessionStorage.clear();
     resultToast('success', 'Signed out');
   };
   return (

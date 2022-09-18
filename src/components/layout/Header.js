@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
+import { Link as ReactRouterLink, Navigate } from 'react-router-dom';
 import {
   Container,
   Menu,
@@ -33,15 +33,15 @@ const Header = props => {
   // use in this format: <NavLink to='/what-are-sigs'>What are SIGs?</NavLink>
   const NavLink = props => {
     return (
-      <Link
-        as={ReactRouterLink}
-        to={props.to}
-        _hover={{
-          textDecoration: 'none',
-        }}
-      >
-        <MenuItem>{props.children}</MenuItem>
-      </Link>
+        <Link
+          as={ReactRouterLink}
+          to={props.to}
+          _hover={{
+            textDecoration: 'none',
+          }}
+        >
+          <MenuItem>{props.children}</MenuItem>
+        </Link>
     );
   };
 
@@ -56,9 +56,12 @@ const Header = props => {
           <Spacer />
 
           <ButtonGroup spacing={4} variant="ghost">
-
             <Menu>
-              <MenuButton isDisabled as={Button} rightIcon={<ChevronDownIcon />}>
+              <MenuButton
+                isDisabled
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+              >
                 Workshops
               </MenuButton>
             </Menu>
@@ -76,7 +79,7 @@ const Header = props => {
                     <NavLink to="/what-are-sigs">What are SIGs?</NavLink>
                     <NavLink to="/find-a-sig">Find a SIG</NavLink>
                     {props.isLoggedIn ? (
-                      <NavLink to="/my-sigs">What are SIGs?</NavLink>
+                      <NavLink to="/my-sigs">My SIGs</NavLink>
                     ) : (
                       <></>
                     )}
@@ -86,7 +89,6 @@ const Header = props => {
             </Menu>
 
             <Button isDisabled>Book a Room</Button>
-
 
             {props.isLoggedIn ? (
               <Fragment>
@@ -103,8 +105,8 @@ const Header = props => {
                         icon={
                           <Avatar
                             size="sm"
-                            name="Dan Abrahmov"
-                            src="https://bit.ly/dan-abramov"
+                            name={sessionStorage.current_user_display_name}
+                            src={sessionStorage.current_user_pic}
                           />
                         }
                       />
@@ -117,12 +119,12 @@ const Header = props => {
                         <MenuGroup title="Settings">
                           <NavLink to="/edit-profile">Edit profile</NavLink>
                         </MenuGroup>
+                        <MenuDivider />
                         <SignOutMenuItem setLoggedIn={props.setLoggedIn} />
                       </MenuList>
                     </>
                   )}
                 </Menu>
-
               </Fragment>
             ) : (
               // If not logged in, show login button

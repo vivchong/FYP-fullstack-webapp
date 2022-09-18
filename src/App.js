@@ -25,6 +25,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import NotFound from './pages/Error404';
+import Settings from './pages/settings/Settings';
+import { MdNextWeek } from 'react-icons/md';
 
 // need useEffect to check whether jwt token is valid
 
@@ -60,7 +62,11 @@ function App() {
         <Router>
           <Layout isLoggedIn={isAuthenticated} setLoggedIn={setLoggedIn}>
             <Routes>
-              <Route exact path="/" element={<Home isLoggedIn={isAuthenticated} />} />
+              <Route
+                exact
+                path="/"
+                element={<Home isLoggedIn={isAuthenticated} />}
+              />
               <Route
                 exact
                 path="/login"
@@ -71,12 +77,10 @@ function App() {
                       setLoggedIn={setLoggedIn}
                     />
                   ) : (
-                    <Navigate replace to={'/'} /> // REPLACE WITH HOMEPAGE LATER
+                    <Navigate replace to={'/'} />
                   )
                 }
               />
-              {/* using render prop instead of component prop cuz it doesn't remount when sending/passing props to component */}
-              {/* <SIGDashboardPage /> */}
               <Route
                 exact
                 path="/register"
@@ -105,7 +109,28 @@ function App() {
                   )
                 }
               />
+
               <Route exact path="/sig/1" element={<SIGDashboardPage />} />
+              <Route exact path='/sig/:id' element={<SIGDashboardPage/>} />
+              <Route
+                exact
+                path="settings"
+                element={<Settings tabIndex={0} />}
+              />
+              <Route exact path="notifications" element={<Settings tabIndex={0} />} />
+              <Route exact path="my-sigs" element={<Settings tabIndex={1} />} />
+              <Route
+                exact
+                path="my-workshops"
+                element={<Settings tabIndex={2} />}
+              />
+              <Route
+                exact
+                path="edit-profile"
+                element={<Settings tabIndex={3} />}
+              />
+
+              
               <Route path="*" element={<Navigate replace to={'not-found'} />} />
               <Route exact path="/not-found" element={<NotFound />} />
             </Routes>

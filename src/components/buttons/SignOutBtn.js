@@ -19,7 +19,12 @@ const SignOutButton = ({ setLoggedIn }) => {
 
   const signout = e => {
     e.preventDefault();
-    localStorage.removeItem('token');
+    localStorage.clear();
+    sessionStorage.clear();
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('current_user_display_name');
+    // localStorage.removeItem('current_user_pic');
+    // localStorage.removeItem('current_user_id');
     setLoggedIn(false);
     resultToast('success', 'Signed out');
   };

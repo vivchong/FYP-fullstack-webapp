@@ -9,37 +9,10 @@ import { useState } from 'react';
 import { Field, Formik } from 'formik';
 
 const CommentInput = props => {
-  /*const [comments, setComments] = useState([
-    // this is an array?/json of all comments on this post
-    { from: 'computer', text: 'Hi, My Name is HoneyChat' },
-    { from: 'me', text: 'Hey there' },
-    { from: 'me', text: 'Myself Ferin Patel' },
-    {
-      from: 'computer',
-      text: "Nice to meet you. You can send me message and i'll reply you with same message.",
-    },
-  ]);
-
-  const [inputComment, setInputComment] = useState('');
-  // inputComment is used to store the value of the Input field
-
-  const handleSendComment = () => {
-    if (!comment_content.trim().length) {
-      console.log('No input comment');
-      return;
-    }
-    const data = comment_content;
-
-    setComment_content(old => [...old, { from: 'me', text: data }]); //data is inputComment. data is sent to comments json
-    setComment_content('');
-      console.log({ comment_content });
-      console.log({comments})
-  };
-  */
 
   const [comment_content, setComment_content] = useState('');
-  const post_id = props.post_id; // to reduce memory you can just cange the below one
-  const user_id = 1; // need to change
+  const post_id = props.post_id;
+  const user_id = sessionStorage.current_user_id;
 
   const onSubmitComment = async e => {
     //     e.preventDefault();
@@ -71,8 +44,8 @@ const CommentInput = props => {
           <HStack spacing={4} pb={5} alignItems="stretch" w="full">
             <Avatar
               size="sm"
-              name="Dan Abrahmov"
-              src="https://bit.ly/dan-abramov"
+              name={sessionStorage.current_user_display_name}
+              src={sessionStorage.current_user_pic}
             />
 
             <FormControl

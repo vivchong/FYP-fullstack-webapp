@@ -48,6 +48,29 @@ const Register = ({ setLoggedIn }) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value }); // target.name is the `name` of the current target
   };
 
+  async function getUserData() {
+    // also used in Register.js
+    try {
+      const response = await fetch('http://localhost:5000/get_user_data', {
+        // linked to the sig-dashboard route which gets user data
+        method: 'POST',
+        headers: { token: localStorage.token },
+      });
+
+      const parseRes = await response.json();
+
+      // console.log(parseRes); // ==> {user_display_name: 'Rohan Gautam'}
+      sessionStorage.setItem('current_user_id', parseRes.user_id);
+      sessionStorage.setItem(
+        'current_user_display_name',
+        parseRes.user_display_name
+      );
+      sessionStorage.setItem('current_user_pic', parseRes.user_pic);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
   const onSubmitForm = async e => {
     e.preventDefault();
     try {
@@ -64,6 +87,7 @@ const Register = ({ setLoggedIn }) => {
       if (parseRes.token) {
         localStorage.setItem('token', parseRes.token); //create item in localStorage called "token" and set value to parseRes.token (the name of token in parseRes)
         setLoggedIn(true); //the function was passed into this component as a prop from App.js
+        getUserData();
         resultToast('success', 'Registered successfully!');
       } else {
         setLoggedIn(false);

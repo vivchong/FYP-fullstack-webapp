@@ -26,6 +26,7 @@ const DUMMY_DATA = [
   },
 ];
 
+// need route to get SIG details
 const SIG_DETAILS = [
   {
     sigid: 1,
@@ -47,6 +48,7 @@ const SIGTabsDiscussion = props => {
 
   async function getPosts() {
     const res = await fetch(
+      // `http://localhost:5000/all_posts/${SIG_DETAILS[0].sigid}`
       `http://localhost:5000/all_posts/${SIG_DETAILS[0].sigid}`
     ); // gets the sig_id to pull posts with that sig_id
 
@@ -66,14 +68,15 @@ const SIGTabsDiscussion = props => {
       // MISSING LIKES AND COMMENTS COUNT from PostEngagements
     */
     setPosts(postArray);
+    console.log(posts);
   }
 
   useEffect(() => {
     getPosts();
   }, []);
 
-  console.log(posts);
-  console.log(DUMMY_DATA);
+  //console.log(posts);
+  // console.log(DUMMY_DATA);
 
   return (
     <Stack pt={4} className={classes.bannerfullwidth}>
