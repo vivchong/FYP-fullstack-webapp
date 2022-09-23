@@ -110,27 +110,63 @@ function App() {
                 }
               />
 
-              <Route exact path="/sig/1" element={<SIGDashboardPage />} />
-              <Route exact path='/sig/:id' element={<SIGDashboardPage/>} />
+              <Route exact path="/sig/:id" element={<SIGDashboardPage />} />
               <Route
                 exact
                 path="settings"
-                element={<Settings tabIndex={0} />}
+                element={
+                  isAuthenticated ? (
+                    <Settings tabIndex={0} />
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
               />
-              <Route exact path="notifications" element={<Settings tabIndex={0} />} />
-              <Route exact path="my-sigs" element={<Settings tabIndex={1} />} />
+              <Route
+                exact
+                path="notifications"
+                element={
+                  isAuthenticated ? (
+                    <Settings tabIndex={0} />
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
+              <Route
+                exact
+                path="my-sigs"
+                element={
+                  isAuthenticated ? (
+                    <Settings tabIndex={1} />
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
               <Route
                 exact
                 path="my-workshops"
-                element={<Settings tabIndex={2} />}
+                element={
+                  isAuthenticated ? (
+                    <Settings tabIndex={2} />
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
               />
               <Route
                 exact
                 path="edit-profile"
-                element={<Settings tabIndex={3} />}
+                element={
+                  isAuthenticated ? (
+                    <Settings tabIndex={3} />
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
               />
 
-              
               <Route path="*" element={<Navigate replace to={'not-found'} />} />
               <Route exact path="/not-found" element={<NotFound />} />
             </Routes>

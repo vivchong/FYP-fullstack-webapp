@@ -1,6 +1,6 @@
 import classes from './Layout.module.css';
 import Header from './Header';
-import { Box, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
 // called from App.js
 

@@ -9,7 +9,6 @@ import {
   MenuItem,
   MenuList,
   useDisclosure,
-  useColorModeValue,
 } from '@chakra-ui/react';
 
 import {

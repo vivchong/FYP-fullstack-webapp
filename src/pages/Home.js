@@ -26,11 +26,14 @@ const Home = ({ isLoggedIn, setLoggedIn }) => {
 
   async function getName() {
     try {
-      const response = await fetch('http://localhost:5000/sig-dashboard', {
-        // linked to the sig-dashboard route which gets user data
-        method: 'POST',
-        headers: { token: localStorage.token },
-      });
+      const response = await fetch(
+        'http://localhost:5000/sig-dashboard/get-name',
+        {
+          // linked to the sig-dashboard route which gets user data
+          method: 'POST',
+          headers: { token: localStorage.token },
+        }
+      );
 
       const parseRes = await response.json(); // console.log(parseRes) ==> {user_display_name: 'Rohan Gautam'}
 

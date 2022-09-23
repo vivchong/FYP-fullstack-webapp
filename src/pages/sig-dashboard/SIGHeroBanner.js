@@ -21,7 +21,9 @@ import { MdMoreHoriz } from 'react-icons/md';
 
 import classes from './SIGHeroBanner.module.css';
 
-export default function SIGHeroBanner() {
+export default function SIGHeroBanner({ sig_data, sig_id }) {
+  
+  console.log(sig_data)
   return (
     <Flex flexDirection="column" className={classes.bannerfullwidth}>
       <Flex
@@ -44,7 +46,7 @@ export default function SIGHeroBanner() {
           <Stack spacing={2} maxW="704px">
             <HStack>
               <Heading as="h1" size="lg" noOfLines={1}>
-                Computer Vision Buddies
+                {sig_data.sig_name}
               </Heading>
               <Flex alignItems={'center'}>
                 <Menu>
@@ -57,7 +59,7 @@ export default function SIGHeroBanner() {
                     icon={<MdMoreHoriz />}
                     size="sm"
                   ></MenuButton>
-                  <MenuList fontSize='sm'>
+                  <MenuList fontSize="sm">
                     <MenuItem>Invite members</MenuItem>
                     <MenuItem>Edit SIG Page</MenuItem>
                     <MenuItem>Manage members</MenuItem>
@@ -67,7 +69,7 @@ export default function SIGHeroBanner() {
               </Flex>
             </HStack>
             <Heading as="h5" size="sm" noOfLines={1}>
-              _X_ members
+              {sig_data.sig_member_count + ' '}member{sig_data.sig_member_count > 1 ? 's' : ''}
             </Heading>
           </Stack>
           <Spacer />

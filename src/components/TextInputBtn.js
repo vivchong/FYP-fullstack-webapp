@@ -30,7 +30,7 @@ const TextInputBtn = props => {
   //   createPost: Yup.string().required("You can't post a discussion without words!"),
   // });
 
-  const [post_content, setpost_content] = useState('');
+  const [post_content, setPost_content] = useState('');
   const sig_id = props.sig_id; // to reduce memory you can just cange the below one
   const user_id = sessionStorage.current_user_id; 
 
@@ -72,7 +72,10 @@ const TextInputBtn = props => {
         closeOnOverlayClick={false}
         size="xl"
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          setPost_content('');
+        }}
       >
         <ModalOverlay />
         <ModalContent>
@@ -111,7 +114,7 @@ const TextInputBtn = props => {
                         height="220px"
                         // validation is handled by Yup
                         value={post_content}
-                        onChange={e => setpost_content(e.target.value)}
+                        onChange={e => setPost_content(e.target.value)}
                         required
                         validate={value => {
                           let error;
@@ -127,7 +130,13 @@ const TextInputBtn = props => {
                   </Container>
                 </ModalBody>
                 <ModalFooter>
-                  <Button onClick={onClose} mr={3}>
+                  <Button
+                    onClick={() => {
+                      onClose();
+                      setPost_content('');
+                    }}
+                    mr={3}
+                  >
                     Cancel
                   </Button>
                   <Button colorScheme="teal" type="submit">

@@ -1,9 +1,10 @@
-import { Container, Stack, VStack } from '@chakra-ui/react';
+import { Box, Container, Stack, VStack, Text, Heading } from '@chakra-ui/react';
 import classes from '../SIGHeroBanner.module.css';
 import CreatePost from './CreatePost';
 import AllPosts from './AllPosts';
 import AllDetails from './AllDetails';
 import { useEffect, useState } from 'react';
+import BaseCard from '../../../components/layout/cards/BaseCard';
 
 const DUMMY_DATA = [
   {
@@ -48,11 +49,9 @@ const SIGTabsDiscussion = props => {
 
   async function getPosts() {
     const res = await fetch(
-      // `http://localhost:5000/all_posts/${SIG_DETAILS[0].sigid}`
-      `http://localhost:5000/all_posts/${SIG_DETAILS[0].sigid}`
-    ); // gets the sig_id to pull posts with that sig_id
+      `http://localhost:5000/all_posts/${props.sig_id}` //{SIG_DETAILS[0].sigid}
+    );
 
-    // we are getting JSON data, so we need to patse it
     const postArray = await res.json(); // parse data
 
     /* postArray is an array of the following data
@@ -75,7 +74,7 @@ const SIGTabsDiscussion = props => {
     getPosts();
   }, []);
 
-  //console.log(posts);
+  console.log(props.sig_id);
   // console.log(DUMMY_DATA);
 
   return (
@@ -88,12 +87,19 @@ const SIGTabsDiscussion = props => {
         maxW="1440px"
       >
         <VStack spacing={8} maxW="856px" width="100%" /* Column 1 (Posts) */>
-          <CreatePost sig_id={SIG_DETAILS[0].sigid} />
-          <AllPosts dummy={DUMMY_DATA} posts={posts} />
+          <CreatePost sig_id={props.sig_id} />
+          {posts.length !== 0 ? (
+            <AllPosts posts={posts} />
+          ) : (
+            <Box align="center" py={4} color="gray.600">
+              <Heading size="sm">There are no posts yet.</Heading>
+              <Text size='sm'>Start a discussion with your group!</Text>
+            </Box>
+          )}
         </VStack>
 
-        <VStack spacing={8} maxW="480px" width="100%" /* Column 1 (Posts) */>
-          <AllDetails details={SIG_DETAILS} />
+        <VStack spacing={8} maxW="480px" width="100%" /* Column 2 (Details) */>
+          <AllDetails details={SIG_DETAILS} sig_id={props.sig_id} />
         </VStack>
       </Container>
     </Stack>

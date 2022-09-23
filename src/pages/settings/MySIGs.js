@@ -27,8 +27,6 @@ const MySIGs = () => {
   return (
     <Flex px={16} py={4} flexDir="column" gap={8}>
       <Text fontSize="4xl">My SIGs</Text>
-      <BaseCard>Test</BaseCard>
-
       <Stack spacing={8} maxW="856px" width="100%">
         {listOfMySIGs.map(mySIG => (
           <SIGCard key={mySIG.sig_id} sig_id={mySIG.sig_id} />

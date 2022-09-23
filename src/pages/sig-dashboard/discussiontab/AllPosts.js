@@ -58,28 +58,6 @@ function AllPosts(props) {
           />
         ))}
       </Stack>
-      
-      {/* <Stack 
-        spacing={8}
-        maxW="856px"
-        width="100%"
-        direction="column-reverse" 
-      >
-        props.dummy.map(
-          (
-            post //DUMMY DATA
-          ) => (
-            <PostCard
-              key={post.postid}
-              name={post.name}
-              time={post.time}
-              content={post.content}
-              likes={post.likes}
-              comments={post.comments}
-            />
-          )
-          )
-      </Stack> */}
     </Fragment>
   );
 }
