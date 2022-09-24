@@ -8,7 +8,6 @@ import {
   HStack,
   LinkBox,
   LinkOverlay,
-  VStack,
 } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
