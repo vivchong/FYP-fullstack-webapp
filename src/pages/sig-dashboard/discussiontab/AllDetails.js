@@ -25,6 +25,7 @@ function AllDetails(props) {
     <>
       {props.details.map(detail => (
         <DetailCards
+          key={detail.sigid}
           sigid={detail.sigid}
           name={detail.signame}
           about={detail.sigdescription}

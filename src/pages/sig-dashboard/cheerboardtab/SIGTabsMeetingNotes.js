@@ -1,9 +1,42 @@
-import { Container, VStack, Heading, Text, Button, HStack, Flex, Spacer, Box, Center } from '@chakra-ui/react';
+import { Container, VStack, Heading, Text, Button, HStack, Flex, Spacer, Box, Center, Wrap } from '@chakra-ui/react';
 import CheerBoardCard from '../../../components/sig-dashboard/CheerBoardCard';
 import BigBaseCard from '../../../components/layout/cards/BigBaseCard';
 import { AddIcon } from '@chakra-ui/icons';
+import { useContext, useEffect, useState } from 'react';
+import CheerBoardNewUpdateBtn from '../../../components/sig-dashboard/CheerBoardNewUpdateBtn';
+import { StoreContext } from '../../../store/store';
 
-const SIGTabsCheerBoard = () => {
+// From SIGTabs.js
+const SIGTabsCheerBoard = (props) => {
+
+  const [updates, setUpdates] = useState([]);
+  const [context, setContext] = useContext(StoreContext);
+  const { refreshUpdates } = context;
+
+  async function getUpdates() {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/sig-dashboard/get-cheerboard-updates/${props.sig_id}`,
+        {
+          method: 'POST',
+          headres: {token: localStorage.token},
+        }
+      );
+
+      const updateArray = await res.json();
+      setUpdates(updateArray);
+      console.log(updates);
+    } catch (error) {
+      console.error(error.message);
+    }
+    
+  }
+
+  useEffect(() => {
+    getUpdates();
+
+  }, [refreshUpdates]);
+
   return (
     <Container /* 1-Column Flex Layout */
       px={10}
@@ -25,7 +58,7 @@ const SIGTabsCheerBoard = () => {
             </Text>
           </VStack>
 
-          <Text as="p" /* preserves line breaks */>
+          <Text /* preserves line breaks */>
             Share your progress this week with your team! <br />
             <br />
             Celebrate your small wins with your group and cheer each other on!
@@ -37,9 +70,9 @@ const SIGTabsCheerBoard = () => {
             back to update it.
           </Text>
 
-          <Button leftIcon={<AddIcon w={2.5} h={2.5} />} colorScheme="teal">
+          <CheerBoardNewUpdateBtn sig_id={props.sig_id}>
             Share your progress
-          </Button>
+          </CheerBoardNewUpdateBtn>
         </VStack>
       </BigBaseCard>
 
@@ -67,32 +100,32 @@ const SIGTabsCheerBoard = () => {
             <Spacer />
 
             <HStack direction="column" spacing={10} px={4}>
-              <Box>
-                <Center>
-                  <Text align="center">
-                    <Text fontSize="2xl" fontWeight="semibold">
-                      2
-                    </Text>
-                    Current streak
-                  </Text>
-                </Center>
+              <Box align="center">
+                <Text fontSize="2xl" fontWeight="semibold">
+                  2
+                </Text>
+                <Text>Current streak</Text>
               </Box>
-              <Box>
-                <Center>
-                  <Text align="center">
-                    <Text fontSize="2xl" fontWeight="semibold">
-                      5
-                    </Text>
-                    Longest streak
-                  </Text>
-                </Center>
+              <Box align="center">
+                <Text fontSize="2xl" fontWeight="semibold">
+                  5
+                </Text>
+                <Text>Longest streak</Text>
               </Box>
             </HStack>
           </Flex>
 
-          <Flex>
-            <CheerBoardCard />
-          </Flex>
+          <Wrap spacing={10} align="center" justify="center" overflow="visible">
+            {updates.map(update => (
+              <CheerBoardCard
+                key={update.update_id}
+                data={update}
+                sig_id={props.sig_id}
+              />
+            ))}
+            {/* <CheerBoardCard />
+            <CheerBoardCard /> */}
+          </Wrap>
         </Flex>
       </BigBaseCard>
     </Container>

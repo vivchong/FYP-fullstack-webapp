@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import StoreProvider from './store/store';
 
 const container = document.getElementById('root');
 const root = ReactDOM.createRoot(container);
@@ -35,7 +36,9 @@ const root = ReactDOM.createRoot(container);
 root.render(
   <StrictMode>
     <ColorModeScript />
-    <App />
+    <StoreProvider>
+      <App />
+    </StoreProvider>
   </StrictMode>
 );
 

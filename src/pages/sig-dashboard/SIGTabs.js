@@ -22,7 +22,7 @@ const SIGTabs = ({ sig_id }) => {
       pr={6}
       pl={6}
     >
-      <Tabs className={classes.bannerfullwidth} bg="gray.50" defaultIndex={1}>
+      <Tabs isLazy className={classes.bannerfullwidth} bg="gray.50" defaultIndex={1}>
         <TabList pl={10} w={'full'} bg="white">
           <Tab>About</Tab>
           <Tab>Discussion</Tab>

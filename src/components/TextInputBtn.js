@@ -16,22 +16,20 @@ import {
   FormControl,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Field, Formik, FormikProps } from 'formik';
-import PlainForm from '../pages/sig-dashboard/abouttab/PlainForm';
-import * as Yup from 'yup';
+import { StoreContext } from '../store/store';
 
 // This is a button that looks like an Input field and opens a "Create Post" modal
-
+// From CreatePost.js
 const TextInputBtn = props => {
+  const [context, setContext] = useContext(StoreContext);
+  const { refreshPosts } = context;
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // const createPostSchema = Yup.object().shape({
-  //   createPost: Yup.string().required("You can't post a discussion without words!"),
-  // });
-
   const [post_content, setPost_content] = useState('');
-  const sig_id = props.sig_id; // to reduce memory you can just cange the below one
+  const sig_id = props.sig_id;
   const user_id = sessionStorage.current_user_id; 
 
   const onSubmitForm = async e => {
@@ -44,7 +42,9 @@ const TextInputBtn = props => {
         body: JSON.stringify(body),
       });
       console.log(JSON.stringify(body));
-      window.location = window.location.href;
+      setPost_content('')
+      setContext({ refreshPosts: !refreshPosts });
+      //window.location = window.location.href;
     } catch (error) {
       console.error(error.message);
     }
@@ -139,7 +139,13 @@ const TextInputBtn = props => {
                   >
                     Cancel
                   </Button>
-                  <Button colorScheme="teal" type="submit">
+                  <Button
+                    colorScheme="teal"
+                    type="submit"
+                    onClick={() => {
+                      onClose();
+                    }}
+                  >
                     Post
                   </Button>
                 </ModalFooter>

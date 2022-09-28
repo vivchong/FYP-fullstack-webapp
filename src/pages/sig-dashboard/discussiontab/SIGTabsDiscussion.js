@@ -3,31 +3,33 @@ import classes from '../SIGHeroBanner.module.css';
 import CreatePost from './CreatePost';
 import AllPosts from './AllPosts';
 import AllDetails from './AllDetails';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import BaseCard from '../../../components/layout/cards/BaseCard';
+import { StoreContext } from '../../../store/store';
 
-const DUMMY_DATA = [
-  {
-    postid: 1,
-    name: 'Roy Chen',
-    time: '10h ago',
-    content:
-      'Really enjoyed our meeting this week. Looking forward to the next one :)',
-    likes: 4,
-    comments: 7,
-  },
-  {
-    postid: 2,
-    name: 'Tan Jiahui',
-    time: '8h ago',
-    content:
-      'How do you guys think Apple managed to allow FaceID to recognise our faces with masks on? What facial features did they use and how did they achieve such detailed level of specificity? Are they just relying on shapes/line detection alone, or something else?',
-    likes: 1,
-    comments: 2,
-  },
-];
+// const DUMMY_DATA = [
+//   {
+//     postid: 1,
+//     name: 'Roy Chen',
+//     time: '10h ago',
+//     content:
+//       'Really enjoyed our meeting this week. Looking forward to the next one :)',
+//     likes: 4,
+//     comments: 7,
+//   },
+//   {
+//     postid: 2,
+//     name: 'Tan Jiahui',
+//     time: '8h ago',
+//     content:
+//       'How do you guys think Apple managed to allow FaceID to recognise our faces with masks on? What facial features did they use and how did they achieve such detailed level of specificity? Are they just relying on shapes/line detection alone, or something else?',
+//     likes: 1,
+//     comments: 2,
+//   },
+// ];
 
 // need route to get SIG details
+
 const SIG_DETAILS = [
   {
     sigid: 1,
@@ -44,7 +46,11 @@ const SIG_DETAILS = [
   },
 ];
 
+// From SIGTabs.js <-- SIGDashboardPage.js
 const SIGTabsDiscussion = props => {
+  const [context, setContext] = useContext(StoreContext);
+  const { refreshPosts } = context;
+
   const [posts, setPosts] = useState([]);
 
   async function getPosts() {
@@ -72,10 +78,9 @@ const SIGTabsDiscussion = props => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [refreshPosts]);
 
   console.log(props.sig_id);
-  // console.log(DUMMY_DATA);
 
   return (
     <Stack pt={4} className={classes.bannerfullwidth}>
