@@ -44,7 +44,8 @@ const SIGDashboardPage = () => {
     <Container maxWidth="full" padding={0}>
       {sigData.length == 0 ? (
         <Box textAlign="center" py={10} px={6}>
-          <Heading
+          {/* <Heading>This SIG does not exist</Heading> */}
+          {/* <Heading
             display="inline-block"
             as="h2"
             size="2xl"
@@ -69,7 +70,7 @@ const SIGDashboardPage = () => {
             to='/'
           >
             Go to Home
-          </Button>
+          </Button> */}
         </Box>
       ) : (
         <Fragment>
