@@ -123,7 +123,6 @@ const Login = ({ setLoggedIn }) => {
                     align={'start'}
                     justify={'space-between'}
                   >
-                    <Checkbox colorScheme={'teal'}>Remember me</Checkbox>
                     <Link color={'teal.500'}>Forgot password?</Link>
                   </Stack>
                   <Button
