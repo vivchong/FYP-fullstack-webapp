@@ -1,6 +1,7 @@
 import { Divider, Button,  } from '@chakra-ui/react';
 import PostViewableComments from './PostViewableComments';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { StoreContext } from '../../store/store';
 
 const VIEWABLE_COMMENTS_ON_THIS_POST = [
   // need to pull latest 2 posts FOR THIS POST_ID
@@ -24,6 +25,9 @@ const VIEWABLE_COMMENTS_ON_THIS_POST = [
 ];
 
 const PostHasComments = props => {
+  const [context, setContext] = useContext(StoreContext);
+  const { refreshComments } = context;
+
   const viewableCommentsLimit = 2;
   const hiddenComments = props.count - viewableCommentsLimit;
 
@@ -36,16 +40,12 @@ const PostHasComments = props => {
 
     const commentArray = await res.json(); // parse JSON data
 
-    /* commentArray is an array of the following data
-      
-    */
     setComments(commentArray);
-    console.log('getComments is running');
   }
 
   useEffect(() => {
     getComments();
-  }, []);
+  }, [refreshComments]);
 
   console.log(comments);
 

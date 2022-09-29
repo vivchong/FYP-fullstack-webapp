@@ -5,11 +5,13 @@ import {
   FormControl,
   FormErrorMessage,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Field, Formik } from 'formik';
+import { StoreContext } from '../../store/store';
 
 const CommentInput = props => {
-
+  const [context, setContext] = useContext(StoreContext);
+  const { refreshComments } = context;
   const [comment_content, setComment_content] = useState('');
   const post_id = props.post_id;
   const user_id = sessionStorage.current_user_id;
@@ -26,6 +28,8 @@ const CommentInput = props => {
         body: JSON.stringify(body),
       });
       console.log(JSON.stringify(body));
+      setComment_content('')
+      setContext({ refreshComments: !refreshComments }); // trigger refresh
       //window.location = window.location.href;
     } catch (error) {
       console.error(error.message);

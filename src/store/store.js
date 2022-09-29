@@ -6,6 +6,7 @@ const StoreProvider = ({ children }) => {
     const [state, setState] = useState({
         refreshUpdates: false,
         refreshPosts: false,
+        refreshComments: false,
     });
     return <StoreContext.Provider value={[state, setState]}>{children}</StoreContext.Provider>
 }
