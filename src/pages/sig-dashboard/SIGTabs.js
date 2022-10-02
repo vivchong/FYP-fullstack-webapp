@@ -13,7 +13,8 @@ import SIGTabsCheerBoard from './cheerboardtab/SIGTabsMeetingNotes';
 import SIGTabsResources from './resourcestab/SIGTabsResources';
 import classes from './SIGHeroBanner.module.css';
 
-const SIGTabs = ({ sig_id }) => {
+// FROM SIGDashboardPage.js
+const SIGTabs = ({ sig_id, sig_data, sig_members }) => {
   return (
     <Container
       maxWidth="1440px"
@@ -22,7 +23,12 @@ const SIGTabs = ({ sig_id }) => {
       pr={6}
       pl={6}
     >
-      <Tabs isLazy className={classes.bannerfullwidth} bg="gray.50" defaultIndex={1}>
+      <Tabs
+        isLazy
+        className={classes.bannerfullwidth}
+        bg="gray.50"
+        defaultIndex={1}
+      >
         <TabList pl={10} w={'full'} bg="white">
           <Tab>About</Tab>
           <Tab>Discussion</Tab>
@@ -32,10 +38,14 @@ const SIGTabs = ({ sig_id }) => {
 
         <TabPanels bg="gray.50">
           <TabPanel>
-            <SIGTabsAbout sig_id={sig_id} />
+            <SIGTabsAbout
+              sig_id={sig_id}
+              sig_data={sig_data}
+              sig_members={sig_members}
+            />
           </TabPanel>
           <TabPanel>
-            <SIGTabsDiscussion sig_id={sig_id} />
+            <SIGTabsDiscussion sig_id={sig_id} sig_data={sig_data} />
           </TabPanel>
           <TabPanel>
             <SIGTabsCheerBoard sig_id={sig_id} />

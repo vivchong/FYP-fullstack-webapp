@@ -21,9 +21,8 @@ import { MdMoreHoriz } from 'react-icons/md';
 
 import classes from './SIGHeroBanner.module.css';
 
-export default function SIGHeroBanner({ sig_data, sig_id }) {
+export default function SIGHeroBanner({ sig_data, sig_id, sig_members }) {
   
-  console.log(sig_data)
   return (
     <Flex flexDirection="column" className={classes.bannerfullwidth}>
       <Flex
@@ -77,11 +76,9 @@ export default function SIGHeroBanner({ sig_data, sig_id }) {
           <HStack align="flex-start">
             <HStack spacing={8}>
               <AvatarGroup size="md" max={3}>
-                <Avatar name="Ryan Florence" />
-                <Avatar name="Segun Adebayo" />
-                <Avatar name="Kent Dodds" />
-                <Avatar name="Prosper Otemuyiwa" />
-                <Avatar name="Christian Nwamba" />
+                {sig_members.map(member => (
+                  <Avatar key={member.user_id} name={member.user_display_name} src={member.user_pic} />
+                ))}
               </AvatarGroup>
 
               <ButtonGroup spacing={2}>
