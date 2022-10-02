@@ -11,15 +11,15 @@ const MemberItem = props => {
           <Heading as="h6" fontSize="md" fontWeight="medium" color="gray.700">
             {props.name}
           </Heading>
-          {props.role === 'Leader' ? (
+          {props.role !== 1 ? (
             <StarIcon w={3} h={3} color="teal.500" />
           ) : (
             <></>
           )}
         </HStack>
-        {props.role === 'Leader' ? (
+        {props.role !== 1 ? (
           <Text fontSize="sm" color="gray.500">
-            SIG {props.role}
+            SIG {props.role === 3 ? 'Owner' : 'Leader'}
           </Text>
         ) : (
           <></>

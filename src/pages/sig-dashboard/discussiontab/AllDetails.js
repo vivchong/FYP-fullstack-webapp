@@ -19,26 +19,21 @@ const SIG_DETAILS = [
 ];
 */
 
-function AllDetails(props) {
-  
+function AllDetails({ sig_data }) {
   return (
-    <>
-      {props.details.map(detail => (
-        <DetailCards
-          key={detail.sigid}
-          sigid={detail.sigid}
-          name={detail.signame}
-          about={detail.sigdescription}
-          frequencyinterval={detail.sigfrequencyinterval}
-          meetingday={detail.sigmeetingday}
-          starttime={detail.sigstarttime}
-          endtime={detail.sigendtime}
-          longeststreak={detail.longeststreak}
-          currentstreak={detail.currentstreak}
-          updates={detail.updates}
-        />
-      ))}
-    </>
+    <DetailCards
+      key={sig_data.sig_id}
+      sigid={sig_data.sig_id}
+      name={sig_data.sig_name}
+      about={sig_data.sig_description}
+      frequencyinterval={sig_data.sig_frequency_interval}
+      meetingday={sig_data.sig_meeting_day}
+      starttime={sig_data.sig_start_time}
+      endtime={sig_data.sig_end_time}
+      // longeststreak={sig_data.longeststreak}
+      // currentstreak={sig_data.currentstreak}
+      updates={sig_data.sig_update_content}
+    />
   );
 }
 

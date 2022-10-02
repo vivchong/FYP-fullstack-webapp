@@ -98,13 +98,13 @@ const SIGTabsDiscussion = props => {
           ) : (
             <Box align="center" py={4} color="gray.600">
               <Heading size="sm">There are no posts yet.</Heading>
-              <Text size='sm'>Start a discussion with your group!</Text>
+              <Text size="sm">Start a discussion with your group!</Text>
             </Box>
           )}
         </VStack>
 
         <VStack spacing={8} maxW="480px" width="100%" /* Column 2 (Details) */>
-          <AllDetails details={SIG_DETAILS} sig_id={props.sig_id} />
+          <AllDetails sig_data={props.sig_data} sig_id={props.sig_id} />
         </VStack>
       </Container>
     </Stack>

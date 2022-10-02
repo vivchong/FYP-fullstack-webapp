@@ -19,7 +19,7 @@ const SIGTabsCheerBoard = (props) => {
         `http://localhost:5000/sig-dashboard/get-cheerboard-updates/${props.sig_id}`,
         {
           method: 'POST',
-          headres: {token: localStorage.token},
+          headers: {token: localStorage.token},
         }
       );
 

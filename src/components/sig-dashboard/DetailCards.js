@@ -22,10 +22,6 @@ const DetailCards = props => {
               );
             })}
           </Text>
-
-          <Button variant="link" size="sm" fontWeight="medium" mt={0} mb={0}>
-            See more
-          </Button>
         </VStack>
       </BaseCard>
 

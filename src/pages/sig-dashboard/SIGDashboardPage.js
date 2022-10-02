@@ -2,11 +2,14 @@ import { Container, Text, Box, Heading, Button, Link } from '@chakra-ui/react';
 import SIGHeroBanner from './SIGHeroBanner';
 import SIGTabs from './SIGTabs';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment, useContext } from 'react';
+import { StoreContext } from '../../store/store';
 
 // Need to do some auth to only allow members to view this page
 
 const SIGDashboardPage = () => {
+  const [context, setContext] = useContext(StoreContext);
+  const { refreshSIGData } = context;
   const sig_id = useParams().id;
   const [sigData, setSIGData] = useState([]);
 
@@ -24,19 +27,40 @@ const SIGDashboardPage = () => {
     );
     const sigDataArray = await res.json(); // parse data
     setSIGData(sigDataArray);
-    console.log(sigData);
+    //console.log(sigData);
     // if (sigData.length == 0) {
     //   console.log('No SIG exists');
     //   setNoSIGFound(true)
     // }
   }
+  
+  useEffect(() => {
+    getSIGData();
+  }, [refreshSIGData]);
+
+  const [sigMembers, setSIGMembers] = useState([]);
+  async function getMemberList() {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/sig-dashboard/get-members/${sig_id}`,
+        {
+          method: 'POST',
+          headers: { token: localStorage.token },
+        }
+      );
+      const memberArray = await res.json();
+      setSIGMembers(memberArray);
+      /* Array of multiple objects */
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   useEffect(() => {
     getSIGData();
-    
+    getMemberList();
   }, []);
 
-  
   // console.log('sig id: '+ sig_id);
 
   // Can introduce waiting time of 0.5secs before rendering
@@ -74,8 +98,16 @@ const SIGDashboardPage = () => {
         </Box>
       ) : (
         <Fragment>
-          <SIGHeroBanner sig_id={sig_id} sig_data={sigData} />
-          <SIGTabs sig_id={sig_id} sig_data={sigData} />
+          <SIGHeroBanner
+            sig_id={sig_id}
+            sig_data={sigData}
+            sig_members={sigMembers}
+          />
+          <SIGTabs
+            sig_id={sig_id}
+            sig_data={sigData}
+            sig_members={sigMembers}
+          />
         </Fragment>
       )}
     </Container>

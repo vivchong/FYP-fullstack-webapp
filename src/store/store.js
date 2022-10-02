@@ -7,6 +7,7 @@ const StoreProvider = ({ children }) => {
         refreshUpdates: false,
         refreshPosts: false,
         refreshComments: false,
+        refreshSIGData: false,
     });
     return <StoreContext.Provider value={[state, setState]}>{children}</StoreContext.Provider>
 }

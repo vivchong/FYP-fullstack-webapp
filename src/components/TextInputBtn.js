@@ -41,7 +41,7 @@ const TextInputBtn = props => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      console.log(JSON.stringify(body));
+      //console.log(JSON.stringify(body));
       setPost_content('')
       setContext({ refreshPosts: !refreshPosts });
       //window.location = window.location.href;

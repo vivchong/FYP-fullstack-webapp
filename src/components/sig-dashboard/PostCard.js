@@ -41,7 +41,7 @@ const PostCard = props => {
      countComments();
    }, []);
 
-   console.log(commentcount.posts_comments_count);
+   //console.log(commentcount.posts_comments_count);
 
   return (
     <BaseCard>
