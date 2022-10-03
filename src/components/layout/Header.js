@@ -91,7 +91,13 @@ const Header = props => {
 
             {props.isLoggedIn ? (
               <Fragment>
-                <Button>Admin Dashboard</Button>
+                <Button
+                  as={Link}
+                  style={{ textDecoration: 'none' }}
+                  href="http://localhost:3000/admin-dashboard"
+                >
+                  Admin Dashboard
+                </Button>
 
                 <IconButton aria-label="Notifications" icon={<BellIcon />} />
 

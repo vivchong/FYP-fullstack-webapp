@@ -114,6 +114,7 @@ const MySIGs = () => {
       frequency: pending.frequency,
       usernames: pending.usernames,
     });
+    
     // set all data here, and use placeholder in modal
   }
   return (
