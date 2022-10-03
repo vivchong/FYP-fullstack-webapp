@@ -75,7 +75,7 @@ const Header = props => {
                     SIGs
                   </MenuButton>
                   <MenuList onMouseLeave={onClose}>
-                    <NavLink to="/what-are-sigs">What are SIGs?</NavLink>
+                    <NavLink to="/what-is-a-sig">What are SIGs?</NavLink>
                     <NavLink to="/find-a-sig">Find a SIG</NavLink>
                     {props.isLoggedIn ? (
                       <NavLink to="/my-sigs">My SIGs</NavLink>

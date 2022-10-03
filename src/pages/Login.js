@@ -14,9 +14,18 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
+import { StoreContext } from '../store/store';
 
 const Login = ({ setLoggedIn }) => {
+   const [context, setContext] = useContext(StoreContext);
+   const {
+     current_user_id,
+     current_user_display_name,
+     current_user_pic,
+     current_user_email,
+  } = context;
+  
   const toast = useToast();
   const resultToast = (status, description) => {
     return toast({
@@ -49,6 +58,12 @@ const Login = ({ setLoggedIn }) => {
       const parseRes = await response.json();
 
       // console.log(parseRes); // ==> {user_display_name: 'Rohan Gautam'}
+      setContext({
+        current_user_id: parseRes.user_id,
+        current_user_display_name: parseRes.user_display_name,
+        current_user_pic: parseRes.user_pic,
+        current_user_email: parseRes.user_email,
+      });
       sessionStorage.setItem('current_user_id', parseRes.user_id);
       sessionStorage.setItem(
         'current_user_display_name',

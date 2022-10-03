@@ -27,6 +27,8 @@ import Home from './pages/Home';
 import NotFound from './pages/Error404';
 import Settings from './pages/settings/Settings';
 import { MdNextWeek } from 'react-icons/md';
+import WhatIsASIG from './pages/WhatIsASIG';
+import SIGProposalForm from './pages/forms/SIGProposalForm';
 
 // need useEffect to check whether jwt token is valid
 
@@ -109,6 +111,8 @@ function App() {
                   )
                 }
               />
+              <Route exact path="/what-is-a-sig" element={<WhatIsASIG />} />
+              <Route exact path="/sig-proposal-form" element={<SIGProposalForm />} />
 
               <Route exact path="/sig/:id" element={<SIGDashboardPage />} />
               <Route
