@@ -37,7 +37,7 @@ const SIGProposalForm = () => {
     usernames: '',
   });
 
-    const {
+  const {
     sig_name,
     focus,
     common_goals,
@@ -64,6 +64,7 @@ const SIGProposalForm = () => {
         frequency,
         usernames,
       };
+
       const proposalForm = await fetch(
         'http://localhost:5000/forms/sig-proposal',
         {
