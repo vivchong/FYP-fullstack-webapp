@@ -30,7 +30,7 @@ const SIGCard = ({ sig_id }) => {
   }, []);
 
   // console.log(sigData);
-  console.log('sig id: ' + sig_id);
+  // console.log('sig id: ' + sig_id);
 
   return (
     <LinkBox

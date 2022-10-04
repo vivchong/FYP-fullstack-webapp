@@ -8,9 +8,10 @@ import { StoreContext } from '../../store/store';
 // Need to do some auth to only allow members to view this page
 
 const SIGDashboardPage = () => {
+  const sig_id = useParams().id;
+
   const [context, setContext] = useContext(StoreContext);
   const { refreshSIGData } = context;
-  const sig_id = useParams().id;
   const [sigData, setSIGData] = useState([]);
 
   // This was intended to redirect user to 404 if no SIG was found
@@ -33,7 +34,7 @@ const SIGDashboardPage = () => {
     //   setNoSIGFound(true)
     // }
   }
-  
+
   useEffect(() => {
     getSIGData();
   }, [refreshSIGData]);

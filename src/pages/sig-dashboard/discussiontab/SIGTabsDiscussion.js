@@ -30,21 +30,21 @@ import { StoreContext } from '../../../store/store';
 
 // need route to get SIG details
 
-const SIG_DETAILS = [
-  {
-    sigid: 1,
-    signame: 'Computer Vision Buddies',
-    sigdescription:
-      "Welcome to Computer Vision Buddies! This is where we'll be sharing interesting readings in between meetings. Feel free to ask any questions related to computer vision here. \n\nWe meet every Friday at 6 PM. \n\nWhatsapp group: Link",
-    sigfrequencyinterval: 'week',
-    sigmeetingday: 'Friday',
-    sigstarttime: '18:00',
-    sigendtime: '19:00',
-    longeststreak: 3,
-    currentstreak: 1,
-    updates: NaN,
-  },
-];
+// const SIG_DETAILS = [
+//   {
+//     sigid: 1,
+//     signame: 'Computer Vision Buddies',
+//     sigdescription:
+//       "Welcome to Computer Vision Buddies! This is where we'll be sharing interesting readings in between meetings. Feel free to ask any questions related to computer vision here. \n\nWe meet every Friday at 6 PM. \n\nWhatsapp group: Link",
+//     sigfrequencyinterval: 'week',
+//     sigmeetingday: 'Friday',
+//     sigstarttime: '18:00',
+//     sigendtime: '19:00',
+//     longeststreak: 3,
+//     currentstreak: 1,
+//     updates: NaN,
+//   },
+// ];
 
 // From SIGTabs.js <-- SIGDashboardPage.js
 const SIGTabsDiscussion = props => {

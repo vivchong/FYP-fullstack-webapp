@@ -46,24 +46,24 @@ import { StoreContext } from '../../../store/store';
 
 // Need to sort the array here by alphabetical order first, then push the Leader(s) in front
 
-const SIG_DETAILS = [
-  {
-    sigid: 1,
-    signame: 'Computer Vision Buddies',
-    sigdescription:
-      "Welcome to Computer Vision Buddies! This is where we'll be sharing interesting readings in between meetings. Feel free to ask any questions related to computer vision here. \n\nWe meet every Friday at 6 PM. \n\nWhatsapp group: Link",
-    sigfrequencyinterval: 'week',
-    sigmeetingday: 'Friday',
-    sigstarttime: '18:00',
-    sigendtime: '19:00',
-    longeststreak: 3,
-    currentstreak: 1,
-    updates: NaN,
-    sigmeetinglink: 'https://ntu-sg.zoom.us/my/vivchong',
-    sigmeetingpassword: 'WOOHOO',
-    sigmembercount: 10,
-  },
-];
+// const SIG_DETAILS = [
+//   {
+//     sigid: 1,
+//     signame: 'Computer Vision Buddies',
+//     sigdescription:
+//       "Welcome to Computer Vision Buddies! This is where we'll be sharing interesting readings in between meetings. Feel free to ask any questions related to computer vision here. \n\nWe meet every Friday at 6 PM. \n\nWhatsapp group: Link",
+//     sigfrequencyinterval: 'week',
+//     sigmeetingday: 'Friday',
+//     sigstarttime: '18:00',
+//     sigendtime: '19:00',
+//     longeststreak: 3,
+//     currentstreak: 1,
+//     updates: NaN,
+//     sigmeetinglink: 'https://ntu-sg.zoom.us/my/vivchong',
+//     sigmeetingpassword: 'WOOHOO',
+//     sigmembercount: 10,
+//   },
+// ];
 
 // FROM SIGTabs.js FROM SIGDashboardPage.js
 const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
@@ -197,20 +197,9 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
                 icon={<EditIcon />}
               />
             </HStack>
-            <Text as="p" /* preserves line breaks */>
-              {SIG_DETAILS[0].sigdescription
-                .split('\n')
-                .map(function (item, key) {
-                  return (
-                    <span key={key}>
-                      {item}
-                      <br />
-                    </span>
-                  );
-                })}
-            </Text>
+            {sig_data.sig_description === null ? <Text as='i'>No description yet.</Text>
+            : <Text as="p">{sig_data.sig_description}</Text>}
 
-            <Text as="p">{sig_data.sig_description}</Text>
           </VStack>
         </BaseCard>
 
@@ -235,7 +224,7 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
             sig_data.sig_meeting_day !== null ? (
               <HStack spacing={3}>
                 <Text as="p" noOfLines={5} mr={4}>
-                  {sig_data.sig_meeting_day}, 12 August
+                  {sig_data.sig_meeting_day}, {sig_data.sig_next_meeting}
                 </Text>
                 <Text as="span">{sig_data.sig_start_time}</Text>
                 <Text as="span">—</Text>

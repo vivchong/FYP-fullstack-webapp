@@ -30,6 +30,8 @@ import { MdNextWeek } from 'react-icons/md';
 import WhatIsASIG from './pages/WhatIsASIG';
 import SIGProposalForm from './pages/forms/SIGProposalForm';
 import AdminDashboard from './pages/admin-dashboard/AdminDashboard';
+import SIGRecruitmentPage from './pages/recruitment/SIGRecruitmentPage';
+import EditSIGRecruitmentPage from './pages/recruitment/EditSIGRecruitmentPage';
 
 // need useEffect to check whether jwt token is valid
 
@@ -118,9 +120,24 @@ function App() {
                 path="/sig-proposal-form"
                 element={<SIGProposalForm />}
               />
-              
+              <Route
+                exact
+                path="/sig-recruitment-page/:id"
+                element={<SIGRecruitmentPage />}
+              />
+              <Route
+                exact
+                path="/edit/sig-recruitment-page/:id"
+                element={<EditSIGRecruitmentPage />}
+              />
+
               <Route exact path="/sig/:id" element={<SIGDashboardPage />} />
-              <Route exact path="/admin-dashboard" element={<AdminDashboard/>} />
+
+              <Route
+                exact
+                path="/admin-dashboard"
+                element={<AdminDashboard />}
+              />
               <Route
                 exact
                 path="settings"

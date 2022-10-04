@@ -13,8 +13,10 @@ import {
   FormControl,
   Input,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 import React, { useContext, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Footer from '../../components/layout/Footer';
 import { StoreContext } from '../../store/store';
 
@@ -26,6 +28,8 @@ const SIGProposalForm = () => {
     current_user_pic,
     current_user_email,
   } = context;
+
+  const navigate = useNavigate();
 
   const [inputs, setInputs] = useState({
     sig_name: '',
@@ -51,6 +55,16 @@ const SIGProposalForm = () => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
+  const toast = useToast();
+  const resultToast = (status, description) => {
+    return toast({
+      position: 'bottom-right',
+      status: status,
+      description: description,
+      duration: 3000,
+    });
+  };
+
   const onSubmitForm = async e => {
     e.preventDefault();
     try {
@@ -64,7 +78,7 @@ const SIGProposalForm = () => {
         frequency,
         usernames,
       };
-
+      resultToast('success', 'SIG Proposal Form was submitted!');
       const proposalForm = await fetch(
         'http://localhost:5000/forms/sig-proposal',
         {
@@ -75,12 +89,13 @@ const SIGProposalForm = () => {
           body: JSON.stringify(body),
         }
       );
-
+      navigate('/my-sigs')
       //window.location = window.location.href;
     } catch (err) {
       console.error(err.message);
     }
   };
+
   return (
     <Container maxW="1120px" minW="800px" flexDir="column">
       <Flex py="56px" maxW="1120px" gap={10} flexDir="column">

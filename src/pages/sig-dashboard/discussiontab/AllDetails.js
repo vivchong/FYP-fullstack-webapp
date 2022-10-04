@@ -28,6 +28,7 @@ function AllDetails({ sig_data }) {
       about={sig_data.sig_description}
       frequencyinterval={sig_data.sig_frequency_interval}
       meetingday={sig_data.sig_meeting_day}
+      nextmeeting={sig_data.sig_next_meeting}
       starttime={sig_data.sig_start_time}
       endtime={sig_data.sig_end_time}
       // longeststreak={sig_data.longeststreak}
