@@ -55,88 +55,232 @@ import { StoreContext } from '../../store/store';
 
 const EditSIGRecruitmentPage = () => {
   const sig_id = useParams().id;
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshSIGRecruitmentPage } = context;
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const toast = useToast();
+
+  const [recruitmentPage, setRecruitmentPage] = useState([]);
+
+  // GET SIG LEADER
+  const [sigLeader, setSIGLeader] = useState([]);
+  async function getSIGLeader() {
+    try {
+      const body = { sig_id };
+
+      const res = await fetch('http://localhost:5000/forms/get-sig-leader', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          token: localStorage.token,
+        },
+        body: JSON.stringify(body),
+      });
+      const leader = await res.json(); // parse data
+      setSIGLeader(leader);
+      console.log(leader);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
   // INITIALISING INPUT VALUES FROM DATABASE
   const [inputs, setInputs] = useState({});
 
   const {
-    //    sig_name,
-    //    sig_description,
-    //    // sig_frequency_interval,
-    //    sig_next_meeting,
-    //    sig_meeting_day,
-    //    sig_start_time,
-    //    sig_end_time,
-    //    sig_meeting_url,
-    //    sig_meeting_password,
-    //    sig_update_content,
+    sig_name,
+    hook,
+    introduction,
+    // meeting_day,
+    timing,
+    sig_member_count,
+    learn,
+    contribute,
+    idealmeetingday,
+    user_display_name,
+    user_email,
+    published,
   } = inputs;
+
+  const [meeting_day, setMeeting_day] = useState([]);
 
   const onChange = e => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
+  const onChangeInput = e => {
+    setMeeting_day(e.target.value);
+  };
   // Need to initialise back if they never save/publish
   const initialiseInputFields = () => {
-    // setSIG_frequency_interval(sig_data.sig_frequency_interval);
+    setMeeting_day(recruitmentPage.meeting_day);
     setInputs({
-      //   sig_name: sig_data.sig_name,
-      //   sig_description: sig_data.sig_description,
-      //   //sig_frequency_interval: 3,//sig_data.sig_frequency_interval,
-      //   sig_next_meeting: moment(sig_data.sig_next_meeting)
-      //     .utc()
-      //     .format('YYYY-MM-DD'), //'2022-10-23',
-      //   sig_meeting_day: sig_data.sig_meeting_day,
-      //   sig_start_time: sig_data.sig_start_time,
-      //   sig_end_time: sig_data.sig_end_time,
-      //   sig_meeting_url: sig_data.sig_meeting_url,
-      //   sig_meeting_password: sig_data.sig_meeting_password,
-      //   sig_update_content: sig_data.sig_update_content,
+      sig_name: recruitmentPage.sig_name,
+      hook: recruitmentPage.hook,
+      introduction: recruitmentPage.introduction,
+      // meeting_day: recruitmentPage.meeting_day,
+      timing: recruitmentPage.timing,
+      sig_member_count: recruitmentPage.sig_member_count,
+      learn: recruitmentPage.learn,
+      contribute: recruitmentPage.contribute,
+      idealmeetingday: recruitmentPage.idealmeetingday,
+      user_display_name: sigLeader.user_display_name,
+      user_email: sigLeader.user_email,
+      published: recruitmentPage.published,
     });
   };
 
-  const onSubmitForm = async e => {
-    e.preventDefault();
+  async function getRecruitmentPage() {
     try {
-      const body = {
-        //   sig_id,
-        //   sig_name,
-        //   sig_description,
-        //   sig_frequency_interval,
-        //   sig_next_meeting,
-        //   sig_meeting_day,
-        //   sig_start_time,
-        //   sig_end_time,
-        //   sig_meeting_url,
-        //   sig_meeting_password,
-        //   sig_update_content,
-      };
-      const newSIGDetails = await fetch(
-        'http://localhost:5000/sig-dashboard/edit-sig-details',
+      const body = { sig_id };
+
+      const res = await fetch(
+        'http://localhost:5000/forms/get-sig-recruitment-page',
         {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',
+            token: localStorage.token,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+      const recruitmentPage = await res.json(); // parse data
+      setRecruitmentPage(recruitmentPage);
+      console.log(recruitmentPage);
+
+      getSIGLeader();
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  const handlePublish = async e => {
+    e.preventDefault();
+    try {
+      const body = {
+        sig_id,
+      };
+      const publishPage = await fetch(
+        'http://localhost:5000/forms/publish-sig-recruitment',
+        {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            token: localStorage.token,
           },
           body: JSON.stringify(body),
         }
       );
 
-      //window.location = window.location.href;
-
-      setContext({ refreshSIGRecruitmentPage: !refreshSIGRecruitmentPage });
-      onClose();
-      initialiseInputFields();
+      window.location = window.location.href;
     } catch (err) {
       console.error(err.message);
     }
   };
 
+  const handleSave = async e => {
+    e.preventDefault();
+    try {
+      const body = {
+        sig_id,
+        hook,
+        introduction,
+        meeting_day,
+        timing,
+        learn,
+        contribute,
+        idealmeetingday,
+        published,
+      };
+      const updatePage = await fetch(
+        'http://localhost:5000/forms/update-sig-recruitment',
+        {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            token: localStorage.token,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      window.location = window.location.href;
+
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+ 
+  const handleSavePublish = async e => {
+    e.preventDefault();
+    try {
+      const body = {
+        sig_id,
+        hook,
+        introduction,
+        meeting_day,
+        timing,
+        learn,
+        contribute,
+        idealmeetingday,
+        published,
+      };
+      const updatePage = await fetch(
+        'http://localhost:5000/forms/update-sig-recruitment',
+        {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            token: localStorage.token,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      const publishPage = await fetch(
+        'http://localhost:5000/forms/publish-sig-recruitment',
+        {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            token: localStorage.token,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+      window.location = window.location.href;
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+   
+    const handleUnpublish = async e => {
+      e.preventDefault();
+      try {
+        const body = {
+          sig_id,
+        };
+        const unpublishPage = await fetch(
+          'http://localhost:5000/forms/unpublish-sig-recruitment',
+          {
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json',
+              token: localStorage.token,
+            },
+            body: JSON.stringify(body),
+          }
+        );
+
+        window.location = window.location.href;
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+
   useEffect(() => {
+    getRecruitmentPage();
+
     toast({
       title: 'Editing SIG recruitment page',
       description: 'Click on text to edit',
@@ -146,38 +290,17 @@ const EditSIGRecruitmentPage = () => {
     });
   }, []);
 
-  //   // FORM UI
-  //   function EditableControls() {
-  //     const {
-  //       isEditing,
-  //       getSubmitButtonProps,
-  //       getCancelButtonProps,
-  //       getEditButtonProps,
-  //     } = useEditableControls();
-
-  //     return isEditing ? (
-  //       <ButtonGroup justifyContent="end" size="sm" w="full" spacing={2} mt={2}>
-  //         <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
-  //         <IconButton
-  //           icon={<CloseIcon boxSize={3} />}
-  //           {...getCancelButtonProps()}
-  //         />
-  //       </ButtonGroup>
-  //     ) : null;
-  //   }
+  useEffect(() => {
+    initialiseInputFields();
+  }, [recruitmentPage, sigLeader]);
 
   return (
     <Flex gap="48px" px="120px" py="48px">
       <Flex flexDir="column" gap="72px" maxW="700px">
         <Flex flexDir="column" gap="40px">
           <Box>
-            <Text
-              fontWeight="light"
-              fontSize="54px"
-              
-            >
-              
-              SIG NAME
+            <Text fontWeight="light" fontSize="54px">
+              {recruitmentPage.sig_name}
             </Text>
             {/* <Flex mt={4}>
               <Tag>Tag</Tag>
@@ -185,19 +308,19 @@ const EditSIGRecruitmentPage = () => {
           </Box>
           <Box>
             <Textarea
-              name="learn"
-              // value={value}
+              name="hook"
+              value={hook}
               fontSize="24px"
               height="120px"
               onChange={onChange}
-              placeholder="Write your hook here... For example: New to computer vision? Great! Let's learn the theory together."
+              placeholder="Write your hook here... For example: New to computer vision? Great! We can learn the theory together."
             ></Textarea>
 
             <Text mb={5} fontSize="24px"></Text>
             <Text></Text>
             <Textarea
-              name="learn"
-              // value={value}
+              name="introduction"
+              value={introduction}
               height="80px"
               onChange={onChange}
               placeholder="1-2 sentences to introduce and describe your group."
@@ -216,6 +339,9 @@ const EditSIGRecruitmentPage = () => {
               <Flex gap={3} width="700px" align="center">
                 <Icon as={BiCalendarAlt} color="gray.500" w="18px" h="18px" />
                 <Input
+                  name="meeting_day"
+                  value={meeting_day}
+                  onChange={onChangeInput}
                   placeholder="Write meeting day here"
                   size="md"
                   w="300px"
@@ -225,6 +351,9 @@ const EditSIGRecruitmentPage = () => {
               <Flex gap={3} width="700px" align="center">
                 <Icon as={BiTimeFive} color="gray.500" w="18px" h="18px" />
                 <Input
+                  name="timing"
+                  value={timing}
+                  onChange={onChange}
                   placeholder="Write starting and ending time here"
                   size="md"
                   w="300px"
@@ -234,8 +363,8 @@ const EditSIGRecruitmentPage = () => {
               <HStack spacing={3}>
                 <Icon as={BiUser} color="gray.500" w="18px" h="18px" />
                 <Box noOfLines={1} fontSize="sm" color="gray.700">
-                  {/* {sigData.sig_member_count} member
-                  {sigData.sig_member_count > 1 ? 's' : ''} */}
+                  {sig_member_count} member
+                  {sig_member_count > 1 ? 's' : ''}
                 </Box>
               </HStack>
             </Flex>
@@ -256,7 +385,7 @@ const EditSIGRecruitmentPage = () => {
           </Heading>
           <Textarea
             name="learn"
-            // value={value}
+            value={learn}
             onChange={onChange}
             placeholder="Write what members can expect to gain from joining your SIG"
           ></Textarea>
@@ -267,7 +396,7 @@ const EditSIGRecruitmentPage = () => {
           </Heading>
           <Textarea
             name="contribute"
-            // value={value}
+            value={contribute}
             onChange={onChange}
             placeholder="Write how members can expect to contribute to the SIG"
           ></Textarea>
@@ -278,7 +407,7 @@ const EditSIGRecruitmentPage = () => {
           </Heading>
           <Textarea
             name="idealmeetingday"
-            // value={value}
+            value={idealmeetingday}
             onChange={onChange}
             placeholder="Write your ideal meeting day"
           ></Textarea>
@@ -288,8 +417,10 @@ const EditSIGRecruitmentPage = () => {
             SIG Leader
           </Heading>
           <HStack spacing={4} pb={5} alignItems="center">
-            <Avatar size="sm" name="NAME" />
-
+            <Avatar
+              name={sigLeader.user_display_name}
+              src={sigLeader.user_pic}
+            />
             <VStack alignItems="left" spacing={0}>
               <HStack spacing="6px">
                 <Heading
@@ -298,38 +429,32 @@ const EditSIGRecruitmentPage = () => {
                   fontWeight="medium"
                   color="gray.700"
                 >
-                  NAME
+                  {user_display_name}
                 </Heading>
 
                 <StarIcon w={3} h={3} color="teal.500" />
               </HStack>
+              <Text>{user_email}</Text>
             </VStack>
           </HStack>
         </Box>
-        <Box
-          py="54px"
-          maxW="700px"
-          bg="gray.100"
-          borderRadius="12px"
-          pl={20}
-          pr="172px"
-        >
-          <Text fontSize="2xl" mb={4}>
-            Take the next step{' '}
-          </Text>
-          <Text mb={4}>
-            Want to ask questions about the activities or discuss meeting
-            options with the leader? Reach out to them through this contact
-            form.
-          </Text>
-          <Button
-            rightIcon={<ArrowForwardIcon />}
-            colorScheme="teal"
-            isDisabled
-          >
-            Contact leader
-          </Button>
-        </Box>
+        {!published ? (
+          <ButtonGroup>
+            <Button variant="ghost" type="submit" onClick={handleSave}>
+              Save
+            </Button>
+            <Button colorScheme="teal" onClick={handlePublish}>
+              Publish
+            </Button>
+          </ButtonGroup>
+        ) : (
+          <ButtonGroup>
+            <Button colorScheme="teal" onClick={handleSavePublish}>
+              Save & Publish
+            </Button>
+            <Button onClick={handleUnpublish}>Make page private</Button>
+          </ButtonGroup>
+        )}
       </Flex>
       <Spacer />
     </Flex>
