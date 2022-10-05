@@ -32,6 +32,8 @@ import SIGProposalForm from './pages/forms/SIGProposalForm';
 import AdminDashboard from './pages/admin-dashboard/AdminDashboard';
 import SIGRecruitmentPage from './pages/recruitment/SIGRecruitmentPage';
 import EditSIGRecruitmentPage from './pages/recruitment/EditSIGRecruitmentPage';
+import FindASIG from './pages/FindASIG';
+import JoinSIGForm from './pages/forms/JoinSIGForm';
 
 // need useEffect to check whether jwt token is valid
 
@@ -120,6 +122,8 @@ function App() {
                 path="/sig-proposal-form"
                 element={<SIGProposalForm />}
               />
+              <Route exact path="/find-a-sig" element={<FindASIG />} />
+
               <Route
                 exact
                 path="/sig-recruitment-page/:id"
@@ -130,7 +134,11 @@ function App() {
                 path="/edit/sig-recruitment-page/:id"
                 element={<EditSIGRecruitmentPage />}
               />
-
+              <Route
+                exact
+                path="/join-sig/:id"
+                element={<JoinSIGForm />}
+              />
               <Route exact path="/sig/:id" element={<SIGDashboardPage />} />
 
               <Route

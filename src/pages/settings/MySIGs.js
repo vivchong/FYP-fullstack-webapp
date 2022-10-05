@@ -120,11 +120,11 @@ const MySIGs = () => {
   return (
     <>
       <Flex px={16} py={4} flexDir="column" gap={8}>
-        <Text fontSize="4xl">My SIGs</Text>
+        <Text fontSize="4xl">Shared-Interest Groups</Text>
         <Stack spacing={8} maxW="824px" width="100%">
           {pendingSIGProposals.map(pending => (
             <>
-              <Box key={pending.form_id} bg="white" boxShadow="sm" py={6} pl={6} pr={20}>
+              <Box bg="white" boxShadow="sm" py={6} pl={6} pr={20}>
                 <Flex gap={10}>
                   {/* <TimeIcon w={10} h={10} /> */}
                   <Icon as={BiFlag} w={10} h={10} color="yellow.500" />
@@ -153,7 +153,6 @@ const MySIGs = () => {
             </>
           ))}
         </Stack>
-
         <Stack spacing={8} maxW="856px" width="100%">
           {listOfMySIGs.map(mySIG => (
             <SIGCard key={mySIG.sig_id} sig_id={mySIG.sig_id} />

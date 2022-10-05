@@ -1,25 +1,13 @@
+import moment from 'moment';
 import DetailCards from '../../../components/sig-dashboard/DetailCards';
 
 /*
-AS DEFINED IN SIGTabsDiscussion.js
+AS DEFINED IN SIGDashboardPage.js
 
-const SIG_DETAILS = [
-  {
-    sigid: 1,
-    signame: 'Computer Vision Buddies',
-    sigdescription:
-      "Welcome to Computer Vision Buddies! This is where we'll be sharing interesting readings in between meetings. Feel free to ask any questions related to computer vision here. \n\nWe meet every Friday at 6 PM. \n\nWhatsapp group: Link",
-    sigfrequencyinterval: 'week',
-    sigmeetingday: 'Friday',
-    sigstarttime: '18:00',
-    sigendtime: '19:00',
-    longeststreak: 3,
-    currentstreak: 1,
-  },
-];
 */
 
 function AllDetails({ sig_data }) {
+const sig_next_meeting = moment(sig_data.sig_next_meeting).utc().format('Do MMMM YYYY')
   return (
     <DetailCards
       key={sig_data.sig_id}
@@ -28,7 +16,7 @@ function AllDetails({ sig_data }) {
       about={sig_data.sig_description}
       frequencyinterval={sig_data.sig_frequency_interval}
       meetingday={sig_data.sig_meeting_day}
-      nextmeeting={sig_data.sig_next_meeting}
+      nextmeeting={sig_next_meeting}
       starttime={sig_data.sig_start_time}
       endtime={sig_data.sig_end_time}
       // longeststreak={sig_data.longeststreak}
