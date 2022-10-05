@@ -140,7 +140,7 @@ const SIGRecruitmentPage = () => {
           </Box>
           <Button
             as={ReactRouterLink}
-            to="/find-a-sig"
+            to={'/join-sig/' + sig_id}
             rightIcon={<ArrowForwardIcon />}
             colorScheme="teal"
             width="328px"
@@ -212,7 +212,7 @@ const SIGRecruitmentPage = () => {
           </Text>
           <Button
             as={ReactRouterLink}
-            to="/find-a-sig"
+            to={'/join-sig/' + sig_id}
             rightIcon={<ArrowForwardIcon />}
             colorScheme="teal"
           >
