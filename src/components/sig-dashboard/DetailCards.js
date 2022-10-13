@@ -1,24 +1,39 @@
-import { Text, Heading, Button, VStack, Stack, HStack, Link } from '@chakra-ui/react';
+import {
+  Text,
+  Heading,
+  Button,
+  VStack,
+  Stack,
+  HStack,
+  Link,
+} from '@chakra-ui/react';
 import BaseCard from '../layout/cards/BaseCard';
 
 const DetailCards = props => {
   return (
     <Stack spacing={8} maxW="856px" width="100%">
-      <BaseCard>
-        <VStack my={6} alignItems="flex-start" spacing={2}>
-          <Heading as="h3" size="md" fontWeight="medium">
-            Promote your group to other learners!
-          </Heading>
+      {props.role === 3 ? (
+        <BaseCard>
+          <VStack my={6} alignItems="flex-start" spacing={2}>
+            <Heading as="h3" size="md" fontWeight="medium">
+              Promote your group to other learners!
+            </Heading>
+            <Text as="i" pb={2}>
+              Only the SIG Leader can see this card
+            </Text>
+            <Button
+              as={Link}
+              href={'http://localhost:3000/sig-recruitment-page/' + props.sigid}
+              style={{ textDecoration: 'none' }}
+            >
+              Edit your recruitment page
+            </Button>
+          </VStack>
+        </BaseCard>
+      ) : (
+        <></>
+      )}
 
-          <Button
-            as={Link}
-            href={'http://localhost:3000/sig-recruitment-page/'+props.sigid}
-            style={{ textDecoration: 'none' }}
-          >
-            Edit your recruitment page
-          </Button>
-        </VStack>
-      </BaseCard>
       <BaseCard>
         <VStack my={6} alignItems="flex-start" spacing={2}>
           <Heading as="h3" size="md" fontWeight="medium">

@@ -61,7 +61,7 @@ function App() {
 
   useEffect(() => {
     checkAuthenticated();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <Fragment>
@@ -134,13 +134,17 @@ function App() {
                 path="/edit/sig-recruitment-page/:id"
                 element={<EditSIGRecruitmentPage />}
               />
+              <Route exact path="/join-sig/:id" element={<JoinSIGForm />} />
               <Route
                 exact
-                path="/join-sig/:id"
-                element={<JoinSIGForm />}
+                path="/sig/:id"
+                element={<SIGDashboardPage tab_index={1} />}
               />
-              <Route exact path="/sig/:id" element={<SIGDashboardPage />} />
-
+              <Route
+                exact
+                path="/sig/:id/about"
+                element={<SIGDashboardPage tab_index={0} />}
+              />
               <Route
                 exact
                 path="/admin-dashboard"
@@ -148,7 +152,7 @@ function App() {
               />
               <Route
                 exact
-                path="settings"
+                path="/settings"
                 element={
                   isAuthenticated ? (
                     <Settings tabIndex={0} />
@@ -159,7 +163,7 @@ function App() {
               />
               <Route
                 exact
-                path="notifications"
+                path="/notifications"
                 element={
                   isAuthenticated ? (
                     <Settings tabIndex={0} />
@@ -170,7 +174,7 @@ function App() {
               />
               <Route
                 exact
-                path="my-sigs"
+                path="/my-sigs"
                 element={
                   isAuthenticated ? (
                     <Settings tabIndex={1} />
@@ -181,7 +185,7 @@ function App() {
               />
               <Route
                 exact
-                path="my-workshops"
+                path="/my-workshops"
                 element={
                   isAuthenticated ? (
                     <Settings tabIndex={2} />
@@ -192,7 +196,7 @@ function App() {
               />
               <Route
                 exact
-                path="edit-profile"
+                path="/edit-profile"
                 element={
                   isAuthenticated ? (
                     <Settings tabIndex={3} />

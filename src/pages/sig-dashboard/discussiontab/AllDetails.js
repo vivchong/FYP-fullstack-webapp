@@ -6,7 +6,7 @@ AS DEFINED IN SIGDashboardPage.js
 
 */
 
-function AllDetails({ sig_data }) {
+function AllDetails({ sig_data, role }) {
 const sig_next_meeting = moment(sig_data.sig_next_meeting).utc().format('Do MMMM YYYY')
   return (
     <DetailCards
@@ -22,6 +22,7 @@ const sig_next_meeting = moment(sig_data.sig_next_meeting).utc().format('Do MMMM
       // longeststreak={sig_data.longeststreak}
       // currentstreak={sig_data.currentstreak}
       updates={sig_data.sig_update_content}
+      role={role}
     />
   );
 }

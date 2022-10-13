@@ -7,7 +7,7 @@ import { StoreContext } from '../../store/store';
 
 // Need to do some auth to only allow members to view this page
 
-const SIGDashboardPage = () => {
+const SIGDashboardPage = (props) => {
   const sig_id = useParams().id;
 
   const [context, setContext] = useContext(StoreContext);
@@ -37,6 +37,7 @@ const SIGDashboardPage = () => {
 
   useEffect(() => {
     getSIGData();
+    getMemberList();
   }, [refreshSIGData]);
 
   const [sigMembers, setSIGMembers] = useState([]);
@@ -104,7 +105,8 @@ const SIGDashboardPage = () => {
             sig_data={sigData}
             sig_members={sigMembers}
           />
-          <SIGTabs
+            <SIGTabs
+            tab_index={props.tab_index}
             sig_id={sig_id}
             sig_data={sigData}
             sig_members={sigMembers}

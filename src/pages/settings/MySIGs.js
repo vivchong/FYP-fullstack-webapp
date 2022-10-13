@@ -28,6 +28,8 @@ import SIGCard from '../../components/SIGCard';
 import PendingForm from './PendingForm';
 import { BiFlag } from 'react-icons/bi';
 import { StoreContext } from '../../store/store';
+import { AiOutlineUsergroupAdd } from 'react-icons/ai';
+
 
 const MySIGs = () => {
   // const [context, setContext] = useContext(StoreContext);
@@ -40,7 +42,6 @@ const MySIGs = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [listOfMySIGs, setListOfMySIGs] = useState([]);
   const [pendingSIGProposals, setPendingSIGProposals] = useState([]);
   async function getPendingSIGForms() {
     try {
@@ -58,6 +59,26 @@ const MySIGs = () => {
       console.error(error.message);
     }
   }
+
+  const [pendingJoinSIGs, setPendingJoinSIGs] = useState([]);
+  async function getPendingJoinSIGs() {
+    try {
+      const res = await fetch(
+        'http://localhost:5000/settings/pending-join-sigs',
+        {
+          method: 'POST',
+          headers: { token: localStorage.token },
+        }
+      );
+      const myJoinRequstArray = await res.json();
+      setPendingJoinSIGs(myJoinRequstArray);
+      console.log(pendingJoinSIGs);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  const [listOfMySIGs, setListOfMySIGs] = useState([]);
   async function getMySIGs() {
     try {
       const res = await fetch('http://localhost:5000/settings/my-sigs', {
@@ -74,6 +95,7 @@ const MySIGs = () => {
 
   useEffect(() => {
     getPendingSIGForms();
+    getPendingJoinSIGs();
     getMySIGs();
   }, []);
 
@@ -120,11 +142,17 @@ const MySIGs = () => {
   return (
     <>
       <Flex px={16} py={4} flexDir="column" gap={8}>
-        <Text fontSize="4xl">Shared-Interest Groups</Text>
+        <Text fontSize="4xl">My Shared-Interest Groups</Text>
         <Stack spacing={8} maxW="824px" width="100%">
           {pendingSIGProposals.map(pending => (
             <>
-              <Box bg="white" boxShadow="sm" py={6} pl={6} pr={20}>
+              <Box
+                key={pending.form_id}
+                bg="white"
+                boxShadow="sm"
+                py={6}
+                px={10}
+              >
                 <Flex gap={10}>
                   {/* <TimeIcon w={10} h={10} /> */}
                   <Icon as={BiFlag} w={10} h={10} color="yellow.500" />
@@ -146,6 +174,42 @@ const MySIGs = () => {
                       >
                         View submitted form
                       </Button>
+                    </Flex>
+                  </Flex>
+                </Flex>
+              </Box>
+            </>
+          ))}
+        </Stack>
+        <Stack spacing={8} maxW="824px" width="100%">
+          {pendingJoinSIGs.map(pending => (
+            <>
+              <Box
+                key={pending.form_id}
+                bg="white"
+                boxShadow="sm"
+                py={6}
+                px={10}
+              >
+                <Flex gap={10}>
+                  {/* <TimeIcon w={10} h={10} /> */}
+                  <Icon
+                    as={AiOutlineUsergroupAdd}
+                    w={10}
+                    h={10}
+                    color="gray.500"
+                  />
+                  <Flex flexDir="column" gap={2}>
+                    <Text fontWeight="medium">
+                      You have requested to join a SIG
+                    </Text>
+                    <Text>
+                      Your request to join "{<b>{pending.sig_name}</b>}" is
+                      pending approval. Please wait for the SIG Leader to get
+                      back to you.
+                    </Text>
+                    <Flex>
+                      
                     </Flex>
                   </Flex>
                 </Flex>

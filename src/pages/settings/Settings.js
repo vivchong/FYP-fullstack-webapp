@@ -9,6 +9,7 @@ import {
 import { useState } from 'react';
 import NavItem from '../../components/buttons/SettingsNavItem';
 import MySIGs from './MySIGs';
+import Notifications from './Notifications';
 
 export default function Settings(props) {
   const [tabIndex, setTabIndex] = React.useState(props.tabIndex);
@@ -17,7 +18,7 @@ export default function Settings(props) {
     setTabIndex(props.tabIndex);
   }, [props.tabIndex]);
   
-  const handleTabsChange = index => {
+  const handleTabChange = index => {
     setTabIndex(index);
   };
 
@@ -26,7 +27,8 @@ export default function Settings(props) {
       as={Tabs}
       orientation="vertical"
       index={tabIndex}
-      onChange={handleTabsChange}
+      onChange={handleTabChange}
+      isLazy
     >
       <Flex
         as={TabList}
@@ -45,8 +47,8 @@ export default function Settings(props) {
         <NavItem title="Edit Profile" />
       </Flex>
       <TabPanels bg='gray.50'>
-        <TabPanel>Notifications</TabPanel>
-        <TabPanel><MySIGs/></TabPanel>
+        <TabPanel><Notifications /></TabPanel>
+        <TabPanel><MySIGs /></TabPanel>
         <TabPanel>My Workshops</TabPanel>
         <TabPanel>Edit Profile</TabPanel>
       </TabPanels>
