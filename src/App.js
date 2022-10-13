@@ -59,15 +59,34 @@ function App() {
     }
   };
 
+  const [adminRole, setAdminRole] = useState('')
+  const checkAdminRights = async () => {
+    try {
+
+      const res = await fetch('http://localhost:5000/check-admin', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          token: localStorage.token,
+        },
+      });
+      const role = await res.json(); // parse data
+      setAdminRole(role);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   useEffect(() => {
     checkAuthenticated();
+    checkAdminRights();
   }, [isAuthenticated]);
 
   return (
     <Fragment>
       <ChakraProvider theme={theme}>
         <Router>
-          <Layout isLoggedIn={isAuthenticated} setLoggedIn={setLoggedIn}>
+          <Layout isLoggedIn={isAuthenticated} setLoggedIn={setLoggedIn} admin={adminRole}>
             <Routes>
               <Route
                 exact
@@ -148,7 +167,7 @@ function App() {
               <Route
                 exact
                 path="/admin-dashboard"
-                element={<AdminDashboard />}
+                element={<AdminDashboard admin={adminRole} />}
               />
               <Route
                 exact

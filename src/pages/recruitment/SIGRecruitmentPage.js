@@ -12,7 +12,7 @@ import {
   Avatar,
   VStack,
   useDisclosure,
-
+  Tooltip,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { BiCalendarAlt, BiTimeFive, BiUser } from 'react-icons/bi';
@@ -23,45 +23,39 @@ import { StoreContext } from '../../store/store';
 const SIGRecruitmentPage = () => {
   const sig_id = useParams().id;
 
-    
-   // GET INFO FROM DATABASE
-   const [recruitmentPage, setRecruitmentPage] = useState([])
-    async function getRecruitmentPage() {
-        try {
-            const body = { sig_id };
-            
-            const res = await fetch(
-              'http://localhost:5000/forms/get-sig-recruitment-page',
-              {
-                method: 'POST',
-                headers: {
-                  'Content-type': 'application/json',
-                  token: localStorage.token,
-                },
-                body: JSON.stringify(body),
-              }
-            );
-            const recruitmentPage = await res.json(); // parse data
-            setRecruitmentPage(recruitmentPage);
-            console.log(recruitmentPage);
-        } catch (error) {
-            console.error(error.message);
-        }
-        
-      // if (sigData.length == 0) {
-      //   console.log('No SIG exists');
-      //   setNoSIGFound(true)
-      // }
+  // CHECK IF USER IS PART OF THE GROUP BY REQUESTING ROLE IN SIG
+  const [roleInSIG, setRoleInSIG] = useState(0);
+  async function getRoleInSIG() {
+    try {
+      const body = { sig_id };
+
+      const res = await fetch('http://localhost:5000/sig-dashboard/get-role', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          token: localStorage.token,
+        },
+        body: JSON.stringify(body),
+      });
+      const role = await res.json(); // parse data
+      setRoleInSIG(role);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
-  
-  // GET SIG LEADER
-  const [sigLeader, setSIGLeader] = useState([]);
-  async function getSIGLeader() {
+
+  useEffect(() => {
+    getRoleInSIG();
+  }, []);
+
+  // GET INFO FROM DATABASE
+  const [recruitmentPage, setRecruitmentPage] = useState([]);
+  async function getRecruitmentPage() {
     try {
       const body = { sig_id };
 
       const res = await fetch(
-        'http://localhost:5000/forms/get-sig-leader',
+        'http://localhost:5000/forms/get-sig-recruitment-page',
         {
           method: 'POST',
           headers: {
@@ -71,22 +65,46 @@ const SIGRecruitmentPage = () => {
           body: JSON.stringify(body),
         }
       );
-      const leader = await res.json(); // parse data
-      setSIGLeader(leader);
-      console.log(leader);
+      const recruitmentPage = await res.json(); // parse data
+      setRecruitmentPage(recruitmentPage);
+      // console.log(recruitmentPage);
     } catch (error) {
       console.error(error.message);
     }
 
+    // if (sigData.length == 0) {
+    //   console.log('No SIG exists');
+    //   setNoSIGFound(true)
+    // }
   }
 
-    useEffect(() => {
-      getRecruitmentPage();
-      getSIGLeader();
-    }, []);
+  // GET SIG LEADER
+  const [sigLeader, setSIGLeader] = useState([]);
+  async function getSIGLeader() {
+    try {
+      const body = { sig_id };
 
+      const res = await fetch('http://localhost:5000/forms/get-sig-leader', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          token: localStorage.token,
+        },
+        body: JSON.stringify(body),
+      });
+      const leader = await res.json(); // parse data
+      setSIGLeader(leader);
+      // console.log(leader);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 
-  
+  useEffect(() => {
+    getRecruitmentPage();
+    getSIGLeader();
+  }, []);
+
   return (
     <Flex gap="48px" px="120px" py="48px">
       <Flex flexDir="column" gap="72px" maxW="700px">
@@ -138,16 +156,30 @@ const SIGRecruitmentPage = () => {
               </HStack>
             </Flex>
           </Box>
-          <Button
-            as={ReactRouterLink}
-            to={'/join-sig/' + sig_id}
-            rightIcon={<ArrowForwardIcon />}
-            colorScheme="teal"
-            width="328px"
-            size="lg"
-          >
-            Contact Leader
-          </Button>
+          <Tooltip label="You are already in this SIG">
+            {roleInSIG === 1 || roleInSIG === 2 || roleInSIG === 3 ? (
+              <Button
+                rightIcon={<ArrowForwardIcon />}
+                colorScheme="teal"
+                width="328px"
+                size="lg"
+                isDisabled
+              >
+                Contact leader
+              </Button>
+            ) : (
+              <Button
+                as={ReactRouterLink}
+                to={'/join-sig/' + sig_id}
+                rightIcon={<ArrowForwardIcon />}
+                colorScheme="teal"
+                width="328px"
+                size="lg"
+              >
+                Contact Leader
+              </Button>
+            )}
+          </Tooltip>
         </Flex>
         <Box>
           <Heading fontSize="28px" fontWeight="regular" mb={4}>
@@ -210,53 +242,38 @@ const SIGRecruitmentPage = () => {
             options with the leader? Reach out to them through this contact
             form.
           </Text>
-          <Button
-            as={ReactRouterLink}
-            to={'/join-sig/' + sig_id}
-            rightIcon={<ArrowForwardIcon />}
-            colorScheme="teal"
-          >
-            Contact leader
-          </Button>
+          {roleInSIG === 1 || roleInSIG === 2 || roleInSIG === 3 ? (
+            <Button
+              rightIcon={<ArrowForwardIcon />}
+              colorScheme="teal"
+              isDisabled
+            >
+              Contact leader
+            </Button>
+          ) : (
+            <Button
+              as={ReactRouterLink}
+              to={'/join-sig/' + sig_id}
+              rightIcon={<ArrowForwardIcon />}
+              colorScheme="teal"
+            >
+              Contact leader
+            </Button>
+          )}
         </Box>
       </Flex>
       <Spacer />
-      <Button
-        as={ReactRouterLink}
-        to={'/edit/sig-recruitment-page/' + sig_id}
-        leftIcon={<EditIcon />}
-      >
-        Edit page
-      </Button>
-      {/* <form id="edit-sig" onSubmit={onSubmitForm}>
-        <Modal
-          isOpen={isOpen}
-          onClose={() => {
-            onClose();
-          }}
-          size="full"
+      {roleInSIG === 3 ? (
+        <Button
+          as={ReactRouterLink}
+          to={'/edit/sig-recruitment-page/' + sig_id}
+          leftIcon={<EditIcon />}
         >
-          <ModalOverlay />
-
-          <ModalContent>
-            <ModalHeader>
-              <Text textAlign="center" fontWeight="light" fontSize="5xl">
-                SIG NAME
-              </Text>
-            </ModalHeader>
-            <ModalCloseButton />
-
-            <ModalBody pb={6}></ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="teal" mr={3} form="edit-sig" type="submit">
-                Save
-              </Button>
-              <Button onClick={onClose}>Cancel</Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </form> */}
+          Edit page
+        </Button>
+      ) : (
+        <></>
+      )}
     </Flex>
   );
 };

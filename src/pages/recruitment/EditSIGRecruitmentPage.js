@@ -1,60 +1,66 @@
 import {
   ArrowForwardIcon,
-  EditIcon,
   StarIcon,
-  CheckIcon,
-  CloseIcon,
+
 } from '@chakra-ui/icons';
 import {
   Flex,
   Button,
   Heading,
   Spacer,
-  Tag,
   Box,
   Text,
   HStack,
   Icon,
   Avatar,
   VStack,
-  IconButton,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  FormControl,
-  FormLabel,
   Input,
-  ModalFooter,
   Textarea,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  textDecoration,
-  Link,
   useToast,
-  Editable,
-  EditablePreview,
-  EditableInput,
-  EditableTextarea,
-  useEditableControls,
   ButtonGroup,
-  Tooltip,
-  useColorModeValue,
 } from '@chakra-ui/react';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { BiCalendarAlt, BiTimeFive, BiUser } from 'react-icons/bi';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { StoreContext } from '../../store/store';
 
+
 const EditSIGRecruitmentPage = () => {
   const sig_id = useParams().id;
+
+  // CHECK IF USER IS ADMIN BY REQUESTING ROLE IN SIG
+  const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
+  async function getRoleInSIG() {
+    try {
+      const body = { sig_id };
+
+      const res = await fetch('http://localhost:5000/sig-dashboard/get-role', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          token: localStorage.token,
+        },
+        body: JSON.stringify(body),
+      });
+      const role = await res.json(); // parse data
+
+      if (role === 3) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+        return navigate(-1);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
+  useEffect(() => {
+    getRoleInSIG();
+  }, []);
+
 
   const toast = useToast();
 
@@ -204,13 +210,11 @@ const EditSIGRecruitmentPage = () => {
       );
 
       window.location = window.location.href;
-
     } catch (err) {
       console.error(err.message);
     }
   };
 
- 
   const handleSavePublish = async e => {
     e.preventDefault();
     try {
@@ -253,30 +257,30 @@ const EditSIGRecruitmentPage = () => {
       console.error(err.message);
     }
   };
-   
-    const handleUnpublish = async e => {
-      e.preventDefault();
-      try {
-        const body = {
-          sig_id,
-        };
-        const unpublishPage = await fetch(
-          'http://localhost:5000/forms/unpublish-sig-recruitment',
-          {
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json',
-              token: localStorage.token,
-            },
-            body: JSON.stringify(body),
-          }
-        );
 
-        window.location = window.location.href;
-      } catch (err) {
-        console.error(err.message);
-      }
-    };
+  const handleUnpublish = async e => {
+    e.preventDefault();
+    try {
+      const body = {
+        sig_id,
+      };
+      const unpublishPage = await fetch(
+        'http://localhost:5000/forms/unpublish-sig-recruitment',
+        {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+            token: localStorage.token,
+          },
+          body: JSON.stringify(body),
+        }
+      );
+
+      window.location = window.location.href;
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   useEffect(() => {
     getRecruitmentPage();
@@ -294,171 +298,175 @@ const EditSIGRecruitmentPage = () => {
     initialiseInputFields();
   }, [recruitmentPage, sigLeader]);
 
-  return (
-    <Flex gap="48px" px="120px" py="48px">
-      <Flex flexDir="column" gap="72px" maxW="700px">
-        <Flex flexDir="column" gap="40px">
-          <Box>
-            <Text fontWeight="light" fontSize="54px">
-              {recruitmentPage.sig_name}
-            </Text>
-            {/* <Flex mt={4}>
+  if (isAdmin) {
+    return (
+      <Flex gap="48px" px="120px" py="48px">
+        <Flex flexDir="column" gap="72px" maxW="700px">
+          <Flex flexDir="column" gap="40px">
+            <Box>
+              <Text fontWeight="light" fontSize="54px">
+                {recruitmentPage.sig_name} {isAdmin}
+              </Text>
+              {/* <Flex mt={4}>
               <Tag>Tag</Tag>
             </Flex> */}
-          </Box>
-          <Box>
-            <Textarea
-              name="hook"
-              value={hook}
-              fontSize="24px"
-              height="120px"
-              onChange={onChange}
-              placeholder="Write your hook here... For example: New to computer vision? Great! We can learn the theory together."
-            ></Textarea>
+            </Box>
+            <Box>
+              <Textarea
+                name="hook"
+                value={hook}
+                fontSize="24px"
+                height="120px"
+                onChange={onChange}
+                placeholder="Write your hook here... For example: New to computer vision? Great! We can learn the theory together."
+              ></Textarea>
 
-            <Text mb={5} fontSize="24px"></Text>
-            <Text></Text>
-            <Textarea
-              name="introduction"
-              value={introduction}
-              height="80px"
-              onChange={onChange}
-              placeholder="1-2 sentences to introduce and describe your group."
-            ></Textarea>
-          </Box>
-          <Box>
-            <Text as="b">Summary</Text>
-            <Flex
-              flexDir="column"
-              gap={2}
-              width="700px"
-              bgColor="white"
-              justifyContent="center"
-              mt={3}
+              <Text mb={5} fontSize="24px"></Text>
+              <Text></Text>
+              <Textarea
+                name="introduction"
+                value={introduction}
+                height="80px"
+                onChange={onChange}
+                placeholder="1-2 sentences to introduce and describe your group."
+              ></Textarea>
+            </Box>
+            <Box>
+              <Text as="b">Summary</Text>
+              <Flex
+                flexDir="column"
+                gap={2}
+                width="700px"
+                bgColor="white"
+                justifyContent="center"
+                mt={3}
+              >
+                <Flex gap={3} width="700px" align="center">
+                  <Icon as={BiCalendarAlt} color="gray.500" w="18px" h="18px" />
+                  <Input
+                    name="meeting_day"
+                    value={meeting_day}
+                    onChange={onChangeInput}
+                    placeholder="Write meeting day here"
+                    size="md"
+                    w="300px"
+                  />
+                </Flex>
+
+                <Flex gap={3} width="700px" align="center">
+                  <Icon as={BiTimeFive} color="gray.500" w="18px" h="18px" />
+                  <Input
+                    name="timing"
+                    value={timing}
+                    onChange={onChange}
+                    placeholder="Write starting and ending time here"
+                    size="md"
+                    w="300px"
+                  />
+                </Flex>
+
+                <HStack spacing={3}>
+                  <Icon as={BiUser} color="gray.500" w="18px" h="18px" />
+                  <Box noOfLines={1} fontSize="sm" color="gray.700">
+                    {sig_member_count} member
+                    {sig_member_count > 1 ? 's' : ''}
+                  </Box>
+                </HStack>
+              </Flex>
+            </Box>
+            <Button
+              rightIcon={<ArrowForwardIcon />}
+              colorScheme="teal"
+              width="328px"
+              size="lg"
+              isDisabled
             >
-              <Flex gap={3} width="700px" align="center">
-                <Icon as={BiCalendarAlt} color="gray.500" w="18px" h="18px" />
-                <Input
-                  name="meeting_day"
-                  value={meeting_day}
-                  onChange={onChangeInput}
-                  placeholder="Write meeting day here"
-                  size="md"
-                  w="300px"
-                />
-              </Flex>
-
-              <Flex gap={3} width="700px" align="center">
-                <Icon as={BiTimeFive} color="gray.500" w="18px" h="18px" />
-                <Input
-                  name="timing"
-                  value={timing}
-                  onChange={onChange}
-                  placeholder="Write starting and ending time here"
-                  size="md"
-                  w="300px"
-                />
-              </Flex>
-
-              <HStack spacing={3}>
-                <Icon as={BiUser} color="gray.500" w="18px" h="18px" />
-                <Box noOfLines={1} fontSize="sm" color="gray.700">
-                  {sig_member_count} member
-                  {sig_member_count > 1 ? 's' : ''}
-                </Box>
-              </HStack>
-            </Flex>
+              Contact Leader{' '}
+            </Button>
+          </Flex>
+          <Box>
+            <Heading fontSize="28px" fontWeight="regular" mb={4}>
+              What you can expect to learn
+            </Heading>
+            <Textarea
+              name="learn"
+              value={learn}
+              onChange={onChange}
+              placeholder="Write what members can expect to gain from joining your SIG"
+            ></Textarea>
           </Box>
-          <Button
-            rightIcon={<ArrowForwardIcon />}
-            colorScheme="teal"
-            width="328px"
-            size="lg"
-            isDisabled
-          >
-            Contact Leader{' '}
-          </Button>
-        </Flex>
-        <Box>
-          <Heading fontSize="28px" fontWeight="regular" mb={4}>
-            What you can expect to learn
-          </Heading>
-          <Textarea
-            name="learn"
-            value={learn}
-            onChange={onChange}
-            placeholder="Write what members can expect to gain from joining your SIG"
-          ></Textarea>
-        </Box>
-        <Box>
-          <Heading fontSize="28px" fontWeight="regular" mb={4}>
-            What you can expect to contribute
-          </Heading>
-          <Textarea
-            name="contribute"
-            value={contribute}
-            onChange={onChange}
-            placeholder="Write how members can expect to contribute to the SIG"
-          ></Textarea>
-        </Box>
-        <Box>
-          <Heading fontSize="28px" fontWeight="regular" mb={4}>
-            Ideal meeting day and time
-          </Heading>
-          <Textarea
-            name="idealmeetingday"
-            value={idealmeetingday}
-            onChange={onChange}
-            placeholder="Write your ideal meeting day"
-          ></Textarea>
-        </Box>
-        <Box>
-          <Heading fontSize="28px" fontWeight="regular" mb={4}>
-            SIG Leader
-          </Heading>
-          <HStack spacing={4} pb={5} alignItems="center">
-            <Avatar
-              name={sigLeader.user_display_name}
-              src={sigLeader.user_pic}
-            />
-            <VStack alignItems="left" spacing={0}>
-              <HStack spacing="6px">
-                <Heading
-                  as="h6"
-                  fontSize="md"
-                  fontWeight="medium"
-                  color="gray.700"
-                >
-                  {user_display_name}
-                </Heading>
+          <Box>
+            <Heading fontSize="28px" fontWeight="regular" mb={4}>
+              What you can expect to contribute
+            </Heading>
+            <Textarea
+              name="contribute"
+              value={contribute}
+              onChange={onChange}
+              placeholder="Write how members can expect to contribute to the SIG"
+            ></Textarea>
+          </Box>
+          <Box>
+            <Heading fontSize="28px" fontWeight="regular" mb={4}>
+              Ideal meeting day and time
+            </Heading>
+            <Textarea
+              name="idealmeetingday"
+              value={idealmeetingday}
+              onChange={onChange}
+              placeholder="Write your ideal meeting day"
+            ></Textarea>
+          </Box>
+          <Box>
+            <Heading fontSize="28px" fontWeight="regular" mb={4}>
+              SIG Leader
+            </Heading>
+            <HStack spacing={4} pb={5} alignItems="center">
+              <Avatar
+                name={sigLeader.user_display_name}
+                src={sigLeader.user_pic}
+              />
+              <VStack alignItems="left" spacing={0}>
+                <HStack spacing="6px">
+                  <Heading
+                    as="h6"
+                    fontSize="md"
+                    fontWeight="medium"
+                    color="gray.700"
+                  >
+                    {user_display_name}
+                  </Heading>
 
-                <StarIcon w={3} h={3} color="teal.500" />
-              </HStack>
-              <Text>{user_email}</Text>
-            </VStack>
-          </HStack>
-        </Box>
-        {!published ? (
-          <ButtonGroup>
-            <Button variant="ghost" type="submit" onClick={handleSave}>
-              Save
-            </Button>
-            <Button colorScheme="teal" onClick={handlePublish}>
-              Publish
-            </Button>
-          </ButtonGroup>
-        ) : (
-          <ButtonGroup>
-            <Button colorScheme="teal" onClick={handleSavePublish}>
-              Save & Publish
-            </Button>
-            <Button onClick={handleUnpublish}>Make page private</Button>
-          </ButtonGroup>
-        )}
+                  <StarIcon w={3} h={3} color="teal.500" />
+                </HStack>
+                <Text>{user_email}</Text>
+              </VStack>
+            </HStack>
+          </Box>
+          {!published ? (
+            <ButtonGroup>
+              <Button variant="ghost" type="submit" onClick={handleSave}>
+                Save
+              </Button>
+              <Button colorScheme="teal" onClick={handlePublish}>
+                Publish
+              </Button>
+            </ButtonGroup>
+          ) : (
+            <ButtonGroup>
+              <Button colorScheme="teal" onClick={handleSavePublish}>
+                Save & Publish
+              </Button>
+              <Button onClick={handleUnpublish}>
+                Make page private & save
+              </Button>
+            </ButtonGroup>
+          )}
+        </Flex>
+        <Spacer />
       </Flex>
-      <Spacer />
-    </Flex>
-  );
+    );
+  }
 };
 
 export default EditSIGRecruitmentPage;

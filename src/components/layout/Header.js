@@ -91,12 +91,13 @@ const Header = props => {
 
             {props.isLoggedIn ? (
               <Fragment>
-                <Button
-                  as={ReactRouterLink}
-                  to="/admin-dashboard"
-                >
-                  Admin Dashboard
-                </Button>
+                {props.admin === 'false' ? <></> :
+                  <Button
+                    as={ReactRouterLink}
+                    to="/admin-dashboard"
+                  >
+                    Admin Dashboard
+                  </Button>}
 
                 <IconButton
                   aria-label="Notifications"
