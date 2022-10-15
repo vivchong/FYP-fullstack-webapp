@@ -23,6 +23,25 @@ const Notifications = () => {
     }
   }
 
+  const [formNotifications, setFormNotifications] = useState([]);
+  async function getFormNotifications() {
+    try {
+      const res = await fetch(
+        'http://localhost:5000/settings/join-sig-requests',
+        {
+          method: 'POST',
+          headers: { token: localStorage.token },
+        }
+      );
+      const reqArray = await res.json();
+      setFormNotifications(reqArray);
+      console.log(formNotifications);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+ 
+
   useEffect(() => {
     getJoinSIGRequests();
     console.log(joinSIGRequests)
@@ -59,7 +78,7 @@ const Notifications = () => {
                       <Button
                         maxW="208px"
                         as={ReactRouterLink}
-                        to={'/sig/'+request.sig_id+'/about'}
+                        to={'/sig/'+request.sig_id+'/members'}
                       >
                         View submitted form
                       </Button>
