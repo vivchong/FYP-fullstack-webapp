@@ -6,7 +6,7 @@ import '@fontsource/ibm-plex-sans/500.css';
 import '@fontsource/ibm-plex-sans/600.css';
 import '@fontsource/ibm-plex-sans/700.css';
 
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useContext } from 'react';
 import { ChakraProvider, useToast } from '@chakra-ui/react';
 import {
   BrowserRouter as Router,
@@ -20,7 +20,6 @@ import theme from './theme';
 import Layout from './components/layout/Layout';
 import SIGDashboardPage from './pages/sig-dashboard/SIGDashboardPage';
 
-import Dashboard from './pages/SampleDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
@@ -34,14 +33,19 @@ import SIGRecruitmentPage from './pages/recruitment/SIGRecruitmentPage';
 import EditSIGRecruitmentPage from './pages/recruitment/EditSIGRecruitmentPage';
 import FindASIG from './pages/FindASIG';
 import JoinSIGForm from './pages/forms/JoinSIGForm';
+import { StoreContext } from './store/store';
+import Unauthorised from './pages/Error401';
 
 // need useEffect to check whether jwt token is valid
 
 function App() {
+  const [context, setContext] = useContext(StoreContext);
+  const { isLoggedIn } = context;
+
   const [isAuthenticated, setIsAuthenticated] = useState(false); // used as setLoggedIn
 
   const setLoggedIn = boolean => {
-    setIsAuthenticated(boolean);
+    setContext({ isLoggedIn: boolean });
   };
 
   const checkAuthenticated = async () => {
@@ -53,16 +57,17 @@ function App() {
 
       const parseRes = await response.json(); // true if token is still there
 
-      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      parseRes === true
+        ? setContext({ isLoggedIn: true })
+        : setContext({ isLoggedIn: false });
     } catch (err) {
       console.error(err.message);
     }
   };
 
-  const [adminRole, setAdminRole] = useState('')
+  const [adminRole, setAdminRole] = useState('');
   const checkAdminRights = async () => {
     try {
-
       const res = await fetch('http://localhost:5000/check-admin', {
         method: 'POST',
         headers: {
@@ -80,24 +85,28 @@ function App() {
   useEffect(() => {
     checkAuthenticated();
     checkAdminRights();
-  }, [isAuthenticated]);
+  }, [isLoggedIn]);
 
   return (
     <Fragment>
       <ChakraProvider theme={theme}>
         <Router>
-          <Layout isLoggedIn={isAuthenticated} setLoggedIn={setLoggedIn} admin={adminRole}>
+          <Layout
+            isLoggedIn={isLoggedIn}
+            setLoggedIn={setLoggedIn}
+            admin={adminRole}
+          >
             <Routes>
               <Route
                 exact
                 path="/"
-                element={<Home isLoggedIn={isAuthenticated} />}
+                element={<Home isLoggedIn={isLoggedIn} />}
               />
               <Route
                 exact
                 path="/login"
                 element={
-                  !isAuthenticated ? (
+                  !isLoggedIn ? (
                     <Login
                       render={props => ({ ...props })}
                       setLoggedIn={setLoggedIn}
@@ -111,7 +120,7 @@ function App() {
                 exact
                 path="/register"
                 element={
-                  !isAuthenticated ? (
+                  !isLoggedIn ? (
                     <Register
                       render={props => ({ ...props })}
                       setLoggedIn={setLoggedIn}
@@ -121,25 +130,18 @@ function App() {
                   )
                 }
               />
-              <Route
-                exact
-                path="/sig-dashboard"
-                element={
-                  isAuthenticated ? (
-                    <Dashboard
-                      render={props => ({ ...props })}
-                      setLoggedIn={setLoggedIn}
-                    />
-                  ) : (
-                    <Navigate replace to={'/login'} />
-                  )
-                }
-              />
+
               <Route exact path="/what-is-a-sig" element={<WhatIsASIG />} />
               <Route
                 exact
                 path="/sig-proposal-form"
-                element={<SIGProposalForm />}
+                element={
+                  isLoggedIn ? (
+                    <SIGProposalForm />
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
               />
               <Route exact path="/find-a-sig" element={<FindASIG />} />
 
@@ -153,7 +155,19 @@ function App() {
                 path="/edit/sig-recruitment-page/:id"
                 element={<EditSIGRecruitmentPage />}
               />
-              <Route exact path="/join-sig/:id" element={<JoinSIGForm />} />
+
+              <Route
+                exact
+                path="/join-sig/:id"
+                element={
+                  isLoggedIn ? (
+                    <JoinSIGForm />
+                  ) : (
+                    <Navigate replace to={'/login'} />
+                  )
+                }
+              />
+
               <Route
                 exact
                 path="/sig/:id"
@@ -161,19 +175,25 @@ function App() {
               />
               <Route
                 exact
-                path="/sig/:id/about"
-                element={<SIGDashboardPage tab_index={0} />}
+                path="/sig/:id/members"
+                element={<SIGDashboardPage tab_index={3} />}
               />
               <Route
                 exact
                 path="/admin-dashboard"
-                element={<AdminDashboard admin={adminRole} />}
+                element={
+                  adminRole === 'false' ? (
+                    <Navigate replace to={'/login'} />
+                  ) : (
+                    <AdminDashboard admin={adminRole} />
+                  )
+                }
               />
               <Route
                 exact
                 path="/settings"
                 element={
-                  isAuthenticated ? (
+                  isLoggedIn ? (
                     <Settings tabIndex={0} />
                   ) : (
                     <Navigate replace to={'/login'} />
@@ -184,7 +204,7 @@ function App() {
                 exact
                 path="/notifications"
                 element={
-                  isAuthenticated ? (
+                  isLoggedIn ? (
                     <Settings tabIndex={0} />
                   ) : (
                     <Navigate replace to={'/login'} />
@@ -195,7 +215,7 @@ function App() {
                 exact
                 path="/my-sigs"
                 element={
-                  isAuthenticated ? (
+                  isLoggedIn ? (
                     <Settings tabIndex={1} />
                   ) : (
                     <Navigate replace to={'/login'} />
@@ -206,7 +226,7 @@ function App() {
                 exact
                 path="/my-workshops"
                 element={
-                  isAuthenticated ? (
+                  isLoggedIn ? (
                     <Settings tabIndex={2} />
                   ) : (
                     <Navigate replace to={'/login'} />
@@ -217,13 +237,15 @@ function App() {
                 exact
                 path="/edit-profile"
                 element={
-                  isAuthenticated ? (
+                  isLoggedIn ? (
                     <Settings tabIndex={3} />
                   ) : (
                     <Navigate replace to={'/login'} />
                   )
                 }
               />
+
+              <Route exact path="/unauthorised" element={<Unauthorised />} />
 
               <Route path="*" element={<Navigate replace to={'not-found'} />} />
               <Route exact path="/not-found" element={<NotFound />} />

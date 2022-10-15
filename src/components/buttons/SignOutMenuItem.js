@@ -1,5 +1,6 @@
 import { Button, useToast, MenuItem } from '@chakra-ui/react';
 import { Fragment, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../store/store';
 
 
@@ -27,6 +28,8 @@ const SignOutMenuItem = ({ setLoggedIn }) => {
     });
   };
 
+      const navigate = useNavigate();
+
   const signout = e => {
     e.preventDefault();
     // localStorage.removeItem('token');
@@ -42,6 +45,7 @@ const SignOutMenuItem = ({ setLoggedIn }) => {
     });
     setLoggedIn(false);
     resultToast('success', 'Signed out');
+    navigate('/')
   };
   return (
       <MenuItem onClick={e => signout(e)}>

@@ -17,37 +17,11 @@ import SIGTabsMembers from './memberstab/SIGTabsMembers';
 
 
 // FROM SIGDashboardPage.js
-const SIGTabs = ({ sig_id, sig_data, sig_members, tab_index }) => {
+const SIGTabs = ({ sig_id, sig_data, sig_members, tab_index, roleInSIG }) => {
 
   const [tabIndex, setTabIndex] = useState(tab_index);
 
-  const [roleInSIG, setRoleInSIG] = useState(0);
-  async function getRoleInSIG () {
-    try {
-      const body = { sig_id };
-
-      const res = await fetch(
-        'http://localhost:5000/sig-dashboard/get-role',
-        {
-          method: 'POST',
-          headers: {
-            'Content-type': 'application/json',
-            token: localStorage.token,
-          },
-          body: JSON.stringify(body),
-        }
-      );
-      const role = await res.json(); // parse data
-      setRoleInSIG(role);
-
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  useEffect(() => {
-    getRoleInSIG();
-  }, []);
+  
 
   useEffect(() => {
     setTabIndex(tab_index);
@@ -79,8 +53,8 @@ const SIGTabs = ({ sig_id, sig_data, sig_members, tab_index }) => {
           <Tab>About</Tab>
           <Tab>Discussion</Tab>
           <Tab>Cheer Board</Tab>
-          <Tab>Resources</Tab>
           <Tab>Members</Tab>
+          <Tab>Resources</Tab>
         </TabList>
 
         <TabPanels bg="gray.50">
@@ -103,15 +77,15 @@ const SIGTabs = ({ sig_id, sig_data, sig_members, tab_index }) => {
             <SIGTabsCheerBoard sig_id={sig_id} role={roleInSIG} />
           </TabPanel>
           <TabPanel>
-            <SIGTabsResources sig_id={sig_id} role={roleInSIG} />
-          </TabPanel>
-          <TabPanel>
             <SIGTabsMembers
               sig_id={sig_id}
               sig_data={sig_data}
               sig_members={sig_members}
               role={roleInSIG}
             />
+          </TabPanel>
+          <TabPanel>
+            <SIGTabsResources sig_id={sig_id} role={roleInSIG} />
           </TabPanel>
         </TabPanels>
       </Tabs>

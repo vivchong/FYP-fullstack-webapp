@@ -1,8 +1,4 @@
-import {
-  ArrowForwardIcon,
-  StarIcon,
-
-} from '@chakra-ui/icons';
+import { ArrowForwardIcon, StarIcon } from '@chakra-ui/icons';
 import {
   Flex,
   Button,
@@ -18,6 +14,10 @@ import {
   Textarea,
   useToast,
   ButtonGroup,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Tooltip,
 } from '@chakra-ui/react';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { BiCalendarAlt, BiTimeFive, BiUser } from 'react-icons/bi';
@@ -25,13 +25,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { StoreContext } from '../../store/store';
 
-
 const EditSIGRecruitmentPage = () => {
   const sig_id = useParams().id;
 
-  // CHECK IF USER IS ADMIN BY REQUESTING ROLE IN SIG
+  // CHECK IF USER IS Leader BY REQUESTING ROLE IN SIG
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLeader, setIsLeader] = useState(false);
   async function getRoleInSIG() {
     try {
       const body = { sig_id };
@@ -47,9 +46,9 @@ const EditSIGRecruitmentPage = () => {
       const role = await res.json(); // parse data
 
       if (role === 3) {
-        setIsAdmin(true);
+        setIsLeader(true);
       } else {
-        setIsAdmin(false);
+        setIsLeader(false);
         return navigate(-1);
       }
     } catch (error) {
@@ -60,7 +59,6 @@ const EditSIGRecruitmentPage = () => {
   useEffect(() => {
     getRoleInSIG();
   }, []);
-
 
   const toast = useToast();
 
@@ -176,8 +174,15 @@ const EditSIGRecruitmentPage = () => {
           body: JSON.stringify(body),
         }
       );
-
-      window.location = window.location.href;
+      toast({
+        title: 'Your recruitment page is live!',
+        description: 'Others can find your SIG',
+        status: 'success',
+        isClosable: true,
+        position: 'top',
+      });
+      navigate('/sig-recruitment-page/' + sig_id);
+      // window.location = window.location.href;
     } catch (err) {
       console.error(err.message);
     }
@@ -252,7 +257,9 @@ const EditSIGRecruitmentPage = () => {
           body: JSON.stringify(body),
         }
       );
-      window.location = window.location.href;
+      navigate('/sig-recruitment-page/' + sig_id);
+
+      // window.location = window.location.href;
     } catch (err) {
       console.error(err.message);
     }
@@ -284,28 +291,25 @@ const EditSIGRecruitmentPage = () => {
 
   useEffect(() => {
     getRecruitmentPage();
-
-    toast({
-      title: 'Editing SIG recruitment page',
-      description: 'Click on text to edit',
-      status: 'info',
-      isClosable: true,
-      position: 'top',
-    });
   }, []);
 
   useEffect(() => {
     initialiseInputFields();
   }, [recruitmentPage, sigLeader]);
 
-  if (isAdmin) {
+  if (isLeader) {
     return (
       <Flex gap="48px" px="120px" py="48px">
         <Flex flexDir="column" gap="72px" maxW="700px">
           <Flex flexDir="column" gap="40px">
+            <Alert status="info">
+              <AlertIcon />
+              <AlertTitle>You are editing this recruitment page.</AlertTitle>
+              Click on the text boxes to edit.
+            </Alert>
             <Box>
               <Text fontWeight="light" fontSize="54px">
-                {recruitmentPage.sig_name} {isAdmin}
+                {recruitmentPage.sig_name} {isLeader}
               </Text>
               {/* <Flex mt={4}>
               <Tag>Tag</Tag>
@@ -445,9 +449,11 @@ const EditSIGRecruitmentPage = () => {
           </Box>
           {!published ? (
             <ButtonGroup>
-              <Button variant="ghost" type="submit" onClick={handleSave}>
-                Save
-              </Button>
+              <Tooltip label="Other learners can find this page">
+                <Button variant="ghost" type="submit" onClick={handleSave}>
+                  Save
+                </Button>
+              </Tooltip>
               <Button colorScheme="teal" onClick={handlePublish}>
                 Publish
               </Button>

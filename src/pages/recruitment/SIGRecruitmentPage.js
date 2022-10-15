@@ -4,14 +4,12 @@ import {
   Button,
   Heading,
   Spacer,
-  Tag,
   Box,
   Text,
   HStack,
   Icon,
   Avatar,
   VStack,
-  useDisclosure,
   Tooltip,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';

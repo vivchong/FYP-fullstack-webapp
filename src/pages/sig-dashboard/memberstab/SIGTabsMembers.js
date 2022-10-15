@@ -134,6 +134,8 @@ const SIGTabsMembers = ({ sig_id, sig_data, sig_members, role }) => {
     try {
       const body = {
         form_id,
+        user_id,
+        sig_id
       };
       const rejectProposal = await fetch(
         'http://localhost:5000/forms/reject-join-request',

@@ -1,5 +1,6 @@
 import { Button, useToast } from '@chakra-ui/react';
 import { Fragment, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { StoreContext } from '../../store/store';
 
 // To use this component, when it is called you need to pass setLoggedIn as props.
@@ -26,6 +27,7 @@ const SignOutButton = ({ setLoggedIn }) => {
     });
   };
 
+    const navigate = useNavigate();
   const signout = e => {
     e.preventDefault();
     localStorage.clear();
@@ -42,6 +44,7 @@ const SignOutButton = ({ setLoggedIn }) => {
     });
     setLoggedIn(false);
     resultToast('success', 'Signed out');
+    navigate('/')
   };
   return (
     <Fragment>
