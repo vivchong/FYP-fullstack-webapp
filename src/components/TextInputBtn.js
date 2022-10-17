@@ -23,14 +23,16 @@ import { StoreContext } from '../store/store';
 // This is a button that looks like an Input field and opens a "Create Post" modal
 // From CreatePost.js
 const TextInputBtn = props => {
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshPosts } = context;
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshPosts } = context;
+
+  const { refreshPosts, setRefreshPosts } = useContext(StoreContext);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [post_content, setPost_content] = useState('');
   const sig_id = props.sig_id;
-  const user_id = sessionStorage.current_user_id; 
+  const user_id = sessionStorage.current_user_id;
 
   const onSubmitForm = async e => {
     e.preventDefault();
@@ -42,8 +44,10 @@ const TextInputBtn = props => {
         body: JSON.stringify(body),
       });
       //console.log(JSON.stringify(body));
-      setPost_content('')
-      setContext({ refreshPosts: !refreshPosts });
+      setPost_content('');
+      // setContext({ refreshPosts: !refreshPosts });
+      setRefreshPosts(!refreshPosts)
+      console.log('hi' + refreshPosts);
       //window.location = window.location.href;
     } catch (error) {
       console.error(error.message);

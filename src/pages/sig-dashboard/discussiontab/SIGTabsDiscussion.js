@@ -9,8 +9,10 @@ import { StoreContext } from '../../../store/store';
 
 // From SIGTabs.js <-- SIGDashboardPage.js
 const SIGTabsDiscussion = props => {
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshPosts } = context;
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshPosts } = context;
+
+  const { refreshPosts } = useContext(StoreContext);;
 
   const [posts, setPosts] = useState([]);
 
@@ -34,14 +36,14 @@ const SIGTabsDiscussion = props => {
       // MISSING LIKES AND COMMENTS COUNT from PostEngagements
     */
     setPosts(postArray);
-    console.log(posts);
+    // console.log(posts);
   }
 
   useEffect(() => {
     getPosts();
   }, [refreshPosts]);
 
-  console.log(props.sig_id);
+  console.log('sig_id: ' + props.sig_id);
 
   return (
     <Stack pt={4} className={classes.bannerfullwidth}>

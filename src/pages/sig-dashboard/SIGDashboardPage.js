@@ -8,11 +8,14 @@ import Unauthorised from '../Error401';
 
 // Need to do some auth to only allow members to view this page
 
-const SIGDashboardPage = (props) => {
+const SIGDashboardPage = props => {
   const sig_id = useParams().id;
 
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshSIGData } = context;
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshSIGData } = context;
+
+  const { refreshSIGData } = useContext(StoreContext);
+  
   const [sigData, setSIGData] = useState([]);
 
   // This was intended to redirect user to 404 if no SIG was found
@@ -35,8 +38,6 @@ const SIGDashboardPage = (props) => {
     //   setNoSIGFound(true)
     // }
   }
-
-  
 
   const [sigMembers, setSIGMembers] = useState([]);
   async function getMemberList() {
@@ -71,12 +72,10 @@ const SIGDashboardPage = (props) => {
       });
       const role = await res.json(); // parse data
       setRoleInSIG(role);
-     
     } catch (error) {
       console.error(error.message);
     }
   }
-
 
   useEffect(() => {
     getRoleInSIG();
@@ -84,34 +83,31 @@ const SIGDashboardPage = (props) => {
     getMemberList();
   }, [refreshSIGData]);
 
-  
-
   // console.log('sig id: '+ sig_id);
 
   // Can introduce waiting time of 0.5secs before rendering
   return (
     <Container maxWidth="full" padding={0}>
-      {roleInSIG === 401 ? <Unauthorised /> : 
-     
+      {roleInSIG === 401 ? (
+        <Unauthorised />
+      ) : (
         <Fragment>
           <SIGHeroBanner
             sig_id={sig_id}
             sig_data={sigData}
             sig_members={sigMembers}
           />
-            <SIGTabs
+          <SIGTabs
             tab_index={props.tab_index}
             sig_id={sig_id}
             sig_data={sigData}
-              sig_members={sigMembers}
-              roleInSIG={roleInSIG}
+            sig_members={sigMembers}
+            roleInSIG={roleInSIG}
           />
         </Fragment>
-
-      }
-    </Container >
+      )}
+    </Container>
   );
-
 };
 
 export default SIGDashboardPage;

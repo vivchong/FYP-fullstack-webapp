@@ -24,13 +24,20 @@ import { StoreContext } from '../../store/store';
 
 const JoinSIGForm = () => {
   const sig_id = useParams().id;
-  const [context, setContext] = useContext(StoreContext);
+  // const [context, setContext] = useContext(StoreContext);
+  // const {
+  //   current_user_id,
+  //   current_user_display_name,
+  //   current_user_pic,
+  //   current_user_email,
+  // } = context;
+
   const {
     current_user_id,
     current_user_display_name,
     current_user_pic,
     current_user_email,
-  } = context;
+  } = useContext(StoreContext)
 
   const [inputs, setInputs] = useState({
     subject: '',

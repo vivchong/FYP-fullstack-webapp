@@ -1,3 +1,4 @@
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 import {
   Text,
   Heading,
@@ -49,21 +50,53 @@ const DetailCards = props => {
       <BaseCard>
         <VStack my={6} alignItems="flex-start" spacing={2}>
           <Heading as="h3" size="md" fontWeight="medium">
-            Next meeting
+            Meeting Details
           </Heading>
-          {props.starttime !== null &&
-          props.endtime !== null &&
-          props.meetingday !== null ? (
+          {props.meetingday !== 'Undecided' ? (
+            <Text as="p" noOfLines={5} mr={4}>
+              {props.sig_frequency_interval == 1
+                ? 'Every ' + props.meetingday
+                : 'Every ' +
+                  props.frequencyinterval +
+                  ' ' +
+                  props.meetingday +
+                  's'}
+            </Text>
+          ) : (
+            <Text as="i" noOfLines={5} mr={4}>
+              Meeting day has not been decided!
+            </Text>
+          )}
+          {props.starttime !== null && props.endtime !== null ? (
             <HStack spacing={3}>
-              <Text as="p" noOfLines={5} mr={4}>
-                {props.meetingday}
-                {', '}
-                {props.nextmeeting}
-              </Text>
               <Text as="span">{props.starttime}</Text>
               <Text as="span">—</Text>
               <Text as="span">{props.endtime}</Text>
             </HStack>
+          ) : (
+            <HStack spacing={3}>
+              <Text as="i" noOfLines={5} mr={4}>
+                Meeting time has not been decided!
+              </Text>
+            </HStack>
+          )}
+          {props.url ? (
+            <>
+              <VStack spacing={1} alignItems="flex-start">
+                <Text>
+                  Meeting link:&nbsp;
+                  <Link href={props.url} color="teal.500" isExternal>
+                    {props.url}
+                    <ExternalLinkIcon mx="2px" />
+                  </Link>
+                </Text>
+                {props.sig_meeting_password ? (
+                  <Text>Password: {props.sig_meeting_password}</Text>
+                ) : (
+                  <></>
+                )}
+              </VStack>
+            </>
           ) : (
             <></>
           )}
@@ -75,8 +108,8 @@ const DetailCards = props => {
           <Heading as="h3" size="md" fontWeight="medium">
             Updates
           </Heading>
-          {isNaN(props.updates) ? (
-            <Text noOfLines={10} mr={4}>
+          {!props.updates ? (
+            <Text as="i" noOfLines={10} mr={4}>
               There are currently no updates.
             </Text>
           ) : (

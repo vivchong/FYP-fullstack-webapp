@@ -1,4 +1,16 @@
-import { Container, VStack, Heading, Text, Button, HStack, Flex, Spacer, Box, Center, Wrap } from '@chakra-ui/react';
+import {
+  Container,
+  VStack,
+  Heading,
+  Text,
+  Button,
+  HStack,
+  Flex,
+  Spacer,
+  Box,
+  Center,
+  Wrap,
+} from '@chakra-ui/react';
 import CheerBoardCard from '../../../components/sig-dashboard/CheerBoardCard';
 import BigBaseCard from '../../../components/layout/cards/BigBaseCard';
 import { AddIcon } from '@chakra-ui/icons';
@@ -7,19 +19,18 @@ import CheerBoardNewUpdateBtn from '../../../components/sig-dashboard/CheerBoard
 import { StoreContext } from '../../../store/store';
 
 // From SIGTabs.js
-const SIGTabsCheerBoard = (props) => {
-
+const SIGTabsCheerBoard = props => {
   const [updates, setUpdates] = useState([]);
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshUpdates } = context;
-
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshUpdates } = context;
+  const { refreshUpdates } = useContext(StoreContext);
   async function getUpdates() {
     try {
       const res = await fetch(
         `http://localhost:5000/sig-dashboard/get-cheerboard-updates/${props.sig_id}`,
         {
           method: 'POST',
-          headers: {token: localStorage.token},
+          headers: { token: localStorage.token },
         }
       );
 
@@ -29,12 +40,10 @@ const SIGTabsCheerBoard = (props) => {
     } catch (error) {
       console.error(error.message);
     }
-    
   }
 
   useEffect(() => {
     getUpdates();
-
   }, [refreshUpdates]);
 
   return (

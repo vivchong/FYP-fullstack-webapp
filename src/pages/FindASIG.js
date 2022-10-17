@@ -1,22 +1,10 @@
-import {
-  Flex,
-  Text,
-  Stack,
-
-} from '@chakra-ui/react';
+import { Flex, Text, Stack } from '@chakra-ui/react';
 import { useState, useEffect, useLayoutEffect, useContext } from 'react';
+import Footer from '../components/layout/Footer';
 
 import SIGRecruitmentCard from '../components/SIGRecruitmentCard';
 
-
 const FindASIG = () => {
-  // const [context, setContext] = useContext(StoreContext);
-  // const {
-  //   current_user_id,
-  //   current_user_display_name,
-  //   current_user_pic,
-  //   current_user_email,
-  // } = context;
 
   const [listOfAvailableSIGs, setListOfAvailableSIGs] = useState([]);
 
@@ -26,6 +14,7 @@ const FindASIG = () => {
         method: 'POST',
         headers: { token: localStorage.token },
       });
+
       const availableSIGsArray = await res.json();
       setListOfAvailableSIGs(availableSIGsArray);
       // console.log(listOfAvailableSIGs); //[{sig_id: 1}, {sig_id: 2}]
@@ -38,21 +27,30 @@ const FindASIG = () => {
     getAvailableSIGs();
   }, []);
 
-
-
- 
   return (
-    <>
-      <Flex px={16} py={4} flexDir="column" gap={8}>
-        <Text fontSize="4xl">Shared-Interest Groups (SIGs)</Text>
-
+    <Flex flexDir="column" pt={10} pb={0}>
+      <Flex flexDir="column" px={16} mb="96px">
+        <Text fontSize="42px">Shared-Interest Groups (SIGs)</Text>
+        <Text fontWeight="medium" mt={10} mb={3}>
+          {listOfAvailableSIGs.length} shared-interest groups found
+        </Text>
         <Stack spacing={8} maxW="856px" width="100%">
-          {listOfAvailableSIGs.map(mySIG => (
-            <SIGRecruitmentCard key={mySIG.sig_id} sig_id={mySIG.sig_id} />
+          {listOfAvailableSIGs.map(sig => (
+            <SIGRecruitmentCard
+              key={sig.sig_id}
+              sig_id={sig.sig_id}
+              topic={sig.sig_topic}
+              name={sig.sig_name}
+              introduction={sig.introduction}
+              meeting_day={sig.meeting_day}
+              timing={sig.timing}
+              member_count={sig.sig_member_count}
+            />
           ))}
         </Stack>
       </Flex>
-    </>
+      <Footer />
+    </Flex>
   );
 };
 

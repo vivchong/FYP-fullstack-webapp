@@ -55,8 +55,9 @@ import { StoreContext } from '../../../store/store';
 // FROM SIGTabs.js FROM SIGDashboardPage.js
 const SIGTabsMembers = ({ sig_id, sig_data, sig_members, role }) => {
   const [refresh, setRefresh] = useState(false);
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshSIGData } = context;
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshSIGData } = context;
+  const { refreshSIGData, setRefreshSIGData } = useContext(StoreContext);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -149,7 +150,8 @@ const SIGTabsMembers = ({ sig_id, sig_data, sig_members, role }) => {
         }
       );
       setRefresh(!refresh);
-      setContext({ refreshSIGData: !refreshSIGData });
+      // setContext({ refreshSIGData: !refreshSIGData });
+      setRefreshSIGData(!refreshSIGData)
       resultToast('warning', 'You rejected their request to join');
       onClose();
     } catch (error) {
@@ -179,7 +181,8 @@ const SIGTabsMembers = ({ sig_id, sig_data, sig_members, role }) => {
       const newSIGRow = await approveProposal.json();
 
       setRefresh(!refresh);
-      setContext({ refreshSIGData: !refreshSIGData });
+      // setContext({ refreshSIGData: !refreshSIGData });
+      setRefreshSIGData(!refreshSIGData);
       resultToast('success', 'SIG Proposal was approved!');
       onClose();
     } catch (error) {

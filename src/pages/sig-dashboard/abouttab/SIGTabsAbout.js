@@ -29,6 +29,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Select,
 } from '@chakra-ui/react';
 import BaseCard from '../../../components/layout/cards/BaseCard';
 import { EditIcon, ExternalLinkIcon } from '@chakra-ui/icons';
@@ -67,9 +68,9 @@ import { StoreContext } from '../../../store/store';
 
 // FROM SIGTabs.js FROM SIGDashboardPage.js
 const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshSIGData } = context;
-
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshSIGData } = context;
+  const { refreshSIGData, setRefreshSIGData } = useContext(StoreContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // CHANGING FOCUS IN MODAL BASED ON WHERE EDIT IS CLICKED
@@ -131,7 +132,7 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
       sig_end_time: sig_data.sig_end_time,
       sig_meeting_url: sig_data.sig_meeting_url,
       sig_meeting_password: sig_data.sig_meeting_password,
-      sig_update_content: sig_data.sig_update_content
+      sig_update_content: sig_data.sig_update_content,
     });
   };
 
@@ -164,7 +165,8 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
 
       //window.location = window.location.href;
 
-      setContext({ refreshSIGData: !refreshSIGData });
+      // setContext({ refreshSIGData: !refreshSIGData });
+      setRefreshSIGData(!refreshSIGData);
       onClose();
       initialiseInputFields();
     } catch (err) {
@@ -197,17 +199,30 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
                 icon={<EditIcon />}
               />
             </HStack>
-            {sig_data.sig_description === null ? <Text as='i'>No description yet.</Text>
-            : <Text as="p">{sig_data.sig_description}</Text>}
-
+            {sig_data.sig_description === null ? (
+              <Text as="i">No description yet.</Text>
+            ) : (
+              <Text as="p">{sig_data.sig_description}</Text>
+            )}
           </VStack>
         </BaseCard>
 
         <BaseCard>
           <VStack my={6} alignItems="flex-start" spacing={3}>
             <HStack>
-              <Heading as="h3" size="md" fontWeight="medium">
+              {/* <Heading as="h3" size="md" fontWeight="medium">
                 Next meeting
+              </Heading>
+              <IconButton
+                onClick={() => {
+                  setInitialRef(meetingRef);
+                  onOpen();
+                }}
+                size="xs"
+                icon={<EditIcon />}
+              /> */}
+              <Heading as="h3" size="md" fontWeight="medium">
+                Meeting Details
               </Heading>
               <IconButton
                 onClick={() => {
@@ -218,14 +233,24 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
                 icon={<EditIcon />}
               />
             </HStack>
-
+            {sig_data.sig_meeting_day !== 'Undecided' ? (
+              <Text as="p" noOfLines={5} mr={4}>
+                {sig_data.sig_frequency_interval == 1
+                  ? 'Every ' + sig_data.sig_meeting_day
+                  : 'Every ' +
+                    sig_data.sig_frequency_interval +
+                    ' ' +
+                    sig_data.sig_meeting_day +
+                    's'}
+              </Text>
+            ) : (
+              <Text as="i" noOfLines={5} mr={4}>
+                Meeting day has not been decided!
+              </Text>
+            )}
             {sig_data.sig_start_time !== null &&
-            sig_data.sig_end_time !== null &&
-            sig_data.sig_meeting_day !== null ? (
+            sig_data.sig_end_time !== null ? (
               <HStack spacing={3}>
-                <Text as="p" noOfLines={5} mr={4}>
-                  {sig_data.sig_meeting_day}, {sig_data.sig_next_meeting}
-                </Text>
                 <Text as="span">{sig_data.sig_start_time}</Text>
                 <Text as="span">—</Text>
                 <Text as="span">{sig_data.sig_end_time}</Text>
@@ -233,10 +258,11 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
             ) : (
               <HStack spacing={3}>
                 <Text as="i" noOfLines={5} mr={4}>
-                  Next meeting has not been scheduled!
+                  Meeting time has not been decided!
                 </Text>
               </HStack>
             )}
+
             {sig_data.sig_meeting_url ? (
               <>
                 <Divider pt={1} colorScheme="gray" />
@@ -351,16 +377,18 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
                 />
               </FormControl>
               <FormControl mt={4}>
-                <FormLabel>Next meeting</FormLabel>
-                <Input
-                  name="sig_next_meeting"
-                  value={sig_next_meeting}
+                <FormLabel>Meeting Day</FormLabel>
+                <Select
+                  // placeholder="Select meeting day"
+                  name="sig_meeting_day"
+                  value={sig_meeting_day}
                   ref={meetingRef}
-                  placeholder="Date"
-                  type="date"
                   maxW="260px"
                   onChange={e => onChange(e)}
-                />
+                >
+                  <option value="Undecided">Undecided</option>
+                  <option value="Monday">Monday</option>
+                </Select>
               </FormControl>
               <Flex flexDir="row" gap={2}>
                 <FormControl mt={4}>

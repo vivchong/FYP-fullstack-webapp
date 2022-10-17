@@ -18,14 +18,22 @@ import React, { Fragment, useContext, useState } from 'react';
 import { StoreContext } from '../store/store';
 
 const Login = ({ setLoggedIn }) => {
-   const [context, setContext] = useContext(StoreContext);
-   const {
-     current_user_id,
-     current_user_display_name,
-     current_user_pic,
-     current_user_email,
-  } = context;
-  
+  //  const [context, setContext] = useContext(StoreContext);
+  //  const {
+  //    current_user_id,
+  //    current_user_display_name,
+  //    current_user_pic,
+  //    current_user_email,
+  // } = context;
+
+  const {
+    // current_user_id,
+    setCurrent_user_id,
+    setCurrent_user_display_name,
+    setCurrent_user_pic,
+    setCurrent_user_email,
+  } = useContext(StoreContext);
+
   const toast = useToast();
   const resultToast = (status, description) => {
     return toast({
@@ -58,18 +66,26 @@ const Login = ({ setLoggedIn }) => {
       const parseRes = await response.json();
 
       // console.log(parseRes); // ==> {user_display_name: 'Rohan Gautam'}
-      setContext({
-        current_user_id: parseRes.user_id,
-        current_user_display_name: parseRes.user_display_name,
-        current_user_pic: parseRes.user_pic,
-        current_user_email: parseRes.user_email,
-      });
+
       sessionStorage.setItem('current_user_id', parseRes.user_id);
       sessionStorage.setItem(
         'current_user_display_name',
         parseRes.user_display_name
       );
       sessionStorage.setItem('current_user_pic', parseRes.user_pic);
+      sessionStorage.setItem('current_user_email', parseRes.user_email);
+      // alert('session user_id ' + sessionStorage.current_user_id);
+      // setContext({
+      // current_user_id: sessionStorage.current_user_id
+      // current_user_display_name: parseRes.user_display_name,
+      // current_user_pic: parseRes.user_pic,
+      // current_user_email: parseRes.user_email,
+      // });
+      setCurrent_user_id(parseRes.user_id);
+      setCurrent_user_display_name(parseRes.user_display_name);
+      setCurrent_user_pic(parseRes.user_pic);
+      setCurrent_user_email(parseRes.user_email);
+      // console.log('user_id ' + parseRes.user_id);
     } catch (err) {
       console.error(err.message);
     }
@@ -93,6 +109,7 @@ const Login = ({ setLoggedIn }) => {
         localStorage.setItem('token', parseRes.token);
         setLoggedIn(true);
         getUserData();
+        
         resultToast('success', 'Signed in successfully!');
       } else {
         setLoggedIn(false);

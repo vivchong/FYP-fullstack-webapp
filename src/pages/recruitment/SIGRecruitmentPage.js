@@ -11,6 +11,7 @@ import {
   Avatar,
   VStack,
   Tooltip,
+  Alert,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { BiCalendarAlt, BiTimeFive, BiUser } from 'react-icons/bi';
@@ -108,6 +109,17 @@ const SIGRecruitmentPage = () => {
       <Flex flexDir="column" gap="72px" maxW="700px">
         <Flex flexDir="column" gap="40px">
           <Box>
+            <Box
+              as={Text}
+              noOfLines={1}
+              fontSize="sm"
+              fontWeight="medium"
+              textTransform="uppercase"
+              letterSpacing="wide"
+              color="gray.500"
+            >
+              {recruitmentPage.sig_topic}
+            </Box>
             <Heading fontWeight="light" fontSize="54px">
               {recruitmentPage.sig_name}
             </Heading>
@@ -154,30 +166,33 @@ const SIGRecruitmentPage = () => {
               </HStack>
             </Flex>
           </Box>
-          <Tooltip label="You are already in this SIG">
-            {roleInSIG === 1 || roleInSIG === 2 || roleInSIG === 3 ? (
-              <Button
-                rightIcon={<ArrowForwardIcon />}
-                colorScheme="teal"
-                width="328px"
-                size="lg"
-                isDisabled
-              >
-                Contact leader
-              </Button>
-            ) : (
-              <Button
-                as={ReactRouterLink}
-                to={'/join-sig/' + sig_id}
-                rightIcon={<ArrowForwardIcon />}
-                colorScheme="teal"
-                width="328px"
-                size="lg"
-              >
-                Contact Leader
-              </Button>
-            )}
-          </Tooltip>
+
+          {roleInSIG === 1 || roleInSIG === 2 || roleInSIG === 3 ? (
+            <Tooltip label="You are already in this SIG">
+              <Box>
+                <Button // User is in SIG
+                  isDisabled
+                  rightIcon={<ArrowForwardIcon />}
+                  colorScheme="teal"
+                  width="328px"
+                  size="lg"
+                >
+                  Contact leader
+                </Button>
+              </Box>
+            </Tooltip>
+          ) : (
+            <Button
+              as={ReactRouterLink}
+              to={'/join-sig/' + sig_id}
+              rightIcon={<ArrowForwardIcon />}
+              colorScheme="teal"
+              width="328px"
+              size="lg"
+            >
+              Contact Leader
+            </Button>
+          )}
         </Flex>
         <Box>
           <Heading fontSize="28px" fontWeight="regular" mb={4}>

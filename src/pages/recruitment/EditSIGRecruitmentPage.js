@@ -91,6 +91,7 @@ const EditSIGRecruitmentPage = () => {
 
   const {
     sig_name,
+    topic,
     hook,
     introduction,
     // meeting_day,
@@ -118,6 +119,7 @@ const EditSIGRecruitmentPage = () => {
     setMeeting_day(recruitmentPage.meeting_day);
     setInputs({
       sig_name: recruitmentPage.sig_name,
+      topic: recruitmentPage.sig_topic,
       hook: recruitmentPage.hook,
       introduction: recruitmentPage.introduction,
       // meeting_day: recruitmentPage.meeting_day,
@@ -193,6 +195,7 @@ const EditSIGRecruitmentPage = () => {
     try {
       const body = {
         sig_id,
+        topic,
         hook,
         introduction,
         meeting_day,
@@ -225,6 +228,7 @@ const EditSIGRecruitmentPage = () => {
     try {
       const body = {
         sig_id,
+        topic,
         hook,
         introduction,
         meeting_day,
@@ -307,9 +311,21 @@ const EditSIGRecruitmentPage = () => {
               <AlertTitle>You are editing this recruitment page.</AlertTitle>
               Click on the text boxes to edit.
             </Alert>
+
             <Box>
+              <Input
+                name="topic"
+                value={topic}
+                onChange={onChange}
+                placeholder="Topic of SIG"
+                fontWeight="medium"
+                textTransform="uppercase"
+                letterSpacing="wide"
+                size="md"
+                w="300px"
+              />
               <Text fontWeight="light" fontSize="54px">
-                {recruitmentPage.sig_name} {isLeader}
+                {recruitmentPage.sig_name}
               </Text>
               {/* <Flex mt={4}>
               <Tag>Tag</Tag>

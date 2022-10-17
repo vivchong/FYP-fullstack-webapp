@@ -10,8 +10,11 @@ import { Field, Formik } from 'formik';
 import { StoreContext } from '../../store/store';
 
 const CommentInput = props => {
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshComments } = context;
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshComments } = context;
+  
+  const { refreshComments, setRefreshComments } = useContext(StoreContext)
+  
   const [comment_content, setComment_content] = useState('');
   const post_id = props.post_id;
   const user_id = sessionStorage.current_user_id;
@@ -20,7 +23,7 @@ const CommentInput = props => {
     //     e.preventDefault();
     // I removed this because it was causing errors
     try {
-      console.log('Submitting comment');
+
       const body = { post_id, user_id, comment_content };
       const newComment = await fetch('http://localhost:5000/comments', {
         method: 'POST',
@@ -29,7 +32,8 @@ const CommentInput = props => {
       });
       console.log(JSON.stringify(body));
       setComment_content('')
-      setContext({ refreshComments: !refreshComments }); // trigger refresh
+      setRefreshComments(!refreshComments);
+      //setContext({ refreshComments: !refreshComments }); // trigger refresh
       //window.location = window.location.href;
     } catch (error) {
       console.error(error.message);

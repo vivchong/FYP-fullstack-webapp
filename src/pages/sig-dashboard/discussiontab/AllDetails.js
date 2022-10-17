@@ -23,6 +23,8 @@ const sig_next_meeting = moment(sig_data.sig_next_meeting).utc().format('Do MMMM
       // currentstreak={sig_data.currentstreak}
       updates={sig_data.sig_update_content}
       role={role}
+      url={sig_data.sig_meeting_url}
+      password={sig_data.sig_meeting_password}
     />
   );
 }

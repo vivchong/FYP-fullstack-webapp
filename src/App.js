@@ -39,13 +39,15 @@ import Unauthorised from './pages/Error401';
 // need useEffect to check whether jwt token is valid
 
 function App() {
-  const [context, setContext] = useContext(StoreContext);
-  const { isLoggedIn } = context;
+  // const [context, setContext] = useContext(StoreContext);
+  // const { isLoggedIn } = context;
 
+  const { isLoggedIn, setIsLoggedIn } = useContext(StoreContext);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // used as setLoggedIn
 
   const setLoggedIn = boolean => {
-    setContext({ isLoggedIn: boolean });
+    // setContext({ isLoggedIn: boolean });
+    setIsLoggedIn(boolean);
   };
 
   const checkAuthenticated = async () => {
@@ -58,8 +60,11 @@ function App() {
       const parseRes = await response.json(); // true if token is still there
 
       parseRes === true
-        ? setContext({ isLoggedIn: true })
-        : setContext({ isLoggedIn: false });
+        // ? setContext({ isLoggedIn: true })
+        // : setContext({ isLoggedIn: false });
+      
+        ? setLoggedIn(true)
+        : setLoggedIn(false)
     } catch (err) {
       console.error(err.message);
     }
