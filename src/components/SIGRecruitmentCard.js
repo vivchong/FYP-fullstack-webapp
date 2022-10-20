@@ -8,29 +8,24 @@ import {
   HStack,
   LinkBox,
   LinkOverlay,
+  Image,
 } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useState, useEffect, Fragment } from 'react';
 
-const SIGRecruitmentCard = ({ sig_id }) => {
+const SIGRecruitmentCard = ({
+  sig_id,
+  topic,
+  name,
+  introduction,
+  meeting_day,
+  timing,
+  member_count,
+  frequency_interval,
+  img_url
+}) => {
   const [sigData, setSIGData] = useState([]);
-
-  async function getSIGData() {
-    const res = await fetch(
-      `http://localhost:5000/sig-dashboard/get-sig-data/${sig_id}`
-    );
-
-    const sigDataArray = await res.json(); // parse data
-    setSIGData(sigDataArray);
-  }
-
-  useEffect(() => {
-    getSIGData();
-  }, []);
-
-  // console.log(sigData);
-  // console.log('sig id: ' + sig_id);
 
   return (
     <LinkBox
@@ -44,9 +39,15 @@ const SIGRecruitmentCard = ({ sig_id }) => {
       boxShadow="sm"
       overflow="hidden"
     >
-      <Box as={Flex} bgColor="gray.400" h="160px" w="200px">
-        Bg image here
-      </Box>
+      <Box
+        as={Image}
+        bgColor="gray.400"
+        h="160px"
+        w="200px"
+        src={img_url}
+        objectFit="cover"
+      />
+      
       <Box
         as={Flex}
         bgColor="white"
@@ -65,7 +66,7 @@ const SIGRecruitmentCard = ({ sig_id }) => {
           gap={2}
           justifyContent="center"
         >
-          {sigData.sig_topic ? (
+          {topic ? (
             <Box
               as={Text}
               noOfLines={1}
@@ -75,7 +76,7 @@ const SIGRecruitmentCard = ({ sig_id }) => {
               letterSpacing="wide"
               color="gray.500"
             >
-              {sigData.sig_topic}
+              {topic}
             </Box>
           ) : (
             <></>
@@ -85,15 +86,13 @@ const SIGRecruitmentCard = ({ sig_id }) => {
             <Box as={Text} noOfLines={1} fontSize="xl" fontWeight="medium">
               <LinkOverlay
                 as={ReactRouterLink}
-                to={'/sig-recruitment-page/' + sigData.sig_id}
+                to={'/sig-recruitment-page/' + sig_id}
               >
-                {sigData.sig_name}
+                {name}
               </LinkOverlay>
             </Box>
             <Box as={Text} noOfLines={2} fontSize="sm">
-              {sigData.sig_description
-                ? sigData.sig_description
-                : 'No description yet'}
+              {introduction ? introduction : 'No description yet'}
             </Box>
           </Flex>
         </Box>
@@ -108,18 +107,14 @@ const SIGRecruitmentCard = ({ sig_id }) => {
           <HStack spacing={3}>
             <Icon as={BiCalendarAlt} color="gray.500" w="18px" h="18px" />
             <Box noOfLines={1} fontSize="sm" color="gray.700">
-              {sigData.sig_meeting_day ? (
-                <Fragment>
-                  {sigData.sig_frequency_interval == 1
-                    ? 'Every ' + sigData.sig_meeting_day
-                    : 'Every ' +
-                      sigData.sig_frequency_interval +
-                      ' ' +
-                      sigData.sig_meeting_day +
-                      's'}
-                </Fragment>
+              {meeting_day !== 'Undecided' ? (
+                <>
+                  {frequency_interval === 1
+                    ? 'Every ' + meeting_day
+                    : 'Every ' + frequency_interval + ' ' + meeting_day + 's'}
+                </>
               ) : (
-                'No meeting day yet'
+                'Undecided'
               )}
             </Box>
           </HStack>
@@ -127,15 +122,15 @@ const SIGRecruitmentCard = ({ sig_id }) => {
           <HStack spacing={3}>
             <Icon as={BiTimeFive} color="gray.500" w="18px" h="18px" />
             <Box noOfLines={1} fontSize="sm" color="gray.700">
-              {sigData.sig_start_time} - {sigData.sig_end_time}
+              {timing}
             </Box>
           </HStack>
 
           <HStack spacing={3}>
             <Icon as={BiUser} color="gray.500" w="18px" h="18px" />
             <Box noOfLines={1} fontSize="sm" color="gray.700">
-              {sigData.sig_member_count} member
-              {sigData.sig_member_count > 1 ? 's' : ''}
+              {member_count} member
+              {member_count > 1 ? 's' : ''}
             </Box>
           </HStack>
         </Flex>

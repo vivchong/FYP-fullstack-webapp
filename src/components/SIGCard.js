@@ -14,6 +14,8 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import { useState, useEffect, Fragment } from 'react';
 
 const SIGCard = ({ sig_id }) => {
+
+  // GET SIG DATA
   const [sigData, setSIGData] = useState([]);
 
   async function getSIGData() {

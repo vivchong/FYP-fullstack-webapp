@@ -25,8 +25,10 @@ import { Field, Form, Formik, FormikProps } from 'formik';
 import { StoreContext } from '../../store/store';
 
 const CheerBoardNewUpdateBtn = props => {
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshUpdates } = context;
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshUpdates } = context;
+  const { refreshUpdates, setRefreshUpdates } = useContext(StoreContext);
+
   const sig_id = props.sig_id;
   const user_id = sessionStorage.current_user_id;
 
@@ -49,7 +51,8 @@ const CheerBoardNewUpdateBtn = props => {
       console.log(JSON.stringify(body));
       setUpdate_content('');
       setOn_track('');
-      setContext({refreshUpdates: !refreshUpdates})
+      // setContext({ refreshUpdates: !refreshUpdates });
+      setRefreshUpdates(!refreshUpdates);
       //   window.location = window.location.href;
     } catch (error) {
       console.error(error.message);

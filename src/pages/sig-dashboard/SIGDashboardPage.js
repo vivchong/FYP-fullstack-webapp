@@ -4,14 +4,18 @@ import SIGTabs from './SIGTabs';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect, Fragment, useContext } from 'react';
 import { StoreContext } from '../../store/store';
+import Unauthorised from '../Error401';
 
 // Need to do some auth to only allow members to view this page
 
-const SIGDashboardPage = () => {
+const SIGDashboardPage = props => {
   const sig_id = useParams().id;
 
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshSIGData } = context;
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshSIGData } = context;
+
+  const { refreshSIGData } = useContext(StoreContext);
+  
   const [sigData, setSIGData] = useState([]);
 
   // This was intended to redirect user to 404 if no SIG was found
@@ -35,10 +39,6 @@ const SIGDashboardPage = () => {
     // }
   }
 
-  useEffect(() => {
-    getSIGData();
-  }, [refreshSIGData]);
-
   const [sigMembers, setSIGMembers] = useState([]);
   async function getMemberList() {
     try {
@@ -57,46 +57,39 @@ const SIGDashboardPage = () => {
     }
   }
 
+  const [roleInSIG, setRoleInSIG] = useState(0);
+  async function getRoleInSIG() {
+    try {
+      const body = { sig_id };
+
+      const res = await fetch('http://localhost:5000/sig-dashboard/get-role', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          token: localStorage.token,
+        },
+        body: JSON.stringify(body),
+      });
+      const role = await res.json(); // parse data
+      setRoleInSIG(role);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   useEffect(() => {
+    getRoleInSIG();
     getSIGData();
     getMemberList();
-  }, []);
+  }, [refreshSIGData]);
 
   // console.log('sig id: '+ sig_id);
 
   // Can introduce waiting time of 0.5secs before rendering
   return (
     <Container maxWidth="full" padding={0}>
-      {sigData.length == 0 ? (
-        <Box textAlign="center" py={10} px={6}>
-          {/* <Heading>This SIG does not exist</Heading> */}
-          {/* <Heading
-            display="inline-block"
-            as="h2"
-            size="2xl"
-            bgGradient="linear(to-r, teal.400, teal.600)"
-            backgroundClip="text"
-          >
-            404
-          </Heading>
-          <Text fontSize="18px" mt={3} mb={2}>
-            SIG Not Found
-          </Text>
-          <Text color={'gray.500'} mb={6}>
-            The SIG group you're looking for does not seem to exist
-          </Text>
-
-          <Button
-            colorScheme="teal"
-            bgGradient="linear(to-r, teal.400, teal.500, teal.600)"
-            color="white"
-            variant="solid"
-            as={Link}
-            to='/'
-          >
-            Go to Home
-          </Button> */}
-        </Box>
+      {roleInSIG === 401 ? (
+        <Unauthorised />
       ) : (
         <Fragment>
           <SIGHeroBanner
@@ -105,9 +98,11 @@ const SIGDashboardPage = () => {
             sig_members={sigMembers}
           />
           <SIGTabs
+            tab_index={props.tab_index}
             sig_id={sig_id}
             sig_data={sigData}
             sig_members={sigMembers}
+            roleInSIG={roleInSIG}
           />
         </Fragment>
       )}

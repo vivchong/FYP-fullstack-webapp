@@ -25,9 +25,10 @@ const VIEWABLE_COMMENTS_ON_THIS_POST = [
 ];
 
 const PostHasComments = props => {
-  const [context, setContext] = useContext(StoreContext);
-  const { refreshComments } = context;
+  // const [context, setContext] = useContext(StoreContext);
+  // const { refreshComments } = context;
 
+  const { refreshComments } = useContext(StoreContext);
   const viewableCommentsLimit = 2;
   const hiddenComments = props.count - viewableCommentsLimit;
 

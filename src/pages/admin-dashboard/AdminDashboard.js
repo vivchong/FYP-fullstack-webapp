@@ -5,7 +5,6 @@ import NavItem from '../../components/buttons/SettingsNavItem';
 import MySIGs from '../settings/MySIGs';
 import SIGApprovals from './SIGApprovals';
 
-
 export default function AdminDashboard(props) {
   const [tabIndex, setTabIndex] = React.useState(props.tabIndex);
 
@@ -35,18 +34,20 @@ export default function AdminDashboard(props) {
         boxShadow="base"
         w="25vw"
       >
+        <NavItem title="SIG Approvals" />
         <NavItem title="Admin Activity" />
         <NavItem title="SIG Overview" />
-        <NavItem title="SIG Approvals" />
         <NavItem title="Exco Members" />
       </Flex>
       <TabPanels bg="gray.50">
-        <TabPanel>Admin Activity</TabPanel>
-
-        <TabPanel>SIG Overview</TabPanel>
         <TabPanel>
           <SIGApprovals />
         </TabPanel>
+        
+        <TabPanel>Admin Activity</TabPanel>
+
+        <TabPanel>SIG Overview</TabPanel>
+
         <TabPanel>Exco Members</TabPanel>
       </TabPanels>
     </Flex>

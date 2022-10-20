@@ -81,11 +81,11 @@ export default function SIGHeroBanner({ sig_data, sig_id, sig_members }) {
                 ))}
               </AvatarGroup>
 
-              <ButtonGroup spacing={2}>
+              {/* <ButtonGroup spacing={2}>
                 <Button variant="outline" leftIcon={<AddIcon />}>
                   Invite
                 </Button>
-              </ButtonGroup>
+              </ButtonGroup> */}
             </HStack>
           </HStack>
         </Container>

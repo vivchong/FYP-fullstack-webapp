@@ -7,7 +7,7 @@ import { Box } from '@chakra-ui/react';
 function Layout(props) {
   return (
     <div>
-      <Header isLoggedIn={props.isLoggedIn} setLoggedIn={props.setLoggedIn} />
+      <Header isLoggedIn={props.isLoggedIn} setLoggedIn={props.setLoggedIn} admin={props.admin} />
       <main>
         <Box>{props.children}</Box>
       </main>

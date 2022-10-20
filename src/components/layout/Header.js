@@ -32,15 +32,15 @@ const Header = props => {
   // use in this format: <NavLink to='/what-are-sigs'>What are SIGs?</NavLink>
   const NavLink = props => {
     return (
-        <Link
-          as={ReactRouterLink}
-          to={props.to}
-          _hover={{
-            textDecoration: 'none',
-          }}
-        >
-          <MenuItem>{props.children}</MenuItem>
-        </Link>
+      <Link
+        as={ReactRouterLink}
+        to={props.to}
+        _hover={{
+          textDecoration: 'none',
+        }}
+      >
+        <MenuItem>{props.children}</MenuItem>
+      </Link>
     );
   };
 
@@ -91,15 +91,20 @@ const Header = props => {
 
             {props.isLoggedIn ? (
               <Fragment>
-                <Button
-                  as={Link}
-                  style={{ textDecoration: 'none' }}
-                  href="http://localhost:3000/admin-dashboard"
-                >
-                  Admin Dashboard
-                </Button>
+                {props.admin === 'false' ? <></> :
+                  <Button
+                    as={ReactRouterLink}
+                    to="/admin-dashboard"
+                  >
+                    Admin Dashboard
+                  </Button>}
 
-                <IconButton aria-label="Notifications" icon={<BellIcon />} />
+                <IconButton
+                  aria-label="Notifications"
+                  icon={<BellIcon />}
+                  as={ReactRouterLink}
+                  to="/notifications"
+                />
 
                 <Menu>
                   {({ isOpen, onClose }) => (
