@@ -146,7 +146,21 @@ const SIGRecruitmentPage = () => {
               <HStack spacing={3}>
                 <Icon as={BiCalendarAlt} color="gray.500" w="18px" h="18px" />
                 <Box noOfLines={1} fontSize="sm" color="gray.700">
-                  {recruitmentPage.meeting_day}
+                  {recruitmentPage.sig_meeting_day !== 'Undecided' ? (
+                    <>
+                      {recruitmentPage.sig_frequency_interval == 1
+                        ? 'Every ' + recruitmentPage.sig_meeting_day
+                        : 'Every ' +
+                          recruitmentPage.sig_frequency_interval +
+                          ' ' +
+                          recruitmentPage.sig_meeting_day +
+                          's'}
+                    </>
+                  ) : (
+                    <>
+                      Undecided
+                    </>
+                  )}
                 </Box>
               </HStack>
 

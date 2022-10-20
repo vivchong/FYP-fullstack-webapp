@@ -35,7 +35,7 @@ const SIGProposalForm = () => {
     current_user_pic,
     current_user_email,
   } = useContext(StoreContext);
-  
+
   const navigate = useNavigate();
 
   const [inputs, setInputs] = useState({
@@ -129,8 +129,8 @@ const SIGProposalForm = () => {
               your field of knowledge, while making friends at the same time.
             </Text>
             <Text>
-              Don’t worry, you can change these details later. We just want to
-              get a sense of the SIG you want to create!
+              The Lifelong Learning @ EEE Executive Committee will consider your
+              proposal and you will be contacted. Thank you for your interest!
             </Text>
             <Text>
               Before submitting your proposal, please ensure you have read the
@@ -234,12 +234,12 @@ const SIGProposalForm = () => {
                 </FormControl>
                 <FormControl>
                   <FormLabel color="gray.600" mb={1}>
-                    Usernames of members who will be joining you (if any){' '}
+                    Emails of members who will be joining you (if any){' '}
                   </FormLabel>
                   <Textarea
                     name="usernames"
                     value={usernames}
-                    placeholder="List of usernames"
+                    placeholder="List of emails"
                     onChange={e => onChange(e)}
                   />
                 </FormControl>

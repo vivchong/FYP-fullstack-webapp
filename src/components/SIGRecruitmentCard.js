@@ -8,12 +8,23 @@ import {
   HStack,
   LinkBox,
   LinkOverlay,
+  Image,
 } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useState, useEffect, Fragment } from 'react';
 
-const SIGRecruitmentCard = ({ sig_id, topic, name, introduction, meeting_day, timing, member_count }) => {
+const SIGRecruitmentCard = ({
+  sig_id,
+  topic,
+  name,
+  introduction,
+  meeting_day,
+  timing,
+  member_count,
+  frequency_interval,
+  img_url
+}) => {
   const [sigData, setSIGData] = useState([]);
 
   return (
@@ -28,9 +39,15 @@ const SIGRecruitmentCard = ({ sig_id, topic, name, introduction, meeting_day, ti
       boxShadow="sm"
       overflow="hidden"
     >
-      <Box as={Flex} bgColor="gray.400" h="160px" w="200px">
-        Bg image here
-      </Box>
+      <Box
+        as={Image}
+        bgColor="gray.400"
+        h="160px"
+        w="200px"
+        src={img_url}
+        objectFit="cover"
+      />
+      
       <Box
         as={Flex}
         bgColor="white"
@@ -59,7 +76,7 @@ const SIGRecruitmentCard = ({ sig_id, topic, name, introduction, meeting_day, ti
               letterSpacing="wide"
               color="gray.500"
             >
-             {topic}
+              {topic}
             </Box>
           ) : (
             <></>
@@ -75,9 +92,7 @@ const SIGRecruitmentCard = ({ sig_id, topic, name, introduction, meeting_day, ti
               </LinkOverlay>
             </Box>
             <Box as={Text} noOfLines={2} fontSize="sm">
-              {introduction
-                ? introduction
-                : 'No description yet'}
+              {introduction ? introduction : 'No description yet'}
             </Box>
           </Flex>
         </Box>
@@ -92,10 +107,14 @@ const SIGRecruitmentCard = ({ sig_id, topic, name, introduction, meeting_day, ti
           <HStack spacing={3}>
             <Icon as={BiCalendarAlt} color="gray.500" w="18px" h="18px" />
             <Box noOfLines={1} fontSize="sm" color="gray.700">
-              {meeting_day ? (
-                meeting_day
+              {meeting_day !== 'Undecided' ? (
+                <>
+                  {frequency_interval === 1
+                    ? 'Every ' + meeting_day
+                    : 'Every ' + frequency_interval + ' ' + meeting_day + 's'}
+                </>
               ) : (
-                'No meeting day yet'
+                'Undecided'
               )}
             </Box>
           </HStack>

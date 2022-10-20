@@ -388,6 +388,12 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
                 >
                   <option value="Undecided">Undecided</option>
                   <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
                 </Select>
               </FormControl>
               <Flex flexDir="row" gap={2}>

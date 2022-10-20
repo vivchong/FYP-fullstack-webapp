@@ -18,11 +18,15 @@ import {
   AlertIcon,
   AlertTitle,
   Tooltip,
+  Select,
+  FormControl,
+  FormLabel,
 } from '@chakra-ui/react';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { BiCalendarAlt, BiTimeFive, BiUser } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Link as ReactRouterLink } from 'react-router-dom';
+import SIGRecruitmentCard from '../../components/SIGRecruitmentCard';
 import { StoreContext } from '../../store/store';
 
 const EditSIGRecruitmentPage = () => {
@@ -90,6 +94,7 @@ const EditSIGRecruitmentPage = () => {
   const [inputs, setInputs] = useState({});
 
   const {
+    img_url,
     sig_name,
     topic,
     hook,
@@ -111,13 +116,14 @@ const EditSIGRecruitmentPage = () => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
-  const onChangeInput = e => {
+  const onChangeMeetingDay = e => {
     setMeeting_day(e.target.value);
   };
   // Need to initialise back if they never save/publish
   const initialiseInputFields = () => {
     setMeeting_day(recruitmentPage.meeting_day);
     setInputs({
+      img_url: recruitmentPage.sig_img_url,
       sig_name: recruitmentPage.sig_name,
       topic: recruitmentPage.sig_topic,
       hook: recruitmentPage.hook,
@@ -194,6 +200,7 @@ const EditSIGRecruitmentPage = () => {
     e.preventDefault();
     try {
       const body = {
+        img_url,
         sig_id,
         topic,
         hook,
@@ -227,6 +234,7 @@ const EditSIGRecruitmentPage = () => {
     e.preventDefault();
     try {
       const body = {
+        img_url,
         sig_id,
         topic,
         hook,
@@ -304,15 +312,44 @@ const EditSIGRecruitmentPage = () => {
   if (isLeader) {
     return (
       <Flex gap="48px" px="120px" py="48px">
-        <Flex flexDir="column" gap="72px" maxW="700px">
+        <Flex flexDir="column" gap="72px" maxW="1000px">
           <Flex flexDir="column" gap="40px">
             <Alert status="info">
               <AlertIcon />
               <AlertTitle>You are editing this recruitment page.</AlertTitle>
               Click on the text boxes to edit.
             </Alert>
+            <Box p={5} bgColor="gray.100" borderRadius="md">
+              <Text fontSize="lg" fontWeight="medium" mb={4}>
+                Preview of SIG Card:
+              </Text>
+              <SIGRecruitmentCard
+                sig_id={sig_id}
+                topic={topic}
+                name={recruitmentPage.sig_name}
+                introduction={introduction}
+                meeting_day={meeting_day}
+                timing={timing}
+                member_count={sig_member_count}
+                frequency_interval={1}
+                img_url={img_url}
+              />
+              <FormControl mt={4}>
+                <FormLabel>Image URL</FormLabel>
+                <Input
+                  name="img_url"
+                  value={img_url}
+                  onChange={onChange}
+                  placeholder="Paste URL of image here"
+                  bgColor="white"
+                />
+              </FormControl>
+            </Box>
 
             <Box>
+              <Text fontSize="lg" fontWeight="medium" mb={4}>
+                Preview of SIG Recruitment Page:
+              </Text>
               <Input
                 name="topic"
                 value={topic}
@@ -363,14 +400,30 @@ const EditSIGRecruitmentPage = () => {
               >
                 <Flex gap={3} width="700px" align="center">
                   <Icon as={BiCalendarAlt} color="gray.500" w="18px" h="18px" />
-                  <Input
+                  {/* <Input
                     name="meeting_day"
                     value={meeting_day}
-                    onChange={onChangeInput}
+                    onChange={onChangeMeetingDay}
                     placeholder="Write meeting day here"
                     size="md"
                     w="300px"
-                  />
+                  /> */}
+                  <Select
+                    // placeholder="Select meeting day"
+                    name="meeting_day"
+                    value={meeting_day}
+                    maxW="300px"
+                    onChange={onChangeMeetingDay}
+                  >
+                    <option value="Undecided">Undecided</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                  </Select>
                 </Flex>
 
                 <Flex gap={3} width="700px" align="center">
