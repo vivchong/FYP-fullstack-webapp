@@ -74,13 +74,6 @@ const Login = ({ setLoggedIn }) => {
       );
       sessionStorage.setItem('current_user_pic', parseRes.user_pic);
       sessionStorage.setItem('current_user_email', parseRes.user_email);
-      // alert('session user_id ' + sessionStorage.current_user_id);
-      // setContext({
-      // current_user_id: sessionStorage.current_user_id
-      // current_user_display_name: parseRes.user_display_name,
-      // current_user_pic: parseRes.user_pic,
-      // current_user_email: parseRes.user_email,
-      // });
       setCurrent_user_id(parseRes.user_id);
       setCurrent_user_display_name(parseRes.user_display_name);
       setCurrent_user_pic(parseRes.user_pic);
@@ -113,7 +106,7 @@ const Login = ({ setLoggedIn }) => {
         resultToast('success', 'Signed in successfully!');
       } else {
         setLoggedIn(false);
-        resultToast('error', parseRes); // parseRes is the error message: "Email or password is incorrect!"
+        resultToast('error', parseRes); 
       }
     } catch (err) {
       console.error(err.message);
