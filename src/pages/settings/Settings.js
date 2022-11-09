@@ -43,12 +43,16 @@ export default function Settings(props) {
       >
         <NavItem title="Notifications" />
         <NavItem title="My SIGs" />
-        <NavItem title="My Workshops" />
-        <NavItem title="Edit Profile" />
+        <NavItem title="My Workshops" isDisabled={true} />
+        <NavItem title="Edit Profile" isDisabled={true} />
       </Flex>
-      <TabPanels bg='gray.50'>
-        <TabPanel><Notifications /></TabPanel>
-        <TabPanel><MySIGs /></TabPanel>
+      <TabPanels bg="gray.50">
+        <TabPanel>
+          <Notifications />
+        </TabPanel>
+        <TabPanel>
+          <MySIGs />
+        </TabPanel>
         <TabPanel>My Workshops</TabPanel>
         <TabPanel>Edit Profile</TabPanel>
       </TabPanels>

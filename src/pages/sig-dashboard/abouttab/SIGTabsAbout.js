@@ -67,7 +67,7 @@ import { StoreContext } from '../../../store/store';
 // ];
 
 // FROM SIGTabs.js FROM SIGDashboardPage.js
-const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
+const SIGTabsAbout = ({ sig_id, sig_data, sig_members, role }) => {
   // const [context, setContext] = useContext(StoreContext);
   // const { refreshSIGData } = context;
   const { refreshSIGData, setRefreshSIGData } = useContext(StoreContext);
@@ -190,14 +190,18 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
               <Heading as="h3" size="md" fontWeight="medium">
                 About
               </Heading>
-              <IconButton
-                onClick={() => {
-                  setInitialRef(aboutRef);
-                  onOpen();
-                }}
-                size="xs"
-                icon={<EditIcon />}
-              />
+              {role === 3 ? (
+                <IconButton
+                  onClick={() => {
+                    setInitialRef(aboutRef);
+                    onOpen();
+                  }}
+                  size="xs"
+                  icon={<EditIcon />}
+                />
+              ) : (
+                <></>
+              )}
             </HStack>
             {sig_data.sig_description === null ? (
               <Text as="i">No description yet.</Text>
@@ -224,14 +228,18 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
               <Heading as="h3" size="md" fontWeight="medium">
                 Meeting Details
               </Heading>
-              <IconButton
-                onClick={() => {
-                  setInitialRef(meetingRef);
-                  onOpen();
-                }}
-                size="xs"
-                icon={<EditIcon />}
-              />
+              {role === 3 ? (
+                <IconButton
+                  onClick={() => {
+                    setInitialRef(meetingRef);
+                    onOpen();
+                  }}
+                  size="xs"
+                  icon={<EditIcon />}
+                />
+              ) : (
+                <></>
+              )}
             </HStack>
             {sig_data.sig_meeting_day !== 'Undecided' ? (
               <Text as="p" noOfLines={5} mr={4}>
@@ -293,14 +301,18 @@ const SIGTabsAbout = ({ sig_id, sig_data, sig_members }) => {
               <Heading as="h3" size="md" fontWeight="medium">
                 Updates
               </Heading>
-              <IconButton
-                onClick={() => {
-                  setInitialRef(updatesRef);
-                  onOpen();
-                }}
-                size="xs"
-                icon={<EditIcon />}
-              />
+              {role === 3 ? (
+                <IconButton
+                  onClick={() => {
+                    setInitialRef(updatesRef);
+                    onOpen();
+                  }}
+                  size="xs"
+                  icon={<EditIcon />}
+                />
+              ) : (
+                <></>
+              )}
             </HStack>
             {sig_data.sig_update_content ? (
               <Text noOfLines={10} mr={4}>

@@ -183,7 +183,7 @@ const WhatIsASIG = () => {
               </Text>
               <Button
                 as={ReactRouterLink}
-                to="/sig-proposal-form"
+                to="/starting-a-sig"
                 rightIcon={<ArrowForwardIcon />}
                 colorScheme="teal"
               >

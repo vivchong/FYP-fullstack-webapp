@@ -29,7 +29,6 @@ const ReactionChip = props => {
       >
         {props.children}
         {props.count}
-        {/* {state.isChecked ? ( props.count + 1 ): (props.count) } */}
       </Button>
     </Box>
   );

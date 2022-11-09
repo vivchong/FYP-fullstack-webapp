@@ -35,6 +35,7 @@ import FindASIG from './pages/FindASIG';
 import JoinSIGForm from './pages/forms/JoinSIGForm';
 import { StoreContext } from './store/store';
 import Unauthorised from './pages/Error401';
+import StartingASIG from './pages/StartingASIG';
 
 // need useEffect to check whether jwt token is valid
 
@@ -137,6 +138,7 @@ function App() {
               />
 
               <Route exact path="/what-is-a-sig" element={<WhatIsASIG />} />
+              <Route exact path="/starting-a-sig" element={<StartingASIG />} />
               <Route
                 exact
                 path="/sig-proposal-form"

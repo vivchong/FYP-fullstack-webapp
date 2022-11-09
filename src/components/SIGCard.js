@@ -8,6 +8,7 @@ import {
   HStack,
   LinkBox,
   LinkOverlay,
+  Image
 } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
@@ -31,7 +32,7 @@ const SIGCard = ({ sig_id }) => {
     getSIGData();
   }, []);
 
-  // console.log(sigData);
+   console.log(sigData);
   // console.log('sig id: ' + sig_id);
 
   return (
@@ -46,9 +47,14 @@ const SIGCard = ({ sig_id }) => {
       boxShadow="sm"
       overflow="hidden"
     >
-      <Box as={Flex} bgColor="gray.400" h="160px" w="200px">
-        Bg image here
-      </Box>
+      <Box
+        as={Image}
+        bgColor="gray.400"
+        h="160px"
+        w="200px"
+        src={sigData.sig_img_url}
+        objectFit="cover"
+      />
       <Box
         as={Flex}
         bgColor="white"
@@ -85,7 +91,7 @@ const SIGCard = ({ sig_id }) => {
 
           <Flex flexDir="column" gap={2} maxW="320px">
             <Box as={Text} noOfLines={1} fontSize="xl" fontWeight="medium">
-              <LinkOverlay as={ReactRouterLink} to={"/sig/" + sigData.sig_id}>
+              <LinkOverlay as={ReactRouterLink} to={'/sig/' + sigData.sig_id}>
                 {sigData.sig_name}
               </LinkOverlay>
             </Box>

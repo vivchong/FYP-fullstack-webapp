@@ -24,6 +24,7 @@ const NavItem = React.forwardRef((props, ref) => {
       py="26px"
       fontSize='xl'
       color='gray.700'
+      isDisabled={props.isDisabled}
     >
       {props.title}
     </Tab>

@@ -26,14 +26,12 @@ const TextInputBtn = props => {
   // const [context, setContext] = useContext(StoreContext);
   // const { refreshPosts } = context;
 
-  const { refreshPosts, setRefreshPosts } = useContext(StoreContext);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const [post_content, setPost_content] = useState('');
   const sig_id = props.sig_id;
   const user_id = sessionStorage.current_user_id;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const { refreshPosts, setRefreshPosts } = useContext(StoreContext);
+  const [post_content, setPost_content] = useState('');
   const onSubmitForm = async e => {
     e.preventDefault();
     try {
@@ -43,12 +41,8 @@ const TextInputBtn = props => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      //console.log(JSON.stringify(body));
       setPost_content('');
-      // setContext({ refreshPosts: !refreshPosts });
-      setRefreshPosts(!refreshPosts)
-      console.log('hi' + refreshPosts);
-      //window.location = window.location.href;
+      setRefreshPosts(!refreshPosts);
     } catch (error) {
       console.error(error.message);
     }
@@ -88,10 +82,6 @@ const TextInputBtn = props => {
               createPost: '',
             }}
             onSubmit={onSubmitForm}
-            //   {(values) => {
-            //   alert(JSON.stringify(values, null, 2));
-            // }}
-            //validationSchema={createPostSchema} // validation is handled by Yup
           >
             {({ handleSubmit, values, errors, touched }) => (
               <form onSubmit={onSubmitForm}>

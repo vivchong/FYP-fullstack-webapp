@@ -35,14 +35,6 @@ const FindASIG = () => {
     getAvailableSIGs();
   }, []);
 
-  // const [checkedDays, setCheckedDays] = useState([
-  //   true,
-  //   true,
-  //   true,
-  // ]);
-  // const allDaysChecked = checkedDays.every(Boolean);
-  // const isIndeterminate = checkedDays.some(Boolean) && !allDaysChecked;
-
   const { value, getCheckboxProps } = useCheckboxGroup({
     colorScheme: 'teal',
     defaultValue: [
@@ -78,7 +70,7 @@ const FindASIG = () => {
       <Flex gap="124px" px={16} pt={10} pb={10}>
         <Flex w="254px" flexDir="column">
           <Flex mt="104px" flexDir="column" gap={2}>
-            <FormLabel m={0}>Day of meetings</FormLabel>
+            <FormLabel m={0}>Filter by Meeting Day</FormLabel>
             <Stack>
               <Checkbox
                 {...getCheckboxProps({ value: 'Undecided' })}

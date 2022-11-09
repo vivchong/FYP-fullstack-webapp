@@ -35,15 +35,15 @@ export default function AdminDashboard(props) {
         w="25vw"
       >
         <NavItem title="SIG Approvals" />
-        <NavItem title="Admin Activity" />
-        <NavItem title="SIG Overview" />
-        <NavItem title="Exco Members" />
+        <NavItem title="Admin Activity" isDisabled={true} />
+        <NavItem title="SIG Overview" isDisabled={true} />
+        <NavItem title="Exco Members" isDisabled={true} />
       </Flex>
       <TabPanels bg="gray.50">
         <TabPanel>
           <SIGApprovals />
         </TabPanel>
-        
+
         <TabPanel>Admin Activity</TabPanel>
 
         <TabPanel>SIG Overview</TabPanel>

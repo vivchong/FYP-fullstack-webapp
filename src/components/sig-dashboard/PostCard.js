@@ -10,7 +10,6 @@ import {
   Box,
   ButtonGroup,
   IconButton,
-
 } from '@chakra-ui/react';
 import BaseCard from '../layout/cards/BaseCard';
 import {
@@ -20,28 +19,29 @@ import {
 } from 'react-icons/md';
 import PostHasComments from './PostHasComments';
 import CommentInput from './CommentInput';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { StoreContext } from '../../store/store';
+
 
 const PostCard = props => {
+  const [commentcount, setCommentcount] = useState([]);
+const { refreshComments } = useContext(StoreContext);
+  async function countComments() {
+    const res = await fetch(
+      `http://localhost:5000/count_comments/${props.post_id}`
+    );
 
-   const [commentcount, setCommentcount] = useState([]);
+    // we are getting JSON data, so we need to patse it
+    const commentcountArray = await res.json(); // parse data
 
-   async function countComments() {
-     const res = await fetch(
-       `http://localhost:5000/count_comments/${props.post_id}`
-     );
+    setCommentcount(commentcountArray);
+  }
 
-     // we are getting JSON data, so we need to patse it
-     const commentcountArray = await res.json(); // parse data
+  useEffect(() => {
+    countComments();
+  }, [refreshComments]);
 
-     setCommentcount(commentcountArray);
-   }
-
-   useEffect(() => {
-     countComments();
-   }, []);
-
-   //console.log(commentcount.posts_comments_count);
+  //console.log(commentcount.posts_comments_count);
 
   return (
     <BaseCard>
@@ -63,14 +63,14 @@ const PostCard = props => {
       <Divider borderWidth="0.0625rem" borderColor="gray.200" mt={4} />
 
       <Flex mt={0} /* Likes and comments */>
-        <HStack spacing={6} color="gray.700" /* Like and Comment Counters */>
-          {props.likes > 0 ? ( // If there are likes, show like count
+        <HStack h={12}  spacing={6} color="gray.700" /* Like and Comment Counters */>
+          {/* {props.likes > 0 ? ( // If there are likes, show like count
             <Box as="span" fontSize="sm">
               <strong>{props.likes}</strong> like{props.likes > 1 && 's'}
             </Box>
           ) : (
             <></>
-          )}
+          )} */}
 
           {commentcount.posts_comments_count > 0 ? ( // If there are comments, show comment count
             <Box as="span" fontSize="sm">
@@ -84,17 +84,7 @@ const PostCard = props => {
         </HStack>
 
         <Spacer />
-
-        <HStack spacing={6} color="gray.700" /* Buttons */>
-          <ButtonGroup spacing={0}>
-            <IconButton variant="ghost" size="lg" icon={<MdFavoriteBorder />} />
-            <IconButton
-              variant="ghost"
-              size="lg"
-              icon={<MdChatBubbleOutline />}
-            />
-          </ButtonGroup>
-        </HStack>
+        
       </Flex>
       {commentcount.posts_comments_count > 0 ? ( // If there are comments, show comments section
         <PostHasComments

@@ -37,11 +37,13 @@ const PostHasComments = props => {
   const [comments, setComments] = useState([]);
 
   async function getComments() {
+    console.log('Comment')
     const res = await fetch(`http://localhost:5000/comments/${post_id}`); // gets the post_id to pull comments with that post_id
 
     const commentArray = await res.json(); // parse JSON data
 
     setComments(commentArray);
+    
   }
 
   useEffect(() => {
@@ -55,13 +57,13 @@ const PostHasComments = props => {
     <>
       <Divider borderWidth="0.0625rem" borderColor="gray.200" mt={0} mb={3} />
 
-      {hiddenComments > 1 ? ( // Show link button if there are hidden comments
+      {/* {hiddenComments > 1 ? ( // Show link button if there are hidden comments
               <Button variant="link" size="sm" fontWeight="medium" mt={0} mb={4}>
           View {props.count - viewableCommentsLimit} previous comment{props.count > 1 && 's'}
         </Button>
       ) : (
         <></>
-      )}
+      )} */}
         
           <PostViewableComments comments={ comments } />
     </>

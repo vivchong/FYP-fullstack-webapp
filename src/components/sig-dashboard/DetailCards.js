@@ -54,7 +54,7 @@ const DetailCards = props => {
           </Heading>
           {props.meetingday !== 'Undecided' ? (
             <Text as="p" noOfLines={5} mr={4}>
-              {props.sig_frequency_interval == 1
+              {props.frequencyinterval == 1
                 ? 'Every ' + props.meetingday
                 : 'Every ' +
                   props.frequencyinterval +
@@ -90,8 +90,8 @@ const DetailCards = props => {
                     <ExternalLinkIcon mx="2px" />
                   </Link>
                 </Text>
-                {props.sig_meeting_password ? (
-                  <Text>Password: {props.sig_meeting_password}</Text>
+                {props.password ? (
+                  <Text>Password: {props.password}</Text>
                 ) : (
                   <></>
                 )}
